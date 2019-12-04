@@ -1,0 +1,83 @@
+a{
+    color: white;
+  }
+  a:hover{
+    color:lightgray;
+  }
+  .krug{
+    width: 225px;
+    height: 225px;
+
+    display: inline-block;
+    margin: 10px 0 10px 0;
+    line-height: 225px;
+
+    border-radius: 1000px;
+    background: rgba(245, 166, 35, 0.7);
+  }
+  .opcija{
+    width: 100%;
+    height: 250px;
+
+    margin: 2px 0 2px 0;
+    text-align: center;
+    overflow: hidden; 
+
+    font-size: 40px;
+    border-top: 1px rgba(245, 166, 35, 0.7) solid; 
+    border-bottom: 1px rgba(245, 166, 35, 0.7) solid; 
+  }
+  .slika_1{
+    background-image: url("/food.jpg");
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+  }
+  .slika_2{
+    background-image: url("/drinks.jpg");
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+  }
+  .slika_3{
+    background-image: url("/my_order.jpg");
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+  }
+  .slika_4{
+    background-image: url("/most_ordered.png");
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+
+    margin-bottom: 75px;
+  }
+  .slika_4 > div{
+    font-size: 35px;
+  }
+  .order{
+    width: 50%;
+    height: 75px;
+
+    top: 90%;
+    position: fixed;
+
+    font-size: 35px;
+    line-height: 75px;
+
+    background: rgba(187, 0, 0, 0.8);
+  }
+  .call{
+    width: 50%;
+    height: 75px;
+
+    top: 90%;
+    position: fixed;
+    margin-left: 50%;
+
+    font-size: 35px;
+    line-height: 75px;
+
+    background: rgba(25, 187, 0, 0.8);
+  }
