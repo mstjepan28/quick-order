@@ -1,3 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Asap:400,700i&display=swap');
+*{
+  font-family: 'Asap', sans-serif;
+  font-weight: bold;
+  font-style: italic;
+}
+i{
+  font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f007";
+  font-weight: normal;
+  font-style: normal;
+}
+.stroke{
+  text-shadow: -1px 0 rgba(245, 166, 35, 0.7), 0 1px rgba(245, 166, 35, 0.7), 1px 0 rgba(245, 166, 35, 0.7), 0 -1px rgba(245, 166, 35, 0.7);
+}
+body{
+  background: #2d2d2d;
+  color: white;
+}
 a{
     color: white;
   }

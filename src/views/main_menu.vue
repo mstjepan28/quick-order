@@ -1,5 +1,11 @@
 <template>
   <div>
+    <router-link  to="/food">
+      <div class="opcija slika_1">
+        <div class="krug">Food</div>
+      </div>
+    </router-link>
+
     <router-link to="/food">
       <div class="opcija slika_1">
         <div class="krug">Food</div>

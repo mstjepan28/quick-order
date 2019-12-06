@@ -8,8 +8,8 @@
     <title>Quick Order</title>
 
     <!--Font awesome-->
-    <link rel="stylesheet" type="text/css" href="all.min.js">
-    <link rel="stylesheet" type="text/css" href="all.min.css">
+    <link rel='stylesheet' id='fontawesome-css' href='https://use.fontawesome.com/releases/v5.0.1/css/all.css?ver=4.9.1' type='text/css' media='all' />
+    
     <!--Bootstrap-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     
@@ -25,6 +25,31 @@
       <strong>We're sorry but quick_order doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/7.5.1/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.5.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.5.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.5.1/firebase-firestore.js"></script>
+
+
+    <script>
+
+      var firebaseConfig = {
+        apiKey: "AIzaSyDBC71HneeYF7Qj_xAHc0Mqnvnq8umnRM0",
+        authDomain: "quick-order-a3a3b.firebaseapp.com",
+        databaseURL: "https://quick-order-a3a3b.firebaseio.com",
+        projectId: "quick-order-a3a3b",
+        storageBucket: "quick-order-a3a3b.appspot.com",
+        messagingSenderId: "660521683926",
+        appId: "1:660521683926:web:6c4013b51ae75fc2983277",
+        measurementId: "G-FNBECSJTCG"
+      };
+      
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
+
   </body>
 </html>

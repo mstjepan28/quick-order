@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <router-link to="/" class="navbar-brand stroke">Quick order</router-link>
+    <nav v-if="this.$route.name !== 'login'" class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <router-link to="/" class="navbar-brand stroke">
+        <img src="/icon.ico" class="icon"> Quick order
+      </router-link>
 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -39,6 +41,7 @@
           </li>
           
         </ul>
+        <button @click="logout" class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
       </div>
     </nav>
 
@@ -49,29 +52,49 @@
   </div>
 </template>
 
+<script>
+  import store from '@/store.js'
+
+  export default {
+    methods: {
+      logout() {
+        firebase.auth().signOut()
+      }
+    },
+    mounted() {
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          console.log("User is loged in " + user.email);
+          this.authenticated = true;
+          this.userEmail = user.email
+          if(this.$route.name !== 'main_menu') this.$router.push({name:'main_menu'})
+        }
+        else{
+          console.log("User is loged out");
+          this.authenticated = false;
+          if(this.$route.name !== 'login') this.$router.push({name:'login'})
+        }
+      });
+    }
+    
+  }
+</script>
+
 <style lang="scss">
-  @import url('https://fonts.googleapis.com/css?family=Asap:400,700i&display=swap');
-  *{
-    font-family: 'Asap', sans-serif;
-    font-weight: bold;
-    font-style: italic;
-  }
-  i{
-    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f007";
-  }
-  .stroke{
-    text-shadow: -1px 0 rgba(245, 166, 35, 0.7), 0 1px rgba(245, 166, 35, 0.7), 1px 0 rgba(245, 166, 35, 0.7), 0 -1px rgba(245, 166, 35, 0.7);
-  }
-  body{
-    background: #2d2d2d;
-    color: white;
-  }
+
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     
+  }
+  .icon{
+    height:30px; 
+    width:30px;
+
+    position: relative;
+    top: -2px;
   }
   .nav-item{
     font-size: 20px;

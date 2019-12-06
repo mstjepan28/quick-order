@@ -1,4 +1,5 @@
 export default {
+    authenticated: false,
     cards:[
         {
             id: 1,
@@ -193,4 +194,5 @@ export default {
             times_ordered: 11
         },
     ],
+    navigation_bar: "true",
 }
