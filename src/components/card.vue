@@ -7,14 +7,14 @@
                 <i class="fas fa-chevron-down" v-on:click="info.counter = decrease(info.counter)"></i>
             </div>
 
-            <div class="col-3 prod_img" :style="{ backgroundImage: `url(${info.url})`}" >
-            </div>
+            <router-link to="/food_info" class="col-3 prod_img" :style="{ backgroundImage: `url(${info.url})`}" ></router-link>
 
             <div class="col-7 details">
                 <h6>{{info.title}}</h6>
                 <hr/>
                 {{info.description}}
             </div>
+            
         </div>
     </div> 
 </template>
@@ -71,5 +71,9 @@
         border-top: 1px rgba(245, 166, 35, 0.7) solid;
         margin: 1em 0;
         padding: 0;
+    }
+
+    router-link{
+        background: blue;
     }
 </style>

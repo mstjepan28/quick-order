@@ -1,5 +1,7 @@
 export default {
     authenticated: false,
+    userEmail: 'fake@email.com',
+    position: 'aaa',
     cards:[
         {
             id: 1,
@@ -194,5 +196,5 @@ export default {
             times_ordered: 11
         },
     ],
-    navigation_bar: "true",
+    products: db.collection('products')
 }

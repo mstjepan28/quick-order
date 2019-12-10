@@ -1,19 +1,23 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import login from '../views/login.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   /*-----------------------------------------------------*/
   {
-    path: '/',
+    path: '/login',
     name: 'login',
-    component: login
+    component: () => import('../views/login.vue')
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: () => import('../views/signup.vue')
   },
   /*-----------------------------------------------------*/
   {
-    path: '/main_menu',
+    path: '/',
     name: 'main_menu',
     component: () => import('../views/main_menu.vue')
   },
@@ -24,7 +28,7 @@ const routes = [
     component: () => import('../views/food.vue'),
     children:[
       {
-        path: '/',
+        path: '',
         name: 'food_options',
         component: () => import('../views/food_options.vue')
       },
@@ -52,7 +56,7 @@ const routes = [
     component: () => import('../views/drinks.vue'),
     children:[
       {
-        path: '/',
+        path: '',
         name: 'drinks_options',
         component: () => import('../views/drinks_options.vue')
       },
@@ -75,7 +79,7 @@ const routes = [
     component: () => import('../views/most_ordered.vue'),
     children:[
       {
-        path: '/',
+        path: '',
         name: 'most_ordered_food',
         component: () => import('../views/most_ordered_food.vue')
       },
@@ -98,8 +102,12 @@ const routes = [
     name: 'terms_conditions',
     component: () => import('../views/terms_conditions.vue')
   },
-
-
+  /*-----------------------------------------------------*/
+  {
+    path: '/food_info',
+    name: 'food_info',
+    component: () => import('../views/food_info.vue')
+  },
 ]
 
 const router = new VueRouter({

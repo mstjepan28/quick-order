@@ -13,8 +13,16 @@
                 <i class="fas fa-eye" id="password_eye" v-on:click="show_password()"></i>
             </div><br>
 
+            <div class="failed_login"></div><br>
+
             <button type="submit" class="stroke">Log in</button>
         </form>
+<!--
+        <div style="position: relative; top:50px; height: 25px; width: 50px; display: inline-block">
+            <router-link to="/signup" style="background: red;text-align:center;"> Signup </router-link>
+        </div>
+-->      
+
     </div>
 </template>
 
@@ -29,7 +37,7 @@
     methods: {
       login(){
         firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch(function(error) {
-          console.log(error)
+          document.getElementsByClassName("failed_login")[0].innerHTML = "Failed to log in!";
         });
       },
       show_password() {
@@ -37,11 +45,11 @@
         
         if (x.type === "password"){
           x.type = "text";
-          document.getElementsByClassName("fas fa-eye-slash")[0].className = "fas fa-eye";
+          document.getElementsByClassName("fas fa-eye")[0].className = "fas fa-eye-slash";
         } 
         else{
           x.type = "password";
-          document.getElementsByClassName("fas fa-eye")[0].className = "fas fa-eye-slash";
+          document.getElementsByClassName("fas fa-eye-slash")[0].className = "fas fa-eye";
         } 
         
       }
@@ -108,5 +116,10 @@
         margin: 10px;
 
         border:1px rgba(245, 166, 35, 1) solid;
+    }
+
+    .failed_login{
+      display: inline-block;
+      color: red;
     }
 </style>

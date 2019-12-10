@@ -13,7 +13,7 @@
         <ul class="navbar-nav mr-auto">
 
           <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link to="/main_menu" class="nav-link"> Main menu </router-link>
+            <router-link to="/" class="nav-link"> Main menu </router-link>
           </li>
 
           <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
@@ -41,7 +41,12 @@
           </li>
           
         </ul>
-        <button @click="logout" class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+
+        <span>
+          {{ userEmail}}
+          <a @click="logout" class="btn btn-info my-2 my-sm-0 mr-2" href="#">Logout</a>
+        </span>
+
       </div>
     </nav>
 
@@ -56,10 +61,14 @@
   import store from '@/store.js'
 
   export default {
+    data () {
+      return store;
+    },
     methods: {
       logout() {
         firebase.auth().signOut()
-      }
+      },
+
     },
     mounted() {
       firebase.auth().onAuthStateChanged(user => {
@@ -67,6 +76,7 @@
           console.log("User is loged in " + user.email);
           this.authenticated = true;
           this.userEmail = user.email
+          this.position = user.position;
           if(this.$route.name !== 'main_menu') this.$router.push({name:'main_menu'})
         }
         else{

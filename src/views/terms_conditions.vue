@@ -30,7 +30,7 @@
         width: 100%;
         height: 250px;
 
-        font-size: 40px;
+        font-size: 35px;
         line-height: 225px;
     }
     .content{

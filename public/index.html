@@ -35,7 +35,6 @@
 
 
     <script>
-
       var firebaseConfig = {
         apiKey: "AIzaSyDBC71HneeYF7Qj_xAHc0Mqnvnq8umnRM0",
         authDomain: "quick-order-a3a3b.firebaseapp.com",
@@ -49,6 +48,10 @@
       
       firebase.initializeApp(firebaseConfig);
       firebase.analytics();
+
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+      
     </script>
 
   </body>
