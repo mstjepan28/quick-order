@@ -89,7 +89,7 @@
         font-size: 15px;
 
         border-radius: 20px;
-        border: 2px rgba(25, 187, 0, 0.8) solid;
+        border: 2px rgba(81, 141, 71, 0.8) solid;
 
         background: #343434;
     }
