@@ -8,9 +8,11 @@
                         <div class="krug stroke" style="background-image: url('/food3.jpg')"></div>
                     </div>
 
-                    <div class="col stroke main_info" >
-                        <h2>Jelo#1</h2>
-                        <p>Price: 12345$</p>
+                    <div class="col stroke" >
+                        <div class="main_info">
+                            <h2>Jelo#1</h2>
+                            <p>Price: 12345$</p>
+                        </div>
                     </div>
                 </div>
 
@@ -68,9 +70,22 @@
     .top{
         height: 250px;
     }
+    .container{
+        width:100%;
+        height:200px;
+    }
+    .col{
+        height:200px;
+    }
+    .krug{
+        position: relative;
+        width:150px;
+        height:150px;
+        top:15px;   
+    }
     .main_info{
         position: relative;
-        top: 90px;
+        top:65px;
     }
     .main_info > p{
         font-size: 20px;
