@@ -41,11 +41,17 @@
         background-size: cover;
         background-image: url('/my_order.jpg');
     }
+    .top > h3{
+        font-size: 40px;
+        text-decoration: underline;
+
+        background: rgba(245, 166, 35, 0.7);
+    }    
     .krug{
         background-image: url('/call1.jpg')
     }
     .call_cards{
-        width: 400px;
+        width: 350px;
 
         display: inline-block;
     }

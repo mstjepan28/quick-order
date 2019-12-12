@@ -16,6 +16,12 @@
                     </div>
                 </div>
 
+                <div class="row second_row">
+                    <div class="col stroke" ><i class="fas fa-chevron-up"></i></div>
+                    <div class="col stroke" >0</div>
+                    <div class="col stroke" ><i class="fas fa-chevron-down"></i></div>
+                </div>
+
             </div>
         </div>
 
@@ -118,6 +124,17 @@
     }
     .main_info > p{
         font-size: 20px;
+    }
+    .second_row > .col{
+        height: 50px;
+        line-height: 50px;
+        
+        font-size: 30px;
+        font-style: normal;
+        font-weight: normal;
+
+        background: #343434;
+        border:2px solid rgba(245, 166, 35, 0.7);
     }
 
     .info_box > h3{

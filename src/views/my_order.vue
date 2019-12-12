@@ -56,7 +56,7 @@
         background-image: url("/my_order.jpg");
     }
     .note{
-        width: 90%;
+        width: 99%;
         height: 150px;
 
         resize: none;

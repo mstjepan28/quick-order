@@ -29,11 +29,11 @@
           </li>
 
           <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link to="/my_order" class="nav-link"> My order </router-link>
+            <router-link to="/most_ordered" class="nav-link"> Most ordered </router-link>
           </li>
 
           <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link to="/most_ordered" class="nav-link"> Most ordered </router-link>
+            <router-link to="/my_order" class="nav-link"> My order </router-link>
           </li>
 
           <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
@@ -57,14 +57,15 @@
     <div class="routed_page">
       <router-view/>
     </div>
-    
-    <div v-if="this.position == 'waiter' && this.$route.name !== 'login'" class="buttons" style="margin-top: 100px;">
+   
+    <div v-if="this.position == 'waiter' && this.$route.name !== 'login'" class="buttons" style="margin-top: 75px;">
       <div class="order stroke" style="width: 100%" >Place order</div>
     </div>
     <div v-else-if="this.$route.name !== 'login'" class="buttons" style="margin-top: 100px;">
       <div class="order stroke" >Place order</div>
       <div class="call stroke">Call waiter</div>
     </div>
+
   </div>
 </template>
 

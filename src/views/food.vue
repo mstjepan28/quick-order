@@ -23,7 +23,6 @@
     background: rgba(245, 166, 35, 0.7);
   }
   .food{
-    height: 500px;
     width: 100%;
 
     text-align: center;
