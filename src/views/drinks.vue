@@ -25,7 +25,6 @@
         background: rgba(245, 166, 35, 0.7);
     }
     .drinks{
-        height: 750px;
         width: 100%;
 
         text-align: center;
@@ -39,7 +38,7 @@
         
     }
     .content{
-        margin: 40px 0 75px 0;
+        margin: 40px 0 0 0;
     }
     .krug{
         background-image: url("/food.jpg");
@@ -54,8 +53,5 @@
         display: inline-block;
 
         font-size: 40px;
-    }
-    .options{
-        margin-bottom: 75px;
     }
 </style>

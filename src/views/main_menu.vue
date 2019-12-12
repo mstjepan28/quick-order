@@ -29,14 +29,14 @@
         <div class="krug">My order</div>
       </div>
     </router-link>
-    
+
   </div>
 </template>
 
 <script>
   import store from '@/store.js'
   export default {
-    data () {
+    data(){
       return store;
     },
   }

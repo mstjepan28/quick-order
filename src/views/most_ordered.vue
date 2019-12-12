@@ -72,7 +72,4 @@
 
         font-size: 30px;
     }
-    .items{
-        margin-bottom: 75px;
-    }
 </style>

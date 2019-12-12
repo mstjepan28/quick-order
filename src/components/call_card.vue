@@ -48,8 +48,8 @@
 
 <style scoped>
     .call_card{
-        height: 175px;
-        width: 175px;
+        height: 150px;
+        width: 150px;
 
         display: inline-block;
         margin: 10px;
@@ -80,8 +80,8 @@
         border-top: 2px rgba(25, 187, 0, 0.8) solid;
     }
     .new-call_card{
-        height: 175px;
-        width: 175px;
+        height: 150px;
+        width: 150px;
 
         display: inline-block;
         margin: 10px;
