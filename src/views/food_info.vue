@@ -29,7 +29,7 @@
                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
             </div><br>
-            <div class="info_box stroke">
+            <div class="info_box stroke" >
                 <h3>Ingrediants</h3>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
@@ -39,13 +39,42 @@
                 </p>
             </div><br>
             <div class="info_box stroke">
-                <h3>Nutrition</h3>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
+                <h3>Nutrition facts</h3>
+                
+<table>
+  <tr>
+    <th>Energy value</th>
+    <th>90 kcal</th>
+  </tr>
+  <tr>
+    <td>Carbohydrates</td>
+    <td>20.7 g</td>
+  </tr>
+  <tr>
+    <td>Protein</td>
+    <td>2 g</td>
+  </tr>
+  <tr>
+    <td>Fat</td>
+    <td>0.2 g</td>
+  </tr>
+  <tr>
+    <td>Vitamin A</td>
+    <td>15 mg</td>
+  </tr>
+  <tr>
+    <td>Vitamin C</td>
+    <td>19.6 mg</td>
+  </tr>
+  <tr>
+    <td>Calcium</td>
+    <td>0.3 mg</td>
+  </tr>
+  <tr>
+    <td>Zinc</td>
+    <td>10 mg</td>
+  </tr>
+</table>
             </div><br>
             
 
@@ -98,5 +127,20 @@
         font-style: normal;
         font-weight: normal;
         font-size: 15px;
+    }
+
+    table {
+    border-collapse: collapse;
+    width: 100%;
+    }
+
+    td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    }
+
+    tr:nth-child(even) {
+    background-color: #404040;
     }
 </style>
