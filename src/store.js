@@ -196,5 +196,30 @@ export default {
             times_ordered: 11
         },
     ],
-    products: db.collection('products')
+    call_cards:[
+        {
+            id: 1,
+            checked: true
+        },
+        {
+            id: 2,
+            checked: false
+        },
+        {
+            id: 3,
+            checked: false
+        },
+        {
+            id: 4,
+            checked: false
+        },
+        {
+            id: 5,
+            checked: false
+        },
+        {
+            id: 6,
+            checked: false
+        },
+    ]
 }

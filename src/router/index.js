@@ -108,8 +108,13 @@ const routes = [
     name: 'food_info',
     component: () => import('../views/food_info.vue')
   },
+  /*-----------------------------------------------------*/
+  {
+    path: '/calls',
+    name: 'calls',
+    component: () => import('../views/calls.vue')
+  },
 ]
-
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,

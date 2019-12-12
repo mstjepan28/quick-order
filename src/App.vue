@@ -11,9 +11,13 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-
+          
           <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/" class="nav-link"> Main menu </router-link>
+          </li>
+
+          <li v-if="is_waiter" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <router-link to="/calls" class="nav-link"> Calls </router-link>
           </li>
 
           <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
@@ -54,6 +58,13 @@
       <router-view/>
     </div>
     
+    <div v-if="is_waiter && this.$route.name !== 'login'" class="buttons" style="margin-top: 100px;">
+      <div class="order stroke" style="width: 100%" >Place order</div>
+    </div>
+    <div v-else-if="this.$route.name !== 'login'" class="buttons" style="margin-top: 100px;">
+      <div class="order stroke" >Place order</div>
+      <div class="call stroke">Call waiter</div>
+    </div>
   </div>
 </template>
 
@@ -67,6 +78,22 @@
     methods: {
       logout() {
         firebase.auth().signOut()
+      },
+
+    },
+    computed: {
+      is_waiter(){
+        firebase.auth().onAuthStateChanged(function(user) {
+          const user_data = db.collection('users').doc(user.uid);
+
+          user_data.get().then((doc) =>{
+            if(doc.data().position === "waiter"){
+            }
+            else return false
+          })
+
+        });
+        return true;
       },
 
     },

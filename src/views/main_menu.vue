@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link v-if="is_waiter" to="#">
+    <router-link v-if="is_waiter" to="/calls">
       <div class="opcija slika" style="background-image: url('/call.jpg')">
         <div class="krug">Calls</div>
       </div>
@@ -30,25 +30,11 @@
       </div>
     </router-link>
 
-
-    <div v-if="is_waiter" class="buttons" style="margin-top: 100px;">
-      <div class="order stroke" style="width: 100%" >Place order</div>
-    </div>
-    <div v-else class="buttons" style="margin-top: 100px;">
-      <div class="order stroke" >Place order</div>
-      <div class="call stroke">Call waiter</div>
-    </div>
-
   </div>
 </template>
 
 <script>
-  import store from '@/store.js'
-
   export default {
-    data () {
-      return store;
-    },
     computed: {
       is_waiter(){
         firebase.auth().onAuthStateChanged(function(user) {
@@ -65,10 +51,8 @@
       },
 
     },
-
   }
 </script>
-
 <style >
 
 </style>

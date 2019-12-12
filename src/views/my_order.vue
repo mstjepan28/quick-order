@@ -13,11 +13,6 @@
         <div class="ordered">
             <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in ordered" />
         </div>
-
-        <div class="buttons">
-            <div class="order stroke">Place order</div>
-            <div class="call stroke">Call waiter</div>
-        </div>
     </div>
 </template>
 
@@ -58,14 +53,7 @@
         background: rgba(245, 166, 35, 0.7);
     }
     .krug{
-        width: 225px;
-        height: 225px;
-
-        margin: 10px 0 0 0;
-
         background-image: url("/my_order.jpg");
-        background-size: cover;
-        border: 3px rgba(245, 166, 35, 0.7) solid; 
     }
     .note{
         width: 90%;

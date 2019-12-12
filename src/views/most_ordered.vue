@@ -31,7 +31,6 @@
             <router-view/>
         </div>
 
-        <div class="call stroke">Call waiter</div>
     </div>
 </template>
 
@@ -55,16 +54,7 @@
         width: 175px;
         height: 175px;
 
-        display: inline-block;
-        margin: 25px 0 25px 0;
-
         background-image: url("/most_ordered.png");
-        background-size: cover;
-        border: 3px rgba(245, 166, 35, 0.7) solid; 
-    }
-    .call{
-        margin: 0;
-        width: 100%;   
     }
     a:hover{
         text-decoration: none;

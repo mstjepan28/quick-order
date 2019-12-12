@@ -1,17 +1,13 @@
 <template>
     <div class="drinks">
 
-        <div class="call stroke">
-            Call the waiter
-        </div>
-
         <div class="top">
             <div class="krug"></div>
             <h3>Drinks</h3>
         </div>
             
         <div class="options">
-        <router-view/>
+            <router-view/>
         </div>
 
     </div>
@@ -29,6 +25,7 @@
         background: rgba(245, 166, 35, 0.7);
     }
     .drinks{
+        height: 750px;
         width: 100%;
 
         text-align: center;
@@ -44,20 +41,8 @@
     .content{
         margin: 40px 0 75px 0;
     }
-    .call{
-        z-index: 1000;
-        width: 100%;
-        margin: 0 0 0 0;
-    }
     .krug{
-        width: 225px;
-        height: 225px;
-
-        margin: 10px 0 0 0;
-
         background-image: url("/food.jpg");
-        background-size: cover;
-        border: 3px rgba(245, 166, 35, 0.7) solid; 
     }
     .content > h3{
         float: left;
