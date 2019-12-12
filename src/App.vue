@@ -16,7 +16,7 @@
             <router-link to="/" class="nav-link"> Main menu </router-link>
           </li>
 
-          <li v-if="is_waiter" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'waiter'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/calls" class="nav-link"> Calls </router-link>
           </li>
 
@@ -47,7 +47,7 @@
         </ul>
 
         <span>
-          {{ userEmail}}
+          {{userEmail + "  -  " + position}}
           <a @click="logout" class="btn btn-info my-2 my-sm-0 mr-2" href="#">Logout</a>
         </span>
 
@@ -58,7 +58,7 @@
       <router-view/>
     </div>
     
-    <div v-if="is_waiter && this.$route.name !== 'login'" class="buttons" style="margin-top: 100px;">
+    <div v-if="this.position == 'waiter' && this.$route.name !== 'login'" class="buttons" style="margin-top: 100px;">
       <div class="order stroke" style="width: 100%" >Place order</div>
     </div>
     <div v-else-if="this.$route.name !== 'login'" class="buttons" style="margin-top: 100px;">
@@ -81,29 +81,17 @@
       },
 
     },
-    computed: {
-      is_waiter(){
-        firebase.auth().onAuthStateChanged(function(user) {
-          const user_data = db.collection('users').doc(user.uid);
-
-          user_data.get().then((doc) =>{
-            if(doc.data().position === "waiter"){
-            }
-            else return false
-          })
-
-        });
-        return true;
-      },
-
-    },
     mounted() {
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
+          const user_data = db.collection('users').doc(user.uid);
+
           console.log("User is loged in " + user.email);
           this.authenticated = true;
           this.userEmail = user.email
-          this.position = user.position;
+          user_data.get().then((doc) =>{
+            this.position = doc.data().position
+          })  
           if(this.$route.name !== 'main_menu') this.$router.push({name:'main_menu'})
         }
         else{

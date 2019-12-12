@@ -17,11 +17,11 @@
 
             <button type="submit" class="stroke">Log in</button>
         </form>
-<!--
+
         <div style="position: relative; top:50px; height: 25px; width: 50px; display: inline-block">
             <router-link to="/signup" style="background: red;text-align:center;"> Signup </router-link>
         </div>
--->      
+     
 
     </div>
 </template>

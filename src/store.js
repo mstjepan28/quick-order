@@ -1,7 +1,7 @@
 export default {
     authenticated: false,
-    userEmail: 'fake@email.com',
-    position: 'aaa',
+    userEmail: 'your_email',
+    position: 'your_position',
     cards:[
         {
             id: 1,
