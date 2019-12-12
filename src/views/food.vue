@@ -15,7 +15,7 @@
 <style scoped>
   .top > h3{
     position: relative;
-    top: -45px;
+    top: -39px;
 
     font-size: 40px;
     text-decoration: underline;

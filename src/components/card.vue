@@ -38,10 +38,10 @@
 <style scoped>
     .container{
         height: 75px;
-        width: 90%;
+        width: 100%;
 
         display: inline-block;
-        margin-top: 20px;
+        margin-top: -2px;
         
         border-radius: 10px;
         border: 2px rgba(245, 166, 35, 0.7) solid;

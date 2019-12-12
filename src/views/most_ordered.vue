@@ -35,11 +35,15 @@
 </template>
 
 <style scoped>
+    .row{
+        height:240px;
+    }
     .top{
         height: 250px;
         width: 100%;
         background-image: url("/food.jpg");
         background-size: cover;
+        margin-bottom: 10px;
     }
     .col > h3{
         display: inline-block;
