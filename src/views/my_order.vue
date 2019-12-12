@@ -5,14 +5,14 @@
             <h3>My order</h3>
         </div>
 
+        <div class="ordered">
+            <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in ordered" />
+        </div>
         <form style="margin-top: 20px;">
             <h3 class="stroke">Note</h3>
             <textarea class="note"></textarea>
         </form>
 
-        <div class="ordered">
-            <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in ordered" />
-        </div>
     </div>
 </template>
 
@@ -39,13 +39,13 @@
 <style scoped>
     .top{
         height: 250px;
-
+        margin-bottom: 10px;
         background-image: url("/food.jpg");
         background-size: cover;
     }
     .top > h3{
         position: relative;
-        top: -45px;
+        top: -39px;
 
         font-size: 40px;
         text-decoration: underline;
@@ -72,6 +72,6 @@
         font-size: 35px;
     }
     .ordered{
-        margin-bottom: 75px;
+        margin-bottom: 30px;
     }
 </style>
