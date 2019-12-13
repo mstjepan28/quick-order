@@ -1,6 +1,11 @@
 <template>
   <div id="app">
     <nav v-if="this.$route.name !== 'login'" class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <!--
+      <router-link v-if="this.$route.name !== 'main_menu'" to="back" class="stroke mr-">
+        <i class="fas fa-arrow-left stroke" style="font-size: 25px"></i>
+      </router-link>
+      -->
       <router-link to="/" class="navbar-brand stroke">
         <img src="/icon.ico" class="icon"> Quick order
       </router-link>
@@ -100,6 +105,23 @@
           this.authenticated = false;
           if(this.$route.name !== 'login') this.$router.push({name:'login'})
         }
+      });
+      db.collection("products").orderBy("title").limit(30).onSnapshot(snapshot => {
+        snapshot.docChanges().forEach(change => {
+            if (change.type === "added") {
+              const data = change.doc.data()
+              this.cards.unshift({
+                id: change.doc.id,
+                title: data.title,
+                description: data.description, 
+                url: data.url,
+                type: data.type,
+                category: data.category,
+                counter: data.counter,
+                times_ordered: data.times_ordered                
+              })
+            }
+        });
       });
     }
     

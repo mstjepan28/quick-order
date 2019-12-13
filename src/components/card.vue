@@ -7,7 +7,7 @@
                 <i class="fas fa-chevron-down" v-on:click="info.counter = decrease(info.counter)"></i>
             </div>
 
-            <router-link to="/food_info" class="col-3 prod_img" :style="{ backgroundImage: `url(${info.url})`}" ></router-link>
+            <router-link v-bind:to="'/food_info/' + info.id" class="col-3 prod_img" :style="{ backgroundImage: `url(${info.url})`}" ></router-link>
 
             <div class="col-7 details">
                 <h6>{{info.title}}</h6>
@@ -24,7 +24,7 @@
     export default {
         props: ['info'],
         methods:{
-            decrease: function(counter){
+            decrease(counter){
                 if(counter > 0){
                     counter -= 1;
                 }

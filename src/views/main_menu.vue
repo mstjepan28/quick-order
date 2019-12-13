@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--<div style="height: 150px; background: gray; widht: 100%;" v-on:click="funkcija"></div>--><!--Za testiranje nekih funkcija-->
     <router-link v-if="this.position == 'waiter'" to="/calls">
       <div class="opcija slika" style="background-image: url('/call.jpg')">
         <div class="krug">Calls</div>

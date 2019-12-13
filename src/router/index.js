@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
+
 const routes = [
   /*-----------------------------------------------------*/
   {
@@ -104,7 +105,7 @@ const routes = [
   },
   /*-----------------------------------------------------*/
   {
-    path: '/food_info',
+    path: '/food_info/:id',
     name: 'food_info',
     component: () => import('../views/food_info.vue')
   },

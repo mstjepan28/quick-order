@@ -1,25 +1,26 @@
 <template>
     <div class="food_info">
+ 
         <div class="top">
             <div class="container" style="background-image: url('/food.jpg')">
 
                 <div class="row">
                     <div class="col">
-                        <div class="krug stroke" style="background-image: url('/food3.jpg')"></div>
+                        <div class="krug stroke" :style="{ backgroundImage: `url(${this.food_info.url})`}"></div>
                     </div>
 
                     <div class="col stroke" >
                         <div class="main_info">
-                            <h2>Jelo#1</h2>
+                            <h2>{{food_info.title}}</h2>
                             <p>Price: 12345$</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="row second_row">
-                    <div class="col stroke" ><i class="fas fa-chevron-up"></i></div>
-                    <div class="col stroke" >0</div>
-                    <div class="col stroke" ><i class="fas fa-chevron-down"></i></div>
+                    <div class="col stroke" ><i class="fas fa-chevron-up" v-on:click="food_info.counter += 1"></i></div>
+                    <div class="col stroke" >{{food_info.counter}}</div>
+                    <div class="col stroke" ><i class="fas fa-chevron-down" v-on:click="food_info.counter = decrease(food_info.counter)"></i></div>
                 </div>
 
             </div>
@@ -29,19 +30,13 @@
             <div class="info_box stroke">
                 <h3>Description</h3>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    {{food_info.description}}
                 </p>
             </div><br>
             <div class="info_box stroke" >
                 <h3>Ingrediants</h3>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    {{food_info.description}}
                 </p>
             </div><br>
             <div class="info_box stroke">
@@ -88,12 +83,33 @@
 </template>
 
 <script>
+    import store from '@/store.js'
+
     export default {
-        props: ['info'],
+        
+        data(){
+            return{
+                id: this.$route.params.id,
+                food_info: {},
+            }
+        },
+        methods:{
+            decrease(counter){
+                if(counter > 0){
+                    counter -= 1;
+                }
+                return counter
+            }
+        },
+        mounted(){
+            this.food_info = store.cards.filter(card => card.id == this.id)[0];
+        },
+        
     }
 </script>
 
 <style scoped>
+
     .main{
         margin: 5%;
         text-align: left;
@@ -156,4 +172,5 @@
     tr:nth-child(even) {
     background-color: #404040;
     }
+
 </style>
