@@ -26,7 +26,10 @@
         },
         computed:{
             ordered(){
-                return this.order.filter(card => card.counter > 0);
+                this.order.table = this.userEmail;
+                this.order.products = this.cards.filter(card => card.counter > 0);
+
+                return this.order.products;
             }
         },
         name: 'my_order',

@@ -1,5 +1,54 @@
 <template>
   <div id="app">
+    <!----------------------------------------------------->
+    <div class="modal fade" id="place_order" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document" >
+        
+        <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
+          
+          <div class="modal-header" style="text-align: center; margin: auto; border-style:none;;">
+            <h2 class="modal-title" id="exampleModalLongTitle" style="display: inline-block">Order confirmation</h2>
+          </div>
+
+          <div class="modal-body" style="font-size: 30px;">
+            Do you want to confirm your order?
+          </div>
+
+          <div class="modal-footer" style="text-align: center; width: 100%; border-style:none;">
+            <div style="display: inline-block; font-size: 40px; width: 50%; color: green" data-dismiss="modal"><i class="fas fa-check"></i></div>
+            <div style="display: inline-block; font-size: 40px; width: 50%; color: red"   data-dismiss="modal"><i class="fas fa-times"></i></div>
+          </div>
+          
+        </div>
+
+      </div>
+    </div>
+
+    <!----------------------------------------------------->
+    <div class="modal fade" id="call_the_waiter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document" >
+        
+        <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
+          
+          <div class="modal-header" style="text-align: center; margin: auto; border-style:none;;">
+            <h2 class="modal-title" id="exampleModalLongTitle" style="display: inline-block">Order confirmation</h2>
+          </div>
+
+          <div class="modal-body" style="font-size: 30px;">
+            Do you want to confirm your order?
+          </div>
+
+          <div class="modal-footer" style="text-align: center; width: 100%; border-style:none;">
+            <div style="display: inline-block; font-size: 40px; width: 50%; color: green" data-dismiss="modal"><i class="fas fa-check"></i></div>
+            <div style="display: inline-block; font-size: 40px; width: 50%; color: red"   data-dismiss="modal"><i class="fas fa-times"></i></div>
+          </div>
+          
+        </div>
+
+      </div>
+    </div>
+
+    <!----------------------------------------------------->
     <nav v-if="this.$route.name !== 'login'" class="navbar navbar-expand-lg navbar-dark bg-dark">
       <!--
       <router-link v-if="this.$route.name !== 'main_menu'" to="back" class="stroke mr-">
@@ -16,31 +65,43 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          
+        <!--------------------------------------------------------------------------------------->          
           <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/" class="nav-link"> Main menu </router-link>
           </li>
+        <!--------------------------------------------------------------------------------------->
+          <li v-if="this.position == 'chef' || this.position == 'barmen'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <router-link to="/orders" class="nav-link"> Orders </router-link>
+          </li>
 
+          <li v-if="this.position == 'chef' || this.position == 'barmen'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <router-link to="/being_prepared" class="nav-link"> Being prepared </router-link>
+          </li>
+          
+          <li v-if="this.position == 'chef' || this.position == 'barmen'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <router-link to="/done" class="nav-link"> Done </router-link>
+          </li>
+        <!--------------------------------------------------------------------------------------->               
           <li v-if="this.position == 'waiter'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/calls" class="nav-link"> Calls </router-link>
           </li>
 
-          <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/food" class="nav-link"> Food </router-link>
           </li>
 
-          <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/drinks" class="nav-link"> Drinks </router-link>
           </li>
 
-          <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/most_ordered" class="nav-link"> Most ordered </router-link>
           </li>
 
-          <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/my_order" class="nav-link"> My order </router-link>
           </li>
-
+        <!--------------------------------------------------------------------------------------->
           <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/help" class="nav-link"> Help </router-link>
           </li>
@@ -62,13 +123,13 @@
     <div class="routed_page">
       <router-view/>
     </div>
-   
-    <div v-if="this.position == 'waiter' && this.$route.name !== 'login'" class="buttons" style="margin-top: 75px;">
-      <div class="order stroke" style="width: 100%" >Place order</div>
+
+    <div v-if="this.position == 'waiter' && this.$route.name !== 'login'" class="bottom_buttons" >
+      <button type="button" class="order order_only stroke" data-toggle="modal" data-target="#place_order">Place order</button>
     </div>
-    <div v-else-if="this.$route.name !== 'login'" class="buttons" style="margin-top: 100px;">
-      <div class="order stroke" >Place order</div>
-      <div class="call stroke">Call waiter</div>
+    <div v-else-if="this.$route.name !== 'login' && this.position == 'Table'" class="bottom_buttons" >
+      <button type="button" class="order stroke" data-toggle="modal" data-target="#place_order">Place order</button>
+      <button type="button" class="call stroke"  data-toggle="modal" data-target="#call_the_waiter">Call waiter</button>
     </div>
 
   </div>
@@ -172,5 +233,6 @@
       color: black;
     }
   }
+
 }
 </style>

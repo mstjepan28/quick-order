@@ -115,7 +115,37 @@ const routes = [
     name: 'calls',
     component: () => import('../views/calls.vue')
   },
+  /*-----------------------------------------------------*/
+  {
+    path: '/orders',
+    name: 'orders',
+    component: () => import('../views/orders.vue'),
+    children:[
+      {
+        path: '',
+        name: 'available',
+        component: () => import('../views/available.vue')
+      },
+      {
+        path: '/being_prepared',
+        name: 'being_prepared',
+        component: () => import('../views/being_prepared.vue')
+      },
+      {
+        path: '/done',
+        name: 'done',
+        component: () => import('../views/done.vue')
+      }
+    ]
+  },
+  /*-----------------------------------------------------*/
+  {
+    path: '/order_info/:id',
+    name: 'order_info',
+    component: () => import('../views/order_info.vue')
+  },
 ]
+
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,

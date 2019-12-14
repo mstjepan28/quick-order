@@ -17,7 +17,7 @@
                     </div>
                 </div>
 
-                <div class="row second_row">
+                <div v-if="store.position != 'waiter' || store.position != 'Table'" class="row second_row">
                     <div class="col stroke" ><i class="fas fa-chevron-up" v-on:click="food_info.counter += 1"></i></div>
                     <div class="col stroke" >{{food_info.counter}}</div>
                     <div class="col stroke" ><i class="fas fa-chevron-down" v-on:click="food_info.counter = decrease(food_info.counter)"></i></div>
@@ -86,17 +86,25 @@
     import store from '@/store.js'
 
     export default {
-        
         data(){
             return{
                 id: this.$route.params.id,
                 food_info: {},
+                store
             }
         },
         methods:{
+            increase(counter){
+                if(counter < 20){
+                    counter += 1;
+                    store.cards.filter(card => card.id == this.food_info.id).counter = counter;
+                }
+                return counter
+            },
             decrease(counter){
                 if(counter > 0){
                     counter -= 1;
+                    store.cards.filter(card => card.id == this.food_info.id).counter = counter;
                 }
                 return counter
             }

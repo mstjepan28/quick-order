@@ -1,10 +1,14 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-2">
-                <i class="fas fa-chevron-up" v-on:click="info.counter += 1"></i>
+            <div v-if="this.position == 'waiter' || this.position == 'Table'" class="col-2">
+                <i class="fas fa-chevron-up" v-on:click="info.counter = increase(info.counter)"></i>
                 <div>{{info.counter}}</div> 
                 <i class="fas fa-chevron-down" v-on:click="info.counter = decrease(info.counter)"></i>
+            </div>
+
+            <div v-else class="col-2">
+                <div class="counter">{{info.counter}}</div> 
             </div>
 
             <router-link v-bind:to="'/food_info/' + info.id" class="col-3 prod_img" :style="{ backgroundImage: `url(${info.url})`}" ></router-link>
@@ -20,13 +24,25 @@
 </template>
 
 <script>
+    import store from '@/store.js'
 
     export default {
         props: ['info'],
+        data(){
+            return store;
+        },
         methods:{
+            increase(counter){
+                if(counter < 20){
+                    counter += 1;
+                    store.cards.filter(card => card.id == this.info.id).counter = counter;
+                }
+                return counter
+            },
             decrease(counter){
                 if(counter > 0){
                     counter -= 1;
+                    store.cards.filter(card => card.id == this.info.id).counter = counter;
                 }
                 return counter
             }
@@ -70,6 +86,13 @@
         border-top: 1px rgba(245, 166, 35, 0.7) solid;
         margin: 1em 0;
         padding: 0;
+    }
+
+    .counter{
+        height: 75px;
+        line-height: 75px;
+
+        font-size: 30px;
     }
 
     router-link{
