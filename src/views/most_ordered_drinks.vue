@@ -23,7 +23,7 @@
                 return f_cards.sort(compare);
             }
         },
-        name: 'appetizer',
+        name: 'most_ordered_drinks',
         components: {
             FoodCard
         }

@@ -1,46 +1,41 @@
 <template>
   <div id="app">
-    <!----------------------------------------------------->
-    <div class="modal fade" id="place_order" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <!--Call-the-Waiter--------------------------------------------------->
+    <div class="modal fade" id="call_confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document" >
         
         <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
           
-          <div class="modal-header" style="text-align: center; margin: auto; border-style:none;;">
-            <h2 class="modal-title" id="exampleModalLongTitle" style="display: inline-block">Order confirmation</h2>
-          </div>
-
-          <div class="modal-body" style="font-size: 30px;">
-            Do you want to confirm your order?
-          </div>
-
-          <div class="modal-footer" style="text-align: center; width: 100%; border-style:none;">
-            <div style="display: inline-block; font-size: 40px; width: 50%; color: green" data-dismiss="modal"><i class="fas fa-check"></i></div>
-            <div style="display: inline-block; font-size: 40px; width: 50%; color: red"   data-dismiss="modal"><i class="fas fa-times"></i></div>
+          <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
+            A waiter has been notified and will arive shortly!
+            <hr/>
+            <div data-dismiss="modal">Ok</div>
           </div>
           
         </div>
 
       </div>
     </div>
-
-    <!----------------------------------------------------->
     <div class="modal fade" id="call_the_waiter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document" >
         
         <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
           
           <div class="modal-header" style="text-align: center; margin: auto; border-style:none;;">
-            <h2 class="modal-title" id="exampleModalLongTitle" style="display: inline-block">Order confirmation</h2>
+            <h2 class="modal-title" id="exampleModalLongTitle" style="display: inline-block">Select one of the options:</h2>  
           </div>
 
-          <div class="modal-body" style="font-size: 30px;">
-            Do you want to confirm your order?
+          <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
+            <hr/>
+            <div v-on:click="call_the_waiter('Service / Help')" class="mb-2" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Service / Help</div>
+            <div v-on:click="call_the_waiter('Bring the bill')" class="mb-2" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Bring the bill</div>
+            <div v-on:click="call_the_waiter('Complaint')" class="mb-2" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Complaint</div>
+            <div v-on:click="call_the_waiter('Other')" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Other</div>
+            <hr/>
           </div>
 
-          <div class="modal-footer" style="text-align: center; width: 100%; border-style:none;">
-            <div style="display: inline-block; font-size: 40px; width: 50%; color: green" data-dismiss="modal"><i class="fas fa-check"></i></div>
-            <div style="display: inline-block; font-size: 40px; width: 50%; color: red"   data-dismiss="modal"><i class="fas fa-times"></i></div>
+          <div class="modal-body" style="font-size: 30px; padding-top: 0">
+            <div data-dismiss="modal">Close</div>
           </div>
           
         </div>
@@ -50,11 +45,11 @@
 
     <!----------------------------------------------------->
     <nav v-if="this.$route.name !== 'login'" class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <!--
-      <router-link v-if="this.$route.name !== 'main_menu'" to="back" class="stroke mr-">
+     
+      <div v-if="this.$route.name !== 'main_menu'" v-on:click="go_back" class="back_button">
         <i class="fas fa-arrow-left stroke" style="font-size: 25px"></i>
-      </router-link>
-      -->
+      </div>
+
       <router-link to="/" class="navbar-brand stroke">
         <img src="/icon.ico" class="icon"> Quick order
       </router-link>
@@ -124,13 +119,9 @@
       <router-view/>
     </div>
 
-    <div v-if="this.position == 'waiter' && this.$route.name !== 'login'" class="bottom_buttons" >
-      <button type="button" class="order order_only stroke" data-toggle="modal" data-target="#place_order">Place order</button>
-    </div>
-    <div v-else-if="this.$route.name !== 'login' && this.position == 'Table'" class="bottom_buttons" >
-      <button type="button" class="order stroke" data-toggle="modal" data-target="#place_order">Place order</button>
-      <button type="button" class="call stroke"  data-toggle="modal" data-target="#call_the_waiter">Call waiter</button>
-    </div>
+    <div v-if="this.$route.name !== 'login' && this.$route.name !== 'my_order' && this.position == 'Table'" class="bottom_buttons" >
+        <button type="button" class="call call_only stroke" data-toggle="modal" data-target="#call_the_waiter">Call waiter</button>
+    </div> 
 
   </div>
 </template>
@@ -146,7 +137,31 @@
       logout() {
         firebase.auth().signOut()
       },
+      go_back(){
+        return this.$router.go(-1);
+      },
+      call_the_waiter(request){
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let yyyy = today.getFullYear();
+        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(); //https://tecadmin.net/get-current-date-time-javascript/
+        today = dd + '/' + mm + '/' + yyyy; //https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
 
+        db.collection("waiter_calls").add({
+            table: this.userEmail, 
+            request: request,
+            date: today,
+            time: time,
+            done: false,
+        })
+        .then(function(docRef) {
+            console.log("Document written with ID: ", docRef.id);
+        })
+        .catch(function(error) {
+            console.error("Error adding document: ", error);
+        });  
+      }
     },
     mounted() {
       firebase.auth().onAuthStateChanged(user => {
@@ -169,7 +184,7 @@
       });
       db.collection("products").orderBy("title").limit(30).onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
-            if (change.type === "added") {
+            if (change.type === "added"){
               const data = change.doc.data()
               this.cards.unshift({
                 id: change.doc.id,
@@ -190,7 +205,6 @@
 </script>
 
 <style lang="scss">
-
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -205,6 +219,10 @@
     position: relative;
     top: -2px;
   }
+  .back_button{
+    margin: 0 25px 0 5px;
+  }
+
   .nav-item{
     font-size: 20px;
     font-weight: bold;
@@ -224,15 +242,4 @@
   nav{
     z-index: 1000;
   }
-
-  .link_state{
-  padding: 30px;
-
-  a {
-    &.router-link-exact-active {
-      color: black;
-    }
-  }
-
-}
 </style>

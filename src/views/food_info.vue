@@ -28,19 +28,19 @@
 
         <div class="main">
             <div class="info_box stroke">
-                <h3>Description</h3>
+                <h3 class="underline">Description</h3>
                 <p>
                     {{food_info.description}}
                 </p>
             </div><br>
             <div class="info_box stroke" >
-                <h3>Ingrediants</h3>
+                <h3 class="underline">Ingrediants</h3>
                 <p>
                     {{food_info.description}}
                 </p>
             </div><br>
             <div class="info_box stroke">
-                <h3>Nutrition facts</h3>
+                <h3 class="underline">Nutrition facts</h3>
                 <table>
                     <tr>
                         <th>Energy value</th>
@@ -117,11 +117,6 @@
 </script>
 
 <style scoped>
-
-    .main{
-        margin: 5%;
-        text-align: left;
-    }
     .top{
         height: 250px;
     }
@@ -155,10 +150,6 @@
 
         background: #343434;
         border:2px solid rgba(245, 166, 35, 0.7);
-    }
-
-    .info_box > h3{
-        border-bottom: 3px solid rgba(245, 166, 35, 0.7);
     }
     .info_box > p{
         font-style: normal;

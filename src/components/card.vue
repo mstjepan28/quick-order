@@ -78,7 +78,6 @@
         text-align: left;
         font-size: 7px;
     }
-
     hr {
         display: block;
         height: 1px;
@@ -87,7 +86,6 @@
         margin: 1em 0;
         padding: 0;
     }
-
     .counter{
         height: 75px;
         line-height: 75px;

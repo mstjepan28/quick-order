@@ -6,13 +6,12 @@
             <h3>Drinks</h3>
         </div>
             
-        <div class="options">
+        <div>
             <router-view/>
         </div>
 
     </div>
 </template>
-
 
 <style scoped>
     .top > h3{

@@ -6,7 +6,7 @@
       <h3>Food</h3>
     </div>
 
-    <div class="options">
+    <div>
       <router-view/>
     </div>
   </div>

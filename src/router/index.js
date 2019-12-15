@@ -34,19 +34,9 @@ const routes = [
         component: () => import('../views/food_options.vue')
       },
       {
-        path: '/appetizer',
-        name: 'appetizer',
-        component: () => import('../views/appetizer.vue'),
-      },
-      {
-        path: '/m_course',
-        name: 'm_course',
-        component: () => import('../views/m_course.vue'),
-      },
-      {
-        path: '/dessert',
-        name: 'dessert',
-        component: () => import('../views/dessert.vue'),
+        path: '/food_selection/:i',
+        name: 'food_selection',
+        component: () => import('../views/food_selection.vue')
       }
     ]
   },
@@ -62,9 +52,9 @@ const routes = [
         component: () => import('../views/drinks_options.vue')
       },
       {
-        path: '/soda',
-        name: 'soda',
-        component: () => import('../views/soda.vue')
+        path: '/drinks_selection/:i',
+        name: 'drinks_selection',
+        component: () => import('../views/drinks_selection.vue')
       },
     ]
   },

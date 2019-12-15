@@ -2,6 +2,8 @@ export default {
     authenticated: false,
     userEmail: 'your_email',
     position: 'your_position',
+    food_options: ['Appetizer', 'Main course', 'Dessert'],
+    drink_options: ['Soda', 'Juice', 'Other', 'Beer', 'Wine', 'Liquors'],
     cards:[
         
     ],
