@@ -43,7 +43,7 @@
 
         <div class="top">
             <div class="krug stroke"></div>
-            <h3>My order</h3>
+            <h3 class="top_title">My order</h3>
         </div>
 
         <div class="main">
@@ -92,9 +92,10 @@
                 if(store.order.products.length >= 1){
                     db.collection("orders").add({
                         table: store.userEmail, 
-                        available: true,
-                        finished: false,
+                        order_state: 'Available',
                         note: this.note,
+                        date: store.current_date(),
+                        time: store.current_time(),
                         order: store.order.products,
                     })
                     .then(function(docRef) {
@@ -102,7 +103,7 @@
                     })
                     .catch(function(error) {
                         console.error("Error adding document: ", error);
-                    });                       
+                    });                  
                 }
                 else console.log("No items selected");
                 /*
@@ -126,15 +127,7 @@
         background-image: url("/food.jpg");
         background-size: cover;
     }
-    .top > h3{
-        position: relative;
-        top: -39px;
 
-        font-size: 40px;
-        text-decoration: underline;
-
-        background: rgba(245, 166, 35, 0.7);
-    }
     .krug{
         background-image: url("/my_order.jpg");
     }

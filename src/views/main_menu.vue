@@ -2,21 +2,21 @@
   <div>
     <!--<div style="height: 150px; background: gray; widht: 100%;" v-on:click="funkcija"></div>--><!--Za testiranje nekih funkcija-->
 <!--------------------------------------------------------------------------------------->
-    <router-link v-if="this.position == 'chef' || this.position == 'barman'" to="/orders">
+    <router-link v-if="this.position == 'chef' || this.position == 'barman'" v-bind:to="'/orders/' + 0">
       <div class="opcija slika" style="background-image: url('/food.jpg')">
         <div class="krug">Orders</div>
-      </div>
+      </div> 
     </router-link>
 
-    <router-link v-if="this.position == 'chef' || this.position == 'barman'" to="/being_prepared">
+    <router-link v-if="this.position == 'chef' || this.position == 'barman'" v-bind:to="'/orders/' + 1">
       <div class="opcija slika" style="background-image: url('/food.jpg'); font-size: 30px;">
         <div class="krug">Being prepared</div>
       </div>
     </router-link>
 
-    <router-link v-if="this.position == 'chef' || this.position == 'barman'" to="/done">
+    <router-link v-if="this.position == 'chef' || this.position == 'barman'" v-bind:to="'/orders/' + 2">
       <div class="opcija slika" style="background-image: url('/food.jpg')">
-        <div class="krug">Done</div>
+        <div class="krug">Finished</div>
       </div>
     </router-link>
 <!--------------------------------------------------------------------------------------->

@@ -33,7 +33,6 @@
         },
         computed:{
             filtered_cards(){
-                console.log(this.drink_options[this.i])
                 return store.cards.filter(card => card.category == this.drink_options[this.i].toLowerCase());
             }
         },

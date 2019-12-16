@@ -1,10 +1,10 @@
 <template>
-    <div class="call_card stroke" v-on:click="select_call()">
-        <hr class="line"/>
-        Table #{{info.id}}
+    <div class="call_card stroke" v-on:click="false">
+        <hr/>
+        Table #1
         <hr class="mid-line"/>
-        Complaint
-        <hr class="line"/>
+        {{info.request}}
+        <hr/>
     </div>
 </template>
 
@@ -60,6 +60,9 @@
         border: 2px rgba(245, 166, 35, 0.7) solid; 
 
         background: #343434;
+    }
+    hr{
+        margin-bottom: 13px;
     }
     .new-mid-line{
         border-top: 3px rgba(25, 187, 0, 0.8) solid;

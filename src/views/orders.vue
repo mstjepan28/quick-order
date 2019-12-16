@@ -1,55 +1,77 @@
 <template>
-    <div v-if="this.position == 'chef'" class="most_ordered">
+    <div class="most_ordered">
         <div class="top">
-            <div class="container">
-
-                <div class="row">
-
-                    <div class="col">
-                        <div class="krug stroke"></div>
-                    </div>
-
-                    <div class="col stroke">
-                        <h3>Orders</h3>
-                    </div>
-                </div>
-<!--
-                <div class="row food_drinks stroke">
-                    <div class="col">
-                        <router-link to="orders" class="orders-option">Available</router-link>
-                    </div>
-                    <div class="col">
-                        <router-link to="being_prepared" class="orders-option">Being prepared</router-link>
-                    </div>
-                    <div class="col">
-                        <router-link to="done" class="orders-option">Done</router-link>
-                    </div>                    
-                </div>
--->
-            </div>
+            <div class="krug" style="background-image: url('/most_ordered.png');"></div>
+            <h3 class="top_title">Orders</h3>
         </div>
-        
 
-        <div class="items">
-            <router-view/>
+        <div class="main">
+            <div class="title stroke">
+                <div v-on:click="previous"><i class="fas fa-arrow-left"></i></div>
+                {{this.order_state[this.i]}}
+                <div v-on:click="next"><i class="fas fa-arrow-right"></i></div>
+            </div>
+            <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />            
         </div>
 
     </div>
-</template>
+</template> 
 
 <script>
-  import store from '@/store.js'
-  export default {
-    data(){
-      return store;
-    },
-  }
+    import OrderCard from '@/components/order_card.vue'
+    import store from '@/store.js'
+
+    export default {
+        data(){
+            return{
+                i: parseInt(this.$route.params.i, 10),
+                order_state: store.order_state,
+                store
+            }
+        },
+        methods:{
+            next(){
+                this.i += 1;
+                if(this.i >= this.order_state.length) this.i = 0;
+            },
+            previous(){
+                this.i -= 1;
+                if(this.i < 0) this.i = this.order_state.length - 1;
+            }
+        },
+        computed:{
+            filtered_cards(){
+                return this.store.order_cards.filter(card => card.order_state == this.order_state[this.i]);
+            }
+        },
+        mounted(){
+            if(!this.store.data_fetched){
+                db.collection("orders").orderBy("table").limit(30).onSnapshot(snapshot => {
+                    snapshot.docChanges().forEach(change => {
+                        if (change.type === "added"){
+                            const data = change.doc.data()
+                            this.store.order_cards.unshift({
+                                id: change.doc.id,
+                                table: data.table,
+                                order_state: data.order_state,
+                                note: data.note,
+                                date: data.date,
+                                time: data.time,
+                                order: data.order,           
+                            })
+                        }
+                    });
+                });                 
+                this.store.data_fetched = true;
+            }
+        },
+        components: {
+            OrderCard
+        }
+    }
 </script>
 
 <style scoped>
-    .row{
-        height:240px;
-    }
     .top{
         height: 250px;
         width: 100%;
@@ -57,45 +79,16 @@
         background-size: cover;
         margin-bottom: 10px;
     }
-    .col > h3{
-        display: inline-block;
-        
-        position: relative;
-        top: 80px;
+    .main{
+        text-align: center;
+    }
+    .title{
+        margin: 20px 0 20px 0;
 
         font-size: 30px;
         text-decoration: underline;
     }
-    .krug{
-        width: 175px;
-        height: 175px;
-
-        background-image: url("/most_ordered.png");
-    }
-    .food_drinks{
-        width: 100%;
-
-        text-align: center;        
-        position: relative;
-        top: -35px;
-
-        font-size: 30px;
-    }
-    .food_drinks > .col{
-        width: 33%;
-        height: 50px;
-    }
-    .orders-option{
-        font-size: 15px;
-        font-weight: normal;
-        font-style: normal;
-
+    .title > div{
         display: inline-block;
     }
-
-    a:hover{
-        text-decoration: none;
-        color: white;
-    }
-
 </style>

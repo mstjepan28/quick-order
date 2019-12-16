@@ -1,13 +1,13 @@
 <template>
     <div class="container">
         <div class="row">
-            <div v-if="this.position == 'waiter' || this.position == 'Table'" class="col-2">
+            <div v-if="this.position == 'waiter' || this.position == 'Table'" class="col-2" style="text-align:center">
                 <i class="fas fa-chevron-up" v-on:click="info.counter = increase(info.counter)"></i>
                 <div>{{info.counter}}</div> 
                 <i class="fas fa-chevron-down" v-on:click="info.counter = decrease(info.counter)"></i>
             </div>
 
-            <div v-else class="col-2">
+            <div v-else class="col-2" style="text-align:center">
                 <div class="counter">{{info.counter}}</div> 
             </div>
 

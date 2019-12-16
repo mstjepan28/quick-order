@@ -27,6 +27,7 @@
 </template>
 
 <script>
+//<input v-model="password" type="password" id="hidden_password" placeholder="password...">
   export default {
     data(){
       return{

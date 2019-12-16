@@ -9,7 +9,6 @@
             <callCard v-bind:key="call_cards.id" v-bind:info="call_cards" v-for="call_cards in filtered_cards" />
         </div>
 
-
     </div>
 </template>
 
@@ -23,13 +22,34 @@
         },
         computed: {
             filtered_cards(){
-                return this.call_cards//.filter(card => !card.checked)
+                return this.call_cards.filter(card => !card.done)
             },
+        },
+        mounted(){
+            if(!this.data_fetched){
+                db.collection("waiter_calls").orderBy("time").limit(30).onSnapshot(snapshot => {
+                    snapshot.docChanges().forEach(change => {
+                        if (change.type === "added"){
+                        const data = change.doc.data()
+                        this.call_cards.unshift({
+                            id: change.doc.id,
+                            table: data.table,
+                            request: data.request, 
+                            date: data.date,
+                            time: data.time,
+                            done: data.done,           
+                        })
+                        }
+                    });
+                });                 
+                this.data_fetched = true;
+            }
+
         },
         name: 'calls',
         components: {
             callCard
-        }
+        },
     }
 </script>
 

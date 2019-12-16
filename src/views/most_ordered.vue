@@ -27,7 +27,7 @@
         </div>
         
 
-        <div class="items">
+        <div class="main">
             <router-view/>
         </div>
 

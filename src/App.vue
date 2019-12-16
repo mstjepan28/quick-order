@@ -65,17 +65,19 @@
             <router-link to="/" class="nav-link"> Main menu </router-link>
           </li>
         <!--------------------------------------------------------------------------------------->
+        <!--
           <li v-if="this.position == 'chef' || this.position == 'barmen'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link to="/orders" class="nav-link"> Orders </router-link>
+            <router-link v-bind:to="'/orders/' + 0" class="nav-link"> Orders </router-link>
           </li>
 
           <li v-if="this.position == 'chef' || this.position == 'barmen'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link to="/being_prepared" class="nav-link"> Being prepared </router-link>
+            <router-link v-bind:to="'/orders/' + 1" class="nav-link"> Being prepared </router-link>
           </li>
           
           <li v-if="this.position == 'chef' || this.position == 'barmen'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link to="/done" class="nav-link"> Done </router-link>
+            <router-link v-bind:to="'/orders/' + 2" class="nav-link"> Done </router-link>
           </li>
+        -->
         <!--------------------------------------------------------------------------------------->               
           <li v-if="this.position == 'waiter'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/calls" class="nav-link"> Calls </router-link>
@@ -140,20 +142,15 @@
       go_back(){
         return this.$router.go(-1);
       },
+
       call_the_waiter(request){
-        let today = new Date();
-        let dd = String(today.getDate()).padStart(2, '0');
-        let mm = String(today.getMonth() + 1).padStart(2, '0');
-        let yyyy = today.getFullYear();
-        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(); //https://tecadmin.net/get-current-date-time-javascript/
-        today = dd + '/' + mm + '/' + yyyy; //https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
 
         db.collection("waiter_calls").add({
             table: this.userEmail, 
             request: request,
-            date: today,
-            time: time,
-            done: false,
+            date: this.current_date(),
+            time: this.current_time(),
+            done: false, 
         })
         .then(function(docRef) {
             console.log("Document written with ID: ", docRef.id);
@@ -199,6 +196,7 @@
             }
         });
       });
+
     }
     
   }

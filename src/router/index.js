@@ -107,26 +107,9 @@ const routes = [
   },
   /*-----------------------------------------------------*/
   {
-    path: '/orders',
+    path: '/orders/:i',
     name: 'orders',
     component: () => import('../views/orders.vue'),
-    children:[
-      {
-        path: '',
-        name: 'available',
-        component: () => import('../views/available.vue')
-      },
-      {
-        path: '/being_prepared',
-        name: 'being_prepared',
-        component: () => import('../views/being_prepared.vue')
-      },
-      {
-        path: '/done',
-        name: 'done',
-        component: () => import('../views/done.vue')
-      }
-    ]
   },
   /*-----------------------------------------------------*/
   {
