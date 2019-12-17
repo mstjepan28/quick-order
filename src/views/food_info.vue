@@ -13,12 +13,13 @@
                         <div class="main_info">
                             <h2>{{food_info.title}}</h2>
                             <p>Price: 12345$</p>
+                            <p>Times ordered: {{food_info.times_ordered}}</p>
                         </div>
                     </div>
                 </div>
 
                 <div v-if="store.position != 'waiter' || store.position != 'Table'" class="row second_row">
-                    <div class="col stroke" ><i class="fas fa-chevron-up" v-on:click="food_info.counter += 1"></i></div>
+                    <div class="col stroke" ><i class="fas fa-chevron-up" v-on:click="food_info.counter = increase(food_info.counter)"></i></div>
                     <div class="col stroke" >{{food_info.counter}}</div>
                     <div class="col stroke" ><i class="fas fa-chevron-down" v-on:click="food_info.counter = decrease(food_info.counter)"></i></div>
                 </div>
@@ -132,13 +133,16 @@
         width:150px;
         height:150px;
         top:15px;   
+
+        background-size: cover;
     }
     .main_info{
         position: relative;
-        top:65px;
+        top: 65px;
     }
     .main_info > p{
         font-size: 20px;
+        margin: 0
     }
     .second_row > .col{
         height: 50px;

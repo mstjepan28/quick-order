@@ -50,6 +50,10 @@
             <div class="ordered">
                 <h3 class="underline stroke">Selected items:</h3>
                 <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in ordered" />
+                
+                <div v-if="store.order.products.length == 0" class="no_items">
+                    No items selected
+                </div>
             </div>
 
             <form class="customer_note">
@@ -57,14 +61,23 @@
                 <textarea v-model="note" class="note"></textarea>
             </form>
         </div>
-
-        <div v-if="store.position == 'waiter'" class="bottom_buttons" >
-            <button type="button" class="order order_only stroke" data-toggle="modal" data-target="#place_order">Place order</button>
+        
+        <div v-if="store.position == 'waiter' && store.order.products.length >=1">
+            <div class="bottom_buttons" >
+                <button type="button" class="order order_only stroke" data-toggle="modal" data-target="#place_order">Place order</button>
+            </div>            
         </div>
-        <div v-else-if="store.position == 'Table'" class="bottom_buttons" >
-            <button type="button" class="order stroke" data-toggle="modal" data-target="#place_order">Place order</button>
-            <button type="button" class="call stroke"  data-toggle="modal" data-target="#call_the_waiter">Call waiter</button>
-        </div>        
+        <div v-else-if="store.position == 'Table'" class="bottom_buttons">
+            <div v-if="store.order.products.length >=1">
+                <button type="button" class="order stroke" data-toggle="modal" data-target="#place_order">Place order</button>
+                <button type="button" class="call stroke"  data-toggle="modal" data-target="#call_the_waiter">Call waiter</button>                
+            </div>
+            <div v-else>
+                <button type="button" class="call call_only stroke"  data-toggle="modal" data-target="#call_the_waiter">Call waiter</button> 
+            </div>
+
+        </div>   
+     
 
     </div>
 </template>
@@ -89,21 +102,30 @@
         },
         methods:{
             send_order(){
-                if(store.order.products.length >= 1){
+                let products = store.order.products;
+
+                if(products.length >= 1){
                     db.collection("orders").add({
                         table: store.userEmail, 
                         order_state: 'Available',
                         note: this.note,
                         date: store.current_date(),
                         time: store.current_time(),
-                        order: store.order.products,
-                    })
-                    .then(function(docRef) {
-                        console.log("Document written with ID: ", docRef.id);
-                    })
-                    .catch(function(error) {
-                        console.error("Error adding document: ", error);
-                    });                  
+                        order: products,
+                    });
+                    //Update 'times_ordered' svakog proizvoda koji se nalazi u store.order.products
+                    //Isprazni 'My Order' tako da se vrijednost 'counter'svakog proizvoda postavi na 0 i na kraju prebrisi 'procucts' polje
+                    for(let i = 0; i < products.length; i++){
+                        let current_card = store.cards.filter(card => card.id == store.order.products[0].id)[0];
+                        current_card.times_ordered = store.order.products[i].counter + store.order.products[i].times_ordered;
+                        current_card.counter = 0;
+
+                        db.collection("products").doc(current_card.id).set({
+                            times_ordered: current_card.times_ordered
+                        }, { merge: true });                          
+                    }
+                    products = [];
+                    
                 }
                 else console.log("No items selected");
                 /*
@@ -111,7 +133,7 @@
                     document.getElementById("no_items_selected").innerHTML = "No items selected";
                 }
                 */
-            }            
+            },           
         },
         name: 'my_order',
         components: {
@@ -147,7 +169,8 @@
     .ordered{
         margin: 30px 0 30px 0;
     }
-    #no_items_selected{
+
+    .no_items{
         width: 100%;
         height: 100px;
 
@@ -155,7 +178,6 @@
         line-height: 100px;
 
         font-size: 40px;
-        color: white;
-        text-decoration: underline;
+        color: rgb(87, 87, 87);
     }
 </style>

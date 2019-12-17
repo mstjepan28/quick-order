@@ -13,13 +13,7 @@ export default {
         
     ],
     order:[
-        {
-            table: '',
-            available: true,
-            finished: false,
-            note: '',
-            products: []            
-        }
+      
     ],
     call_cards:[
         
@@ -35,8 +29,8 @@ export default {
        
         return yyyy + '/' + mm + '/' + dd; //https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
       },
-      current_time(){
-        let today = new Date();
-        return today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(); //https://tecadmin.net/get-current-date-time-javascript/
-      },
+    current_time(){
+      let today = new Date();
+      return today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(); //https://tecadmin.net/get-current-date-time-javascript/
+    },
 }

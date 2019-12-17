@@ -14,9 +14,10 @@
             <router-link v-bind:to="'/food_info/' + info.id" class="col-3 prod_img" :style="{ backgroundImage: `url(${info.url})`}" ></router-link>
 
             <div class="col-7 details">
-                <h6>{{info.title}}</h6>
+                <h6 style="margin: 8px 0 0 0">{{info.title}}</h6>
                 <hr/>
-                {{info.description}}
+                <h6>{{"Ordered: " + info.times_ordered + "times"}}</h6>
+                
             </div>
             
         </div>
