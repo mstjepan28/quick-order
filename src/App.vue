@@ -150,7 +150,7 @@
             request: request,
             date: this.current_date(),
             time: this.current_time(),
-            done: false, 
+            call_state: 'Available', 
         })
         .then(function(docRef) {
             console.log("Document written with ID: ", docRef.id);
