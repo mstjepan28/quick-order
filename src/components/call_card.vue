@@ -50,7 +50,8 @@
         <div class="stroke" data-toggle="modal" data-target="#customer_call">
             Table #1
             <hr/>
-            {{info.request}}<br/>
+            <div v-if="info.request != undefined">{{info.request}}</div>
+            <div v-else>Order</div>            
             <hr/>
             {{info.time + " " + info.date}}
         </div>
@@ -64,15 +65,29 @@
         methods: {
             mark_as_finished(){
                 this.info.call_state = 'Finished';
-                db.collection("waiter_calls").doc(this.info.id).set({
-                    call_state: 'Finished'
-                }, { merge: true });     
+                if(info.request != undefined){
+                    db.collection("waiter_calls").doc(this.info.id).set({
+                        call_state: 'Finished'
+                    }, { merge: true });                        
+                }
+                else{
+                     db.collection("orders").doc(this.info.id).set({
+                        call_state: 'Finished'
+                    }, { merge: true });                        
+                }    
             },
             mark_as_available(){
                 this.info.call_state = 'Available';
-                db.collection("waiter_calls").doc(this.info.id).set({
-                    call_state: 'Available'
-                }, { merge: true });     
+                if(info.request != undefined){
+                    db.collection("waiter_calls").doc(this.info.id).set({
+                        call_state: 'Available'
+                    }, { merge: true });                        
+                }
+                else{
+                     db.collection("orders").doc(this.info.id).set({
+                        call_state: 'Available'
+                    }, { merge: true });                        
+                }                  
             }
         },
     }

@@ -16,7 +16,7 @@
             <div class="col-7 details">
                 <h6 style="margin: 8px 0 0 0">{{info.title}}</h6>
                 <hr/>
-                <h6>{{"Ordered: " + info.times_ordered + "times"}}</h6>
+                <h6>{{"Times ordered: " + info.times_ordered}}</h6>
                 
             </div>
             

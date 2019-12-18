@@ -161,6 +161,7 @@
       }
     },
     mounted() {
+      //Dohvacanje korisnika
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
           const user_data = db.collection('users').doc(user.uid);
@@ -179,6 +180,7 @@
           if(this.$route.name !== 'login') this.$router.push({name:'login'})
         }
       });
+      //Dohvacanje proizvoda
       db.collection("products").orderBy("title").limit(30).onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
             if (change.type === "added"){

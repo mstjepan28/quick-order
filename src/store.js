@@ -8,6 +8,7 @@ export default {
     order_state: ['Available', 'Being prepared', 'Finished'],
 
     data_fetched: false,
+    show_who: "Customer",
 
     cards:[
         
@@ -15,12 +16,17 @@ export default {
     order:[
       
     ],
+    
     call_cards:[
         
+    ],
+    call_cards_staff:[
+
     ],
     order_cards:[
         
     ],
+    //Funkcije
     current_date(){
         let today = new Date();
         let dd = String(today.getDate()).padStart(2, '0');

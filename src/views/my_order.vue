@@ -108,6 +108,7 @@
                     db.collection("orders").add({
                         table: store.userEmail, 
                         order_state: 'Available',
+                        call_state: 'Available',
                         note: this.note,
                         date: store.current_date(),
                         time: store.current_time(),
@@ -116,7 +117,8 @@
                     //Update 'times_ordered' svakog proizvoda koji se nalazi u store.order.products
                     //Isprazni 'My Order' tako da se vrijednost 'counter'svakog proizvoda postavi na 0 i na kraju prebrisi 'procucts' polje
                     for(let i = 0; i < products.length; i++){
-                        let current_card = store.cards.filter(card => card.id == store.order.products[0].id)[0];
+
+                        let current_card = store.cards.filter(card => card.id == store.order.products[i].id)[0];
                         current_card.times_ordered = store.order.products[i].counter + store.order.products[i].times_ordered;
                         current_card.counter = 0;
 
@@ -125,7 +127,6 @@
                         }, { merge: true });                          
                     }
                     products = [];
-                    
                 }
                 else console.log("No items selected");
                 /*
