@@ -1,6 +1,7 @@
 export default {
     authenticated: false,
     userEmail: 'your_email',
+    userId: 'your_id',
     position: 'your_position',
 
     food_options: ['Appetizer', 'Main course', 'Dessert'],

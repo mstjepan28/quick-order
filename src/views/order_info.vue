@@ -93,8 +93,10 @@
 
         <div class="bottom_buttons">
             <button v-if="this.order_info.order_state == 'Available'"      type="button" class="accept_button stroke" data-toggle="modal" data-target="#accept_the_order">Accept this order</button>
-            <button v-if="this.order_info.order_state == 'Being prepared'" type="button" class="finish_button stroke" data-toggle="modal" data-target="#finish_the_order">Mark as finished</button>
+            <!--Ako je selected_by u narudzbi jednak onom trenutnog korisnika(pohranjen u store.js) dopusti da se narudzba oznaci kao zavrsena-->
+            <button v-if="this.order_info.order_state == 'Being prepared' && this.store.userId == this.order_info.selected_by" type="button" class="finish_button stroke" data-toggle="modal" data-target="#finish_the_order">Mark as finished</button>
         </div>
+        <!--<div style="height: 150px; background: gray; widht: 100%;" v-on:click="change_uid">Izbrisi user Id iz store-a</div>-->
     </div>
 </template> 
 
@@ -108,31 +110,54 @@
             return{
                 id: this.$route.params.id,
                 order_info: {},
+                store
             }
         },
         methods:{
+            change_uid(){
+                this.store.userId = ' ';
+                console.log(this.order_info.selected_by)
+                
+            },
             accept_order(){
                 this.order_info.order_state = 'Being prepared';
-                db.collection("orders").doc(this.order_info.id).set({
-                    order_state: 'Being prepared'
-                }, { merge: true });    
+                this.order_info.selected_by = this.store.userId;
+
+                if(this.store.position == 'chef'){
+                    db.collection("orders_food").doc(this.order_info.id).update({
+                        order_state: 'Being prepared',
+                        selected_by: this.store.userId
+                    });                                      
+                }
+                else{
+                    db.collection("orders_drinks").doc(this.order_info.id).update({
+                        order_state: 'Being prepared',
+                        selected_by: this.store.userId
+                    });                                 
+                }
+ 
             },
             finish_order(){
                 this.order_info.order_state = 'Finished';
-                db.collection("orders").doc(this.order_info.id).set({
-                    order_state: 'Finished'
-                }, { merge: true });     
-            }
-        },
-        computed:{
-            filtered_cards(){
-                if(store.position == "chef")
-                    return this.order_info.order_cards.filter(card => card.type == "food");
-                else if(store.position == "barman")
-                    return this.order_info.order_cards.filter(card => card.type == "drinks");
+                if(this.store.position == 'chef'){
+                    db.collection("orders_food").doc(this.order_info.id).update({
+                        date: store.current_date(),
+                        time: store.current_time(),
+                        order_state: 'Finished',
+                    });                       
+                }
+                else{
+                    db.collection("orders_drinks").doc(this.order_info.id).update({
+                        date: store.current_date(),
+                        time: store.current_time(),
+                        order_state: 'Finished',
+                    });                                 
+                }  
             }
         },
         mounted(){
+            //U order_info spremamo kartice iz order_cards(povukli smo ih iz baze u orders.vue)
+            //
             this.order_info = store.order_cards.filter(card => card.id == this.id)[0];
         },
         name: 'order_info',
@@ -188,15 +213,12 @@
     .orders{
         text-align: center;
     }
-    FoodCard{
-        display: inline-block;
-        margin-top: 20px;
-    }
     .note{
-        width: 97%;
+        width: 100%;
         height: 125px;
 
         padding-left: 0px;
+        margin: 0 auto;
 
         text-align: left;
         display: inline-block;

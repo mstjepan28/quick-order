@@ -19,17 +19,17 @@
                 </div>
 
             </div>
-        </div>        
-        
-        <div class="title stroke">
-            <div v-on:click="previous"><i class="fas fa-arrow-left"></i></div>
-            {{this.call_state[this.i]}}
-            <div v-on:click="next"><i class="fas fa-arrow-right"></i></div>
+        </div>    
+
+        <div class="main">
+            <div class="title stroke">
+                <div v-on:click="previous"><i class="fas fa-arrow-left"></i></div>
+                {{this.call_state[this.i]}}
+                <div v-on:click="next"><i class="fas fa-arrow-right"></i></div>
+            </div>
+            <callCard v-bind:key="call_cards.id" v-bind:info="call_cards" v-for="call_cards in filtered_cards" />                    
         </div>
 
-        <div class="call_cards">
-            <callCard v-bind:key="call_cards.id" v-bind:info="call_cards" v-for="call_cards in filtered_cards" />
-        </div>
 
     </div>
 </template>
@@ -72,19 +72,19 @@
                 db.collection("waiter_calls").orderBy("time").limit(30).onSnapshot(snapshot => {
                     snapshot.docChanges().forEach(change => {
                         if (change.type === "added"){
-                        const data = change.doc.data()
-                        store.call_cards.push({
-                            id: change.doc.id,
-                            table: data.table,
-                            request: data.request, 
-                            date: data.date,
-                            time: data.time,
-                            call_state: data.call_state,           
-                        })
+                            const data = change.doc.data()
+                            store.call_cards.push({
+                                id: change.doc.id,
+                                table: data.table,
+                                request: data.request, 
+                                date: data.date,
+                                time: data.time,
+                                call_state: data.call_state,           
+                            })
                         }
                     });
                 });
-                db.collection("orders").orderBy("time").limit(30).onSnapshot(snapshot => {
+                db.collection("orders_food").orderBy("time").limit(30).onSnapshot(snapshot => {
                     snapshot.docChanges().forEach(change => {
                         if (change.type === "added"){
                             const data = change.doc.data()
@@ -100,7 +100,24 @@
                             })
                         }
                     });
-                });                 
+                });
+                db.collection("orders_drinks").orderBy("time").limit(30).onSnapshot(snapshot => {
+                    snapshot.docChanges().forEach(change => {
+                        if (change.type === "added"){
+                            const data = change.doc.data()
+                            this.store.call_cards_staff.push({
+                                id: change.doc.id,
+                                table: data.table,
+                                order_state: data.order_state,
+                                call_state: data.call_state,
+                                note: data.note,
+                                date: data.date,
+                                time: data.time,
+                                order: data.order,           
+                            })
+                        }
+                    });
+                });                    
                 store.data_fetched = true;
             }
 
@@ -159,10 +176,9 @@
         background-size: cover;
     }
 
-    .call_cards{
-        width: 350px;
 
-        display: inline-block;
+    .main{
+        text-align: center;
     }
     .title{
         margin: 20px 0 20px 0;
@@ -173,5 +189,4 @@
     .title > div{
         display: inline-block;
     }
-
 </style>

@@ -137,6 +137,8 @@
     },
     methods: {
       logout() {
+        this.$router.push({name:'login'})
+        document.location.reload(true)
         firebase.auth().signOut()
       },
       go_back(){
@@ -168,9 +170,10 @@
 
           console.log("User is loged in " + user.email);
           this.authenticated = true;
-          this.userEmail = user.email
+          this.userId = user.uid;
+          this.userEmail = user.email;
           user_data.get().then((doc) =>{
-            this.position = doc.data().position
+            this.position = doc.data().position;
           })  
           if(this.$route.name !== 'main_menu') this.$router.push({name:'main_menu'})
         }
