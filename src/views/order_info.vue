@@ -92,7 +92,7 @@
         </div>
 
         <div class="bottom_buttons">
-            <button v-if="this.order_info.order_state == 'Available'"      type="button" class="accept_button stroke" data-toggle="modal" data-target="#accept_the_order">Accept this order</button>
+            <button v-if="this.order_info.order_state == 'Available'" type="button" class="accept_button stroke" data-toggle="modal" data-target="#accept_the_order">Accept this order</button>
             <!--Ako je selected_by u narudzbi jednak onom trenutnog korisnika(pohranjen u store.js) dopusti da se narudzba oznaci kao zavrsena-->
             <button v-if="this.order_info.order_state == 'Being prepared' && this.store.userId == this.order_info.selected_by" type="button" class="finish_button stroke" data-toggle="modal" data-target="#finish_the_order">Mark as finished</button>
         </div>
@@ -105,7 +105,6 @@
     import store from '@/store.js'
 
     export default {
-        
         data(){
             return{
                 id: this.$route.params.id,

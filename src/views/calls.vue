@@ -86,7 +86,7 @@
                 });
                 db.collection("orders_food").orderBy("time").limit(30).onSnapshot(snapshot => {
                     snapshot.docChanges().forEach(change => {
-                        if (change.type === "added"){
+                        if(change.type === "added" || change.type == 'modified'){
                             const data = change.doc.data()
                             this.store.call_cards_staff.push({
                                 id: change.doc.id,
@@ -103,7 +103,7 @@
                 });
                 db.collection("orders_drinks").orderBy("time").limit(30).onSnapshot(snapshot => {
                     snapshot.docChanges().forEach(change => {
-                        if (change.type === "added"){
+                        if(change.type === "added" || change.type == 'modified'){
                             const data = change.doc.data()
                             this.store.call_cards_staff.push({
                                 id: change.doc.id,

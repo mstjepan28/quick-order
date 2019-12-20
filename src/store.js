@@ -1,5 +1,7 @@
 export default {
     authenticated: false,
+
+    //Podaci trenutnog korisnika
     userEmail: 'your_email',
     userId: 'your_id',
     position: 'your_position',
@@ -9,6 +11,8 @@ export default {
     order_state: ['Available', 'Being prepared', 'Finished'],
 
     data_fetched: false,
+
+    //Cije pozive treba prikazivati konobaru unutar calls
     show_who: "Customer",
 
     cards:[

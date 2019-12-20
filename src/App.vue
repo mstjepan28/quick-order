@@ -144,9 +144,7 @@
       go_back(){
         return this.$router.go(-1);
       },
-
       call_the_waiter(request){
-
         db.collection("waiter_calls").add({
             table: this.userEmail, 
             request: request,
@@ -172,6 +170,7 @@
           this.authenticated = true;
           this.userId = user.uid;
           this.userEmail = user.email;
+          //Iz kolekcije user-a dohvaca se pozicija trenutnog user-a koja se sprema u store.js
           user_data.get().then((doc) =>{
             this.position = doc.data().position;
           })  

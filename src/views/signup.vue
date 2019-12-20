@@ -45,6 +45,10 @@ export default {
   },
   methods: {
     signup () {
+      //Na firebase posalji email i password koji povuce iz ispunjene forme
+      //.then -> vraca novo stvorenog korisnika, pristupamo njegovom Id-u i u kolekciji 'users' stvaramo novi
+      //  dokument u koji se sprema pozicija koju smo upisali u formi
+      //Position sluzi da samo odredeni korisnici mogu pristupati nekim dijelovima
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(cred => {
         return db.collection('users').doc(cred.user.uid).set({
           position: this.position
