@@ -33,7 +33,7 @@
         },
         computed:{
             filtered_cards(){
-                return store.cards.filter(card => card.category == this.drink_options[this.i].toLowerCase());
+                return store.cards.filter(card => card.category == this.drink_options[this.i]);
             }
         },
         name: 'drinks_selection',

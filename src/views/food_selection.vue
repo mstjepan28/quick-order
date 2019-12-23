@@ -34,7 +34,7 @@
         },
         computed:{
             filtered_cards(){
-                return store.cards.filter(card => card.category == this.food_options[this.i].toLowerCase());
+                return store.cards.filter(card => card.category == this.food_options[this.i]);
             }
         },
         name: 'food_selection',

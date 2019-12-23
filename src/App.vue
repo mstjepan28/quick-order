@@ -64,21 +64,34 @@
           <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/" class="nav-link"> Main menu </router-link>
           </li>
-        <!--------------------------------------------------------------------------------------->
-        <!--
-          <li v-if="this.position == 'chef' || this.position == 'barmen'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link v-bind:to="'/orders/' + 0" class="nav-link"> Orders </router-link>
+
+        <!--Menadzer------------------------------------------------------------------------------------->
+          <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <router-link to="/statistics" class="nav-link"> Statistics </router-link>
           </li>
 
-          <li v-if="this.position == 'chef' || this.position == 'barmen'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link v-bind:to="'/orders/' + 1" class="nav-link"> Being prepared </router-link>
+          <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <router-link to="/order_history" class="nav-link"> Orders history </router-link>
           </li>
-          
-          <li v-if="this.position == 'chef' || this.position == 'barmen'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link v-bind:to="'/orders/' + 2" class="nav-link"> Done </router-link>
+
+          <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <router-link to="/employes" class="nav-link"> Employes </router-link>
           </li>
-        -->
-        <!--------------------------------------------------------------------------------------->               
+
+          <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <router-link to="/products" class="nav-link"> Products </router-link>
+          </li>
+
+          <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <router-link to="/ingrediants" class="nav-link"> Ingrediants </router-link>
+          </li>
+                    
+        <!--Konobar------------------------------------------------------------------------------------->
+          <li v-if="this.position == 'waiter'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <router-link to="/calls" class="nav-link"> Calls </router-link>
+          </li>
+
+        <!--Musterija-Konobar------------------------------------------------------------------------------------->          
           <li v-if="this.position == 'waiter'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/calls" class="nav-link"> Calls </router-link>
           </li>
@@ -98,7 +111,8 @@
           <li v-if="this.position == 'waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/my_order" class="nav-link"> My order </router-link>
           </li>
-        <!--------------------------------------------------------------------------------------->
+
+        <!--Misc------------------------------------------------------------------------------------->
           <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/help" class="nav-link"> Help </router-link>
           </li>

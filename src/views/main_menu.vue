@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--<div style="height: 150px; background: gray; widht: 100%;" v-on:click="funkcija"></div>--><!--Za testiranje nekih funkcija-->
-<!--------------------------------------------------------------------------------------->
+<!--Kuhar-Barmen------------------------------------------------------------------------------------->
     <router-link v-if="this.position == 'chef' || this.position == 'barman'" v-bind:to="'/orders/' + 0">
       <div class="opcija slika" style="background-image: url('/food.jpg')">
         <div class="krug">Orders</div>
@@ -19,7 +19,39 @@
         <div class="krug">Finished</div>
       </div>
     </router-link>
-<!--------------------------------------------------------------------------------------->
+
+<!--Menadzer------------------------------------------------------------------------------------->
+    <router-link v-if="this.position == 'manager'" to="/statistics">
+      <div class="opcija slika" style="background-image: url('/food.jpg')">
+        <div class="krug">Statistics</div>
+      </div> 
+    </router-link>
+
+    <router-link v-if="this.position == 'manager'" to="/order_history">
+      <div class="opcija slika" style="background-image: url('/food.jpg'); font-size: 35px">
+        <div class="krug">Orders history</div>
+      </div> 
+    </router-link>
+
+    <router-link v-if="this.position == 'manager'" to="/employes">
+      <div class="opcija slika" style="background-image: url('/food.jpg')">
+        <div class="krug">Employes</div>
+      </div> 
+    </router-link>
+
+    <router-link v-if="this.position == 'manager'" to="/products">
+      <div class="opcija slika" style="background-image: url('/food.jpg')">
+        <div class="krug">Products</div>
+      </div> 
+    </router-link>
+
+    <router-link v-if="this.position == 'manager'" to="/ingrediants">
+      <div class="opcija slika" style="background-image: url('/food.jpg')">
+        <div class="krug">Ingrediants</div>
+      </div> 
+    </router-link>  
+
+<!--Musterija-Konobar------------------------------------------------------------------------------------->
     <router-link v-if="this.position == 'waiter'" to="/calls">
       <div class="opcija slika" style="background-image: url('/call.jpg')">
         <div class="krug">Calls</div>
@@ -61,8 +93,3 @@
     },
   }
 </script>
-<style >
-
-</style>
-
-

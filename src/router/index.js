@@ -68,18 +68,6 @@ const routes = [
     path: '/most_ordered',
     name: 'most_ordered',
     component: () => import('../views/most_ordered.vue'),
-    children:[
-      {
-        path: '',
-        name: 'most_ordered_food',
-        component: () => import('../views/most_ordered_food.vue')
-      },
-      {
-        path: '/most_ordered_drinks',
-        name: 'most_ordered_drinks',
-        component: () => import('../views/most_ordered_drinks.vue')
-      }
-    ]
   },
   /*-----------------------------------------------------*/
   {
@@ -117,12 +105,37 @@ const routes = [
     name: 'order_info',
     component: () => import('../views/order_info.vue')
   },
+  /*-----------------------------------------------------*/
+  {
+    path: '/employes',
+    name: 'employes',
+    component: () => import('../views/employes.vue')
+  },
+  {
+    path: '/products',
+    name: 'products',
+    component: () => import('../views/products.vue')
+  },
+  {
+    path: '/ingrediants',
+    name: 'ingrediants',
+    component: () => import('../views/ingrediants.vue')
+  },
+  {
+    path: '/add_product',
+    name: 'add_product',
+    component: () => import('../views/add_product.vue')
+  },  
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  //Resetira scroll position da pri otvaranju novog view-a uvjek pocinjemo od vrha
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })
 
 export default router

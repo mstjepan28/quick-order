@@ -1,16 +1,11 @@
 <template>
-    <div class="most_ordered">
+    <div class="products">
         <div class="top">
             <div class="container">
 
                 <div class="row"> 
-
                     <div class="col">
                         <div class="krug stroke"></div>
-                    </div>
-
-                    <div class="col stroke">
-                        <h3>Most ordered</h3>
                     </div>
                 </div>
 
@@ -31,6 +26,9 @@
             <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
         </div>
 
+        <div class="bottom_buttons">
+            <router-link to="/add_product" class="call call_only stroke">Add new</router-link>
+        </div>
     </div>
 </template>
 
@@ -55,13 +53,7 @@
         },
         computed:{
             filtered_cards(){
-                function compare(a, b){
-                    return b.times_ordered - a.times_ordered;
-                }
-
-                let f_cards = this.store.cards.filter(card => card.type == this.show);
-
-                return f_cards.sort(compare);
+                return this.store.cards.filter(card => card.type == this.show);
             }
         },
         components: {
