@@ -1,83 +1,126 @@
+@import url('https://fonts.googleapis.com/css?family=Asap:400,700i&display=swap');
+*{
+  font-family: 'Asap', sans-serif;
+  font-weight: bold;
+  font-style: italic;
+}
+button:focus{
+  outline: 0;
+}
+i{
+  font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f007";
+  font-weight: normal;
+  font-style: normal;
+}
+hr {
+  height: 2px;
+  border-top: 2px rgba(245, 166, 35, 0.7) solid;
+}
+/*-----------------------------------------------------*/
+.stroke{
+  text-shadow: -1px 0 rgba(245, 166, 35, 0.7), 0 1px rgba(245, 166, 35, 0.7), 1px 0 rgba(245, 166, 35, 0.7), 0 -1px rgba(245, 166, 35, 0.7);
+}
+.underline{
+  margin: 10px 0 25px 0;
+  border-bottom: 3px solid rgba(245, 166, 35, 0.7);
+}
+.main{
+  margin: 25px 5% 0 5%;
+  text-align: left;
+}
+/*-----------------------------------------------------*/
+body{
+  background: #2d2d2d;
+  color: white;
+}
 a{
-    color: white;
-  }
-  a:hover{
-    color:lightgray;
-  }
-  .krug{
-    width: 225px;
-    height: 225px;
+  color: white;
+}
+a:hover{
+  color: white;
+  text-decoration: none;
+}
+.krug{
+  width: 225px;
+  height: 225px;
 
-    display: inline-block;
-    margin: 10px 0 10px 0;
-    line-height: 225px;
+  display: inline-block;
+  margin: 10px 0 10px 0;
+  line-height: 225px;
 
-    border-radius: 1000px;
-    background: rgba(245, 166, 35, 0.7);
-  }
-  .opcija{
-    width: 100%;
-    height: 250px;
+  border-radius: 1000px;
+  border: 3px rgba(245, 166, 35, 0.7) solid; 
 
-    margin: 2px 0 2px 0;
-    text-align: center;
-    overflow: hidden; 
+  background-size: cover;
+  background: rgba(245, 166, 35, 0.7);
+}
+.opcija{
+  width: 100%;
+  height: 250px;
 
-    font-size: 40px;
-    border-top: 1px rgba(245, 166, 35, 0.7) solid; 
-    border-bottom: 1px rgba(245, 166, 35, 0.7) solid; 
-  }
-  .slika_1{
-    background-image: url("/food.jpg");
-    background-size: cover;
-    width: 100%;
-    height: 100%;
-  }
-  .slika_2{
-    background-image: url("/drinks.jpg");
-    background-size: cover;
-    width: 100%;
-    height: 100%;
-  }
-  .slika_3{
-    background-image: url("/my_order.jpg");
-    background-size: cover;
-    width: 100%;
-    height: 100%;
-  }
-  .slika_4{
-    background-image: url("/most_ordered.png");
-    background-size: cover;
-    width: 100%;
-    height: 100%;
+  margin: 2px 0 2px 0;
+  text-align: center;
+  overflow: hidden; 
 
-    margin-bottom: 75px;
-  }
-  .slika_4 > div{
-    font-size: 35px;
-  }
-  .order{
-    width: 50%;
-    height: 75px;
+  font-size: 40px;
+  border-top: 1px rgba(245, 166, 35, 0.7) solid; 
+  border-bottom: 1px rgba(245, 166, 35, 0.7) solid; 
+}
+.slika{
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+}
+.top_title{
+  position: relative;
+  top: -50px;
 
-    top: 90%;
-    position: fixed;
+  font-size: 40px;
+  text-decoration: underline;
 
-    font-size: 35px;
-    line-height: 75px;
+  background: rgba(245, 166, 35, 0.7);
+}
+/*-----------------------------------------------------*/
+.bottom_buttons{
+  height: 75px;
+  text-align: left;
+}
+.order{
+  width: 50%; 
+  top: 90%;
+  position: fixed;
 
-    background: rgba(187, 0, 0, 0.8);
-  }
-  .call{
-    width: 50%;
-    height: 75px;
+  display: inline-block;
 
-    top: 90%;
-    position: fixed;
-    margin-left: 50%;
+  font-size: 35px;
+  line-height: 75px;
 
-    font-size: 35px;
-    line-height: 75px;
+  color: white;
+  border: none;
+  background: rgba(187, 0, 0, 0.8);
+}
+.order_only{
+  width: 100%;
+  text-align: center;
+}
+.call_only{
+  width: 100% !important;
+  margin-left: 0% !important;
+  text-align: center;
+}
+.call{
+  width: 50%;
+  top: 90%;
+  position: fixed;
 
-    background: rgba(25, 187, 0, 0.8);
-  }
+  display: inline-block;
+  margin-left: 50%;
+
+  font-size: 35px;
+  line-height: 75px;
+
+  color: white;
+  border: none;
+  background: rgba(25, 187, 0, 0.8);
+}
+/*-----------------------------------------------------*/

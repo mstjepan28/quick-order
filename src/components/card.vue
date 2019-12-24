@@ -1,48 +1,60 @@
 <template>
-    <div class="container">
+    <div class="container mt-1">
         <div class="row">
-            <div class="col-2">
-                <i class="fas fa-chevron-up" v-on:click="info.counter += 1"></i>
+            <div v-if="this.position == 'waiter' || this.position == 'Table'" class="col-2" style="text-align:center">
+                <i class="fas fa-chevron-up" v-on:click="info.counter = increase(info.counter)"></i>
                 <div>{{info.counter}}</div> 
                 <i class="fas fa-chevron-down" v-on:click="info.counter = decrease(info.counter)"></i>
             </div>
 
-            <div class="col-3 prod_img" :style="{ backgroundImage: `url(${info.url})`}" >
+            <div v-else class="col-2" style="text-align:center">
+                <div class="counter">{{info.counter}}</div> 
             </div>
 
+            <router-link v-bind:to="'/food_info/' + info.id" class="col-3 prod_img" :style="{ backgroundImage: `url(${info.url})`}" ></router-link>
+
             <div class="col-7 details">
-                <h6>{{info.title}}</h6>
+                <h6 style="margin: 8px 0 0 0">{{info.title}}</h6>
                 <hr/>
-                {{info.description}}
+                <h6>{{"Times ordered: " + info.times_ordered}}</h6>
+                
             </div>
+            
         </div>
     </div> 
 </template>
 
 <script>
+    import store from '@/store.js'
 
     export default {
         props: ['info'],
+        data(){
+            return store;
+        },
         methods:{
-            decrease: function(counter){
+            increase(counter){
+                if(counter < 20){
+                    counter += 1;
+                    store.cards.filter(card => card.id == this.info.id).counter = counter;
+                }
+                return counter
+            },
+            decrease(counter){
                 if(counter > 0){
                     counter -= 1;
+                    store.cards.filter(card => card.id == this.info.id).counter = counter;
                 }
                 return counter
             }
         }
     }
     
-    
 </script>
 
 <style scoped>
     .container{
         height: 75px;
-        width: 90%;
-
-        display: inline-block;
-        margin-top: 20px;
         
         border-radius: 10px;
         border: 2px rgba(245, 166, 35, 0.7) solid;
@@ -63,7 +75,6 @@
         text-align: left;
         font-size: 7px;
     }
-
     hr {
         display: block;
         height: 1px;
@@ -71,5 +82,15 @@
         border-top: 1px rgba(245, 166, 35, 0.7) solid;
         margin: 1em 0;
         padding: 0;
+    }
+    .counter{
+        height: 75px;
+        line-height: 75px;
+
+        font-size: 30px;
+    }
+
+    router-link{
+        background: blue;
     }
 </style>

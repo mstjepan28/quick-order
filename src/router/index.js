@@ -1,19 +1,24 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import login from '../views/login.vue'
 
 Vue.use(VueRouter)
+
 
 const routes = [
   /*-----------------------------------------------------*/
   {
-    path: '/',
+    path: '/login',
     name: 'login',
-    component: login
+    component: () => import('../views/login.vue')
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: () => import('../views/signup.vue')
   },
   /*-----------------------------------------------------*/
   {
-    path: '/main_menu',
+    path: '/',
     name: 'main_menu',
     component: () => import('../views/main_menu.vue')
   },
@@ -24,24 +29,14 @@ const routes = [
     component: () => import('../views/food.vue'),
     children:[
       {
-        path: '/',
+        path: '',
         name: 'food_options',
         component: () => import('../views/food_options.vue')
       },
       {
-        path: '/appetizer',
-        name: 'appetizer',
-        component: () => import('../views/appetizer.vue'),
-      },
-      {
-        path: '/m_course',
-        name: 'm_course',
-        component: () => import('../views/m_course.vue'),
-      },
-      {
-        path: '/dessert',
-        name: 'dessert',
-        component: () => import('../views/dessert.vue'),
+        path: '/food_selection/:i',
+        name: 'food_selection',
+        component: () => import('../views/food_selection.vue')
       }
     ]
   },
@@ -52,14 +47,14 @@ const routes = [
     component: () => import('../views/drinks.vue'),
     children:[
       {
-        path: '/',
+        path: '',
         name: 'drinks_options',
         component: () => import('../views/drinks_options.vue')
       },
       {
-        path: '/soda',
-        name: 'soda',
-        component: () => import('../views/soda.vue')
+        path: '/drinks_selection/:i',
+        name: 'drinks_selection',
+        component: () => import('../views/drinks_selection.vue')
       },
     ]
   },
@@ -73,18 +68,6 @@ const routes = [
     path: '/most_ordered',
     name: 'most_ordered',
     component: () => import('../views/most_ordered.vue'),
-    children:[
-      {
-        path: '/',
-        name: 'most_ordered_food',
-        component: () => import('../views/most_ordered_food.vue')
-      },
-      {
-        path: '/most_ordered_drinks',
-        name: 'most_ordered_drinks',
-        component: () => import('../views/most_ordered_drinks.vue')
-      }
-    ]
   },
   /*-----------------------------------------------------*/
   {
@@ -98,14 +81,61 @@ const routes = [
     name: 'terms_conditions',
     component: () => import('../views/terms_conditions.vue')
   },
-
-
+  /*-----------------------------------------------------*/
+  {
+    path: '/food_info/:id',
+    name: 'food_info',
+    component: () => import('../views/food_info.vue')
+  },
+  /*-----------------------------------------------------*/
+  {
+    path: '/calls',
+    name: 'calls',
+    component: () => import('../views/calls.vue')
+  },
+  /*-----------------------------------------------------*/
+  {
+    path: '/orders/:i',
+    name: 'orders',
+    component: () => import('../views/orders.vue'),
+  },
+  /*-----------------------------------------------------*/
+  {
+    path: '/order_info/:id',
+    name: 'order_info',
+    component: () => import('../views/order_info.vue')
+  },
+  /*-----------------------------------------------------*/
+  {
+    path: '/employes',
+    name: 'employes',
+    component: () => import('../views/employes.vue')
+  },
+  {
+    path: '/products',
+    name: 'products',
+    component: () => import('../views/products.vue')
+  },
+  {
+    path: '/ingrediants',
+    name: 'ingrediants',
+    component: () => import('../views/ingrediants.vue')
+  },
+  {
+    path: '/add_product',
+    name: 'add_product',
+    component: () => import('../views/add_product.vue')
+  },  
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  //Resetira scroll position da pri otvaranju novog view-a uvjek pocinjemo od vrha
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })
 
 export default router
