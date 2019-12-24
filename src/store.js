@@ -5,6 +5,7 @@ export default {
     userEmail: 'your_email',
     userId: 'your_id',
     position: 'your_position',
+    
 
     food_options: ['Appetizer', 'Main course', 'Dessert'],
     drink_options: ['Soda', 'Juice', 'Other', 'Beer', 'Wine', 'Liquors'],
@@ -44,4 +45,8 @@ export default {
       let today = new Date();
       return today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(); //https://tecadmin.net/get-current-date-time-javascript/
     },
+
+    //podaci za funkcionalnosti managera
+    imageData: null,
+     
 }

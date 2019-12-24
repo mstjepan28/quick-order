@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Croppa from 'vue-croppa'
 
-Vue.use(VueRouter)
 
+Vue.use(VueRouter);
+
+Vue.use(Croppa);
 
 const routes = [
   /*-----------------------------------------------------*/
