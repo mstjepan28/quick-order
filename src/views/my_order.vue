@@ -47,6 +47,7 @@
         </div>
 
         <div class="main">
+            <div><h3 class="underline stroke">Total price: {{this.price}}$</h3></div>
             <div class="ordered">
                 <h3 class="underline stroke">Selected items:</h3>
                 <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in ordered" />
@@ -89,7 +90,7 @@
     export default {
         data(){
             return{
-                count: 0,
+                price: 0,
                 note: '',
                 store,
             }
@@ -97,52 +98,62 @@
         computed:{
             ordered(){
                 store.order.products = store.cards.filter(card => card.counter > 0);
+                
+                this.price = 0;
+                for(let i in store.order.products){
+                    this.price += ( parseInt(store.order.products[i].counter) * parseInt(store.order.products[i].price));
+                }
+
                 return store.order.products;
             },
         },
         methods:{
             send_order(){
                 let products = store.order.products;
+                let price;
                 let order_food = [];
                 let order_drinks = [];
 
                 for(let i = 0; i < products.length; i++){
-                    if(products[i].type == 'food')
+                    if(products[i].type == 'Food')
                         order_food.push(products[i]);
                     else
                         order_drinks.push(products[i]);
                 }
 
                 if(products.length >= 1){
-                    //Narudzbe smo podijelili u dva collectiona da ih se moze odvojeno slati konobaru kada se zavrse
-                    //Spremanje narudzbe hrane koja se salje kuharu ako posotji hrana za pohranit
-                    //selected_by - oznacava kuhara/barmena koji je odabrao narudzbu za izvrsavanje, samo on ce imati mogucnost oznaciti tu narudzbu kao zavrsenu
-                    if(order_food.length >= 1){
-                        db.collection("orders_food").add({
-                            table: store.userEmail, 
-                            order_state: 'Available',
-                            call_state: 'Available',
-                            note: this.note,
-                            date: store.current_date(),
-                            time: store.current_time(),
-                            order: order_food,
-                            selected_by: '' 
-                        });                        
-                    }
-                    //Spremanje narudzbe pica koja se salje barmenu ako postoji pice za pohranit
-                    if(order_drinks.length >= 1){
-                        db.collection("orders_drinks").add({
-                            table: store.userEmail, 
-                            order_state: 'Available',
-                            call_state: 'Available',
-                            note: this.note,
-                            date: store.current_date(),
-                            time: store.current_time(),
-                            order: order_drinks,
-                            selected_by: '' 
+                    db.collection("orders").add({
+                        price: this.price,
+                        date: store.current_date(),
+                        time: store.current_time(),
+                    }).then(info =>{
+                        //Narudzbe smo podijelili u dva collectiona da ih se moze odvojeno slati konobaru kada se zavrse
+                        //Spremanje narudzbe hrane koja se salje kuharu ako posotji hrana za pohranit
+                        //selected_by - oznacava kuhara/barmena koji je odabrao narudzbu za izvrsavanje, samo on ce imati mogucnost oznaciti tu narudzbu kao zavrsenu
+                        if(order_food.length >= 1){
+                            db.collection("orders").doc(info.id).collection("orders_food").add({
+                                table: store.userEmail, 
+                                order_state: 'Available',
+                                call_state: 'Available',
+                                note: this.note,
+                                order: order_food,
+                                selected_by: '' 
+                            });                        
+                        }
+                        //Spremanje narudzbe pica koja se salje barmenu ako postoji pice za pohranit
+                        if(order_drinks.length >= 1){
+                            db.collection("orders").doc(info.id).collection("orders_drinks").add({
+                                table: store.userEmail, 
+                                order_state: 'Available',
+                                call_state: 'Available',
+                                note: this.note,
+                                order: order_drinks,
+                                selected_by: '' 
 
-                        });                          
-                    }
+                            });                          
+                        }                        
+                    })
+
                   
                     //Update 'times_ordered' svakog proizvoda koji se nalazi u store.order.products
                     //Isprazni 'My Order' tako da se vrijednost 'counter'svakog proizvoda postavi na 0 i na kraju prebrisi 'procucts' polje

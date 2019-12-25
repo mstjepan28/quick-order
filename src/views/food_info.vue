@@ -150,16 +150,19 @@
                 <div class="main">
                     <div class="info_box stroke" style="text-align: center">
                         <select v-model="food_info.type" style="margin-right: 20px">
+                            <option disabled value="">Type</option>
                             <option>Food</option>
                             <option>Drinks</option>
                         </select>
 
                         <select v-if="food_info.type == 'Food'" v-model="food_info.category">
+                            <option disabled value="">Category</option>
                             <option>Appetizer</option>
                             <option>Main course</option>
                             <option>Dessert</option>
                         </select>
                         <select v-else v-model="food_info.category">
+                            <option disabled value="">Category</option>
                             <option>Soda</option>
                             <option>Juice</option>
                             <option>Other</option>
@@ -256,11 +259,11 @@
             update_product(){
                 db.collection("products").doc(this.food_info.id).update({
                     title: this.food_info.title,
-                    /*
                     price: this.food_info.price,
                     url: this.food_info.url,
 
                     category: this.food_info.category,
+                    type: this.food_info.type,
 
                     ingredients: this.food_info.ingredients,
                     description: this.food_info.description,
@@ -273,9 +276,13 @@
                     vitamin_c: this.food_info.vitamin_c,
                     calcium: this.food_info.calcium,
                     zinc: this.food_info.zinc,
-                    */
+                    
                 });
-                this.store.cards.filter(card => card.id == this.food_info.id)[0] = this.food_info;                  
+        
+                //Polje cards filtriraj na nacin da iz njega izbacis objekt koji ima isti Id kao food_info
+                //Ovo radimo jer ce se s baze pri update-u podataka ponovno povuci jelo s tim Id-om
+                //Sto bi dalje uzrokovalo duplim elementima u nasem izborniku
+                this.store.cards = this.store.cards.filter(card => card.id != this.food_info.id);
             }
         },
         mounted(){

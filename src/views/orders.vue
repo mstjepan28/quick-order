@@ -112,12 +112,6 @@
     .main{
         text-align: center;
     }
-    .title{
-        margin: 20px 0 20px 0;
-
-        font-size: 30px;
-        text-decoration: underline;
-    }
     .title > div{
         display: inline-block;
     }

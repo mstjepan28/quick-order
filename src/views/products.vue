@@ -39,16 +39,16 @@
     export default {
         data(){
             return{
-                show: 'food',
+                show: 'Food',
                 store
             }
         },
         methods:{
             change_show(){
-                if(this.show == 'food')
-                    this.show = 'drinks'
+                if(this.show == 'Food')
+                    this.show = 'Drinks'
                 else 
-                    this.show = 'food'
+                    this.show = 'Food'
             }
         },
         computed:{

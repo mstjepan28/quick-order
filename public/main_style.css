@@ -28,6 +28,12 @@ hr {
   margin: 25px 5% 0 5%;
   text-align: left;
 }
+.title{
+  margin: 0px 0 20px 0;
+
+  font-size: 30px;
+  text-decoration: underline;
+}
 /*-----------------------------------------------------*/
 body{
   background: #2d2d2d;

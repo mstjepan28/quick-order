@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <!----------------------------------------------------->
+    <!--Navbar--------------------------------------------------->
     <nav v-if="this.$route.name !== 'login'" class="navbar navbar-expand-lg navbar-dark bg-dark">
      
       <div v-if="this.$route.name !== 'main_menu'" v-on:click="go_back" class="back_button">
@@ -199,17 +199,31 @@
       //Dohvacanje proizvoda
       db.collection("products").orderBy("title").limit(30).onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
-            if (change.type === "added"){
+            if (change.type === "added" ||change.type === 'modified'){
               const data = change.doc.data()
               this.cards.unshift({
                 id: change.doc.id,
+                
                 title: data.title,
-                description: data.description, 
+                price: data.price,
                 url: data.url,
-                type: data.type,
+                times_ordered: data.times_ordered,
+                counter: 0,
+
                 category: data.category,
-                counter: data.counter,
-                times_ordered: data.times_ordered                
+                type: data.type,
+
+                ingredients: data.ingredients,
+                description: data.description, 
+
+                energy_value: data.energy_value,
+                carbohydrates: data.carbohydrates,
+                protein: data.protein,
+                fat: data.fat,
+                vitamin_a: data.vitamin_a,
+                vitamin_c: data.vitamin_c,
+                calcium: data.calcium,
+                zinc: data.zinc,           
               })
             }
         });

@@ -14,7 +14,7 @@
                     </div>
                 </div>
 
-                <div class="row food_drinks stroke">
+                <div class="row Food_Drinks stroke">
                     <div class="col">
                         <div v-on:click="change_show">Food</div>
                     </div>
@@ -41,16 +41,16 @@
     export default {
         data(){
             return{
-                show: 'food',
+                show: 'Food',
                 store
             }
         },
         methods:{
             change_show(){
-                if(this.show == 'food')
-                    this.show = 'drinks'
+                if(this.show == 'Food')
+                    this.show = 'Drinks'
                 else 
-                    this.show = 'food'
+                    this.show = 'Food'
             }
         },
         computed:{
@@ -77,7 +77,7 @@
     .top{
         height: 250px;
         width: 100%;
-        background-image: url("/food.jpg");
+        background-image: url("/Food.jpg");
         background-size: cover;
         margin-bottom: 10px;
     }
@@ -100,7 +100,7 @@
         text-decoration: none;
         color: white;
     }
-    .food_drinks{
+    .Food_Drinks{
         width: 100%;
 
         position: relative;

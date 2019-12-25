@@ -43,14 +43,15 @@
             return{
                 store,
                 i: 0,
+                show_who: "Customer",
                 call_state: ['Available', 'Finished'],
             }
         },
         computed: {
             filtered_cards(){
-                if(this.store.show_who == "Customer")
+                if(this.show_who == "Customer")
                     return store.call_cards.filter(card => card.call_state == this.call_state[this.i])
-                else if(this.store.show_who == "Staff")
+                else if(this.show_who == "Staff")
                     return store.call_cards_staff.filter(card => card.call_state == this.call_state[this.i] && card.order_state == 'Finished')
             },
         },
@@ -64,7 +65,7 @@
                 if(this.i < 0) this.i = this.call_state.length - 1;
             },
             show_calls(show_who){
-                this.store.show_who = show_who;
+                this.show_who = show_who;
             },
         },
         mounted(){
@@ -86,7 +87,7 @@
                 });
                 db.collection("orders_food").orderBy("time").limit(30).onSnapshot(snapshot => {
                     snapshot.docChanges().forEach(change => {
-                        if(change.type === "added" || change.type == 'modified'){
+                        if(change.type === "added" || change.type === 'modified'){
                             const data = change.doc.data()
                             this.store.call_cards_staff.push({
                                 id: change.doc.id,
@@ -103,7 +104,7 @@
                 });
                 db.collection("orders_drinks").orderBy("time").limit(30).onSnapshot(snapshot => {
                     snapshot.docChanges().forEach(change => {
-                        if(change.type === "added" || change.type == 'modified'){
+                        if(change.type === "added" || change.type === 'modified'){
                             const data = change.doc.data()
                             this.store.call_cards_staff.push({
                                 id: change.doc.id,
@@ -179,12 +180,6 @@
 
     .main{
         text-align: center;
-    }
-    .title{
-        margin: 20px 0 20px 0;
-
-        font-size: 30px;
-        text-decoration: underline;
     }
     .title > div{
         display: inline-block;

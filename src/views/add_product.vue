@@ -6,12 +6,18 @@
                 
                 <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
                 
-                <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
+                <div v-if="this.is_filled == true" class="modal-body" style="font-size: 30px; padding-bottom: 0">
                     Product saved
                     <hr/>
                     <div data-dismiss="modal">Ok</div>
                 </div>
-                
+
+                <div v-else class="modal-body" style="font-size: 30px; padding-bottom: 0">
+                    Missing information
+                    <hr/>
+                    <div data-dismiss="modal">Ok</div>
+                </div>
+
                 </div>
 
             </div>
@@ -32,7 +38,7 @@
                 </div>
 
                 <div class="modal-footer" style="text-align: center; width: 100%; border-style:none; padding-top:0">
-                    <!-- <div v-on:click="add_product" style="display: inline-block; font-size: 40px; width: 50%; color: green" data-dismiss="modal" data-toggle="modal" data-target="#add_product_confirmation"><i class="fas fa-check"></i></div> -->
+                    <div v-on:click="add_product" style="display: inline-block; font-size: 40px; width: 50%; color: green" data-dismiss="modal" data-toggle="modal" data-target="#add_product_confirmation"><i class="fas fa-check"></i></div>
                     <div style="display: inline-block; font-size: 40px; width: 50%; color: red"  data-dismiss="modal"><i class="fas fa-times"></i></div>  
                  </div>
                 
@@ -41,17 +47,23 @@
             </div>
         </div>
 
-        <form @submit.prevent="addProduct">
+        <form>
             <div class="top" style="height: 200px;">
                 <div class="container" style="background-image: url('/food.jpg')">
 
                     <div class="row">
                         <div class="col">
-                                <div class="krug stroke" :style="{ backgroundImage: `url(${this.url})`} ">
-                                    <croppa :width="200" :height="200" v-model="imageData" class="krug stroke" placeholder="Upload image" placeholder-color="#000" :placeholder-font-size="16" style="top:-13px; left:-3px;">
-                                        <!--<div class="krug stroke" style="position:relative; top:-300px; color:blue;">adasd</div> -->
-                                    </croppa>
-                                </div>                          
+                            <croppa v-model="imageData"
+                                    :width="150"
+                                    :height="150"
+                                    placeholder="Upload image"
+                                    placeholder-color="white"
+                                    :placeholder-font-size="20"
+                                    canvas-color="transparent"
+                                    :show-remove-button="true"
+                                    remove-button-color="rgba(245, 166, 35, 0.7)"
+                            >
+                            </croppa>                      
                         </div>
 
                         <div class="col stroke" >
@@ -143,7 +155,7 @@
             </div>
 
             <div class="bottom_buttons">
-                <button type="submit" class="order order_only stroke" data-toggle="modal" >Save changes</button> <!-- data-target="add_product" -->
+                <button type=button class="order order_only stroke" data-toggle="modal" data-target="#add_product">Save changes</button>
             </div>
         </form>
     </div>
@@ -153,14 +165,11 @@
     import store from '@/store.js'
     import 'vue-croppa/dist/vue-croppa.css'
     
-
     export default {
         data(){
             return{
                 title: '',
-                
                 price: '',
-                url: '',
 
                 category: '',
                 type: '',
@@ -181,85 +190,67 @@
             }
         },
         methods:{
-            addProduct(){
-                this.imageData.generateBlob(imageData => {  //zasto ne radi this.?
-                if (imageData!= null) { //dodati alert ako nema slika a pokusavamo uploadati
-                    let imageName = this.userEmail + "/" + Date.now + ".png";   // jpeg za bolju optimizaciju
-                    var uploadTask = storage.ref(imageName).put(imageData);
-
-                // Listen for state changes, errors, and completion of the upload.
-                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-                    function(snapshot) {
-                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
-                    switch (snapshot.state) {
-                        case firebase.storage.TaskState.PAUSED: // or 'paused'
-                        console.log('Upload is paused');
-                        break;
-                        case firebase.storage.TaskState.RUNNING: // or 'running'
-                        console.log('Upload is running');
-                        break;
-                    }
-                    }, function(error) {
-
-                    // A full list of error codes is available at
-                    // https://firebase.google.com/docs/storage/web/handle-errors
-                    switch (error.code) {
-                    case 'storage/unauthorized':
-                        // User doesn't have permission to access the object
-                        break;
-
-                    case 'storage/canceled':
-                        // User canceled the upload
-                        break;
-
+            is_filled(){
+                if(this.title != '' && this.price != '' && this.category != '' && this.type != '' && this.imageData.img != null){
+                    return true;
+                }
+                else{
+                    return false;
+                }
                     
+            },
+            add_product(){
+                //Spremamo this u varijablu da tom kontekstu mozemo pristupati u daljnjem radu
+                var product_data = this;
+                this.imageData.generateBlob(imageData => {  //zasto ne radi this.?
+                    if(this.is_filled()){ //dodati alert ako nema slika a pokusavamo uploadati
+                        let imageName = this.title + ".png";   // jpeg za bolju optimizaciju
+                        var uploadTask = storage.ref(imageName).put(imageData);
 
-                    case 'storage/unknown':
-                        // Unknown error occurred, inspect error.serverResponse
-                        break;
-                    }
-                }, function() {
-                    // Upload completed successfully, now we can get the download URL
-                    uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                    console.log('File available at', downloadURL);
-                    db.collection("products")
-                                
-                                    .add({
-                                    title: this.title,                  
-                                    price: this.price,
-                                    url: downloadURL, 
-                                    postedBy: this.userEmail,
+                        // Listen for state changes, errors, and completion of the upload.
+                        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null,
+                            function(error){
+                                console.log(erros)
+                            },
+                            function(){
+                                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                                    db.collection("products").add({
+                                        title: product_data.title,                  
+                                        price: product_data.price,
+                                        url: downloadURL,
+                                        times_ordered: 0,
 
-                                    category: this.category,
+                                        category: product_data.category,
+                                        type: product_data.type,
 
-                                    ingredients: this.ingredients,
-                                    description: this.description,
+                                        ingredients: product_data.ingredients,
+                                        description: product_data.description,
 
-                                    energy_value: this.energy_value,
-                                    carbohydrates: this.carbohydrates,
-                                    protein: this.protein,
-                                    fat: this.fat,
-                                    vitamin_a: this.vitamin_a,
-                                    vitamin_c: this.vitamin_c,
-                                    calcium: this.calcium,
-                                    zinc: this.zinc
-
+                                        energy_value: product_data.energy_value,
+                                        carbohydrates: product_data.carbohydrates,
+                                        protein: product_data.protein,
+                                        fat: product_data.fat,
+                                        vitamin_a: product_data.vitamin_a,
+                                        vitamin_c: product_data.vitamin_c,
+                                        calcium: product_data.calcium,
+                                        zinc: product_data.zinc
                                     })
                                     .then(function(docRef) {
-                                    console.log("Document written with ID: ", docRef.id);
+                                        console.log("Document written with ID: ", docRef.id);
                                     })
                                     .catch(function(error) {
-                                    console.error("Error adding document: ", error);
+                                        console.error("Error adding document: ", error);
                                     });
-                                });
-                            });
+                                });  
                             }
-                            })
-            },
-            
-            
+
+                        );
+                      
+                    }
+                });
+                //Nakon dodavanja se vracamo na prosu stranicu
+                this.$router.go(-1);
+            },     
         },
         
     }
@@ -312,21 +303,18 @@
     }
     /*--------------------*/
     table {
-    border-collapse: collapse;
-    width: 100%;
+        border-collapse: collapse;
+        width: 100%;
     }
-
     td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
     }
-
     tr:nth-child(even) {
-    background-color: #404040;
+        background-color: #404040;
     }
     /*--------------------*/
-
     *:focus{
         outline: none;
     }
@@ -335,6 +323,7 @@
         width: 100%;
 
         padding-left: 5px;
+        font-size: 20px;
 
         color: white;
 
@@ -376,15 +365,17 @@
 
         background: red;
     }
-
+    /*--------------------*/
     .croppa-container {
-        background-color: transparent;
-        border: 2px solid grey;
-        border-radius: 50%;
-        display: inline-block;
         position: relative;
-    
- }
+        top: 25px;
+        
+        color: white;
 
-
+        border: 2px rgba(245, 166, 35, 0.7) solid;
+        background: #343434;
+    }
+    .croppa-container:hover {
+        opacity: 1;
+    }
 </style>

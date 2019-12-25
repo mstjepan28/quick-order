@@ -13,9 +13,6 @@ export default {
 
     data_fetched: false,
 
-    //Cije pozive treba prikazivati konobaru unutar calls
-    show_who: "Customer",
-
     cards:[
         
     ],
