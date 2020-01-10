@@ -124,7 +124,6 @@
         </ul>
 
         <span>
-          {{userEmail + "  -  " + position}}
           <a @click="logout" class="btn btn-info my-2 my-sm-0 mr-2" href="#">Logout</a>
         </span>
 
@@ -144,6 +143,7 @@
 
 <script>
   import store from '@/store.js'
+import { async } from 'q';
 
   export default {
     data () {
@@ -152,7 +152,6 @@
     methods: {
       logout() {
         this.$router.push({name:'login'})
-        document.location.reload(true)
         firebase.auth().signOut()
       },
       go_back(){
@@ -175,19 +174,23 @@
       }
     },
     mounted() {
+      const sleep = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+      }
+
       //Dohvacanje korisnika
       firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          const user_data = db.collection('users').doc(user.uid);
+        if(user){
+          async function get_position(){
+            let doc = await db.collection('users').doc(user.uid).get();
+            store.position = doc.data().position;
+          }
 
-          console.log("User is loged in " + user.email);
+          get_position();
           this.authenticated = true;
           this.userId = user.uid;
-          this.userEmail = user.email;
-          //Iz kolekcije user-a dohvaca se pozicija trenutnog user-a koja se sprema u store.js
-          user_data.get().then((doc) =>{
-            this.position = doc.data().position;
-          })  
+          this.userEmail = user.email; 
+          
           if(this.$route.name !== 'main_menu') this.$router.push({name:'main_menu'})
         }
         else{
@@ -196,6 +199,7 @@
           if(this.$route.name !== 'login') this.$router.push({name:'login'})
         }
       });
+
       //Dohvacanje proizvoda
       db.collection("products").orderBy("title").limit(30).onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
@@ -228,6 +232,53 @@
             }
         });
       });
+      if(store.position)
+      //Order za kuhara      
+      if(store.position == 'chef'){
+          console.log("food");
+          db.collection("orders").orderBy("time").limit(30).onSnapshot(snapshot => {
+              snapshot.docChanges().forEach(change => {
+                  console.log(123)
+                  if (change.type === "added"){
+                      const data = change.doc.data()
+                      if(data.food != null){
+                          store.order_cards.push({
+                              id: change.doc.id,
+                              price: data.price,
+                              date: data.date,
+                              time: data.time,
+                              note: data.note,
+                              food: data.food,
+                          })                                      
+                      }
+
+                  }
+              });
+          });                      
+      }
+
+      //Order za barmena
+      if(store.position == 'barman'){
+          console.log("drinks");
+          db.collection("orders").orderBy("time").limit(30).onSnapshot(snapshot => {
+              snapshot.docChanges().forEach(change => {
+                  if (change.type === "added"){
+                      const data = change.doc.data()
+                      if(data.drinks != null){
+                          store.order_cards.push({
+                              id: change.doc.id,
+                              price: data.price,
+                              date: data.date,
+                              time: data.time,
+                              note: data.note,
+                              drinks: data.drinks,
+                          })                                    
+                      }
+
+                  }
+              });
+          });
+      }
 
     }
     

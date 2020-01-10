@@ -110,6 +110,11 @@ const routes = [
   },
   /*-----------------------------------------------------*/
   {
+    path: '/statistics',
+    name: 'statistics',
+    component: () => import('../views/statistics.vue')
+  },
+  {
     path: '/employes',
     name: 'employes',
     component: () => import('../views/employes.vue')
@@ -128,7 +133,7 @@ const routes = [
     path: '/add_product',
     name: 'add_product',
     component: () => import('../views/add_product.vue')
-  },  
+  },
 ]
 
 const router = new VueRouter({

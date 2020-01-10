@@ -4,7 +4,7 @@ export default {
     //Podaci trenutnog korisnika
     userEmail: 'your_email',
     userId: 'your_id',
-    position: 'your_position',
+    position: 'chef',
     
 
     food_options: ['Appetizer', 'Main course', 'Dessert'],
@@ -13,22 +13,14 @@ export default {
 
     data_fetched: false,
 
-    cards:[
-        
-    ],
-    order:[
-      
-    ],
+    cards:[],
+    order:[],
     
-    call_cards:[
-        
-    ],
-    call_cards_staff:[
+    call_cards:[],
+    call_cards_staff:[],
+    order_cards:[],
 
-    ],
-    order_cards:[
-        
-    ],
+
     //Funkcije
     current_date(){
         let today = new Date();
@@ -45,5 +37,6 @@ export default {
 
     //podaci za funkcionalnosti managera
     imageData: null,
-     
+    statistics_price: [],
+    statistics_counter: [],
 }

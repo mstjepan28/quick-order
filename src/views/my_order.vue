@@ -92,7 +92,7 @@
             return{
                 price: 0,
                 note: '',
-                store,
+                store, 
             }
         },
         computed:{
@@ -109,52 +109,58 @@
         },
         methods:{
             send_order(){
-                let products = store.order.products;
-                let price;
-                let order_food = [];
-                let order_drinks = [];
+                if(store.order.products.length >= 1){
+                    let products = store.order.products;
+                    //Narudzbe smo podijelili u dva obijekta, ako ne postoji barem jedan proizvod tipa food/drink ne dodajemo nista na bazu
+                    //U suprotno, taj objekt spremamo na bazu zajedno sa narudzbom
+                    //
+                    //U zasebne objekte spremamo da bi se narudzba mogla pravilno prikazati kuharu i barmenu, tj. da vide samo svoj dio narudzbe za obavljanje
+                    //Unutar food/drinks takoder pohranjujemo podatke o narudzbi kao sto je vrijeme zavrsetka narudzbe
+                   
+                    let order_food = [];
+                    let order_drinks = [];
 
-                for(let i = 0; i < products.length; i++){
-                    if(products[i].type == 'Food')
-                        order_food.push(products[i]);
-                    else
-                        order_drinks.push(products[i]);
-                }
+                    for(let i = 0; i < products.length; i++){
+                        if(products[i].type == 'Food')
+                            order_food.push(products[i]);
+                        else
+                            order_drinks.push(products[i]);
+                    }
+                    
+                    let food = null;
+                    let drinks = null;
 
-                if(products.length >= 1){
+                    if(order_food.length >= 1){
+                        food = {
+                            selected_by: '',
+                            order_state: 'Available',
+                            call_state: 'Available',
+                            finished_at: '',
+                            delivered_at: '',
+                            order: order_food,
+                        };                        
+                    }
+                    if(order_drinks.length >= 1){
+                        drinks = {
+                            selected_by: '',
+                            order_state: 'Available',
+                            call_state: 'Available',
+                            finished_at: '',
+                            delivered_at: '',
+                            order: order_drinks,
+                        };                        
+                    }
+
                     db.collection("orders").add({
                         price: this.price,
                         date: store.current_date(),
                         time: store.current_time(),
-                    }).then(info =>{
-                        //Narudzbe smo podijelili u dva collectiona da ih se moze odvojeno slati konobaru kada se zavrse
-                        //Spremanje narudzbe hrane koja se salje kuharu ako posotji hrana za pohranit
-                        //selected_by - oznacava kuhara/barmena koji je odabrao narudzbu za izvrsavanje, samo on ce imati mogucnost oznaciti tu narudzbu kao zavrsenu
-                        if(order_food.length >= 1){
-                            db.collection("orders").doc(info.id).collection("orders_food").add({
-                                table: store.userEmail, 
-                                order_state: 'Available',
-                                call_state: 'Available',
-                                note: this.note,
-                                order: order_food,
-                                selected_by: '' 
-                            });                        
-                        }
-                        //Spremanje narudzbe pica koja se salje barmenu ako postoji pice za pohranit
-                        if(order_drinks.length >= 1){
-                            db.collection("orders").doc(info.id).collection("orders_drinks").add({
-                                table: store.userEmail, 
-                                order_state: 'Available',
-                                call_state: 'Available',
-                                note: this.note,
-                                order: order_drinks,
-                                selected_by: '' 
+                        note: this.note,
+                        table: store.userEmail,
+                        food: food,
+                        drinks: drinks
+                    });
 
-                            });                          
-                        }                        
-                    })
-
-                  
                     //Update 'times_ordered' svakog proizvoda koji se nalazi u store.order.products
                     //Isprazni 'My Order' tako da se vrijednost 'counter'svakog proizvoda postavi na 0 i na kraju prebrisi 'procucts' polje
                     for(let i = 0; i < products.length; i++){
@@ -167,8 +173,9 @@
                             times_ordered: current_card.times_ordered
                         }, { merge: true });                          
                     }
-                    products = [];
+                    products = [];                    
                 }
+
             },           
         },
         name: 'my_order',

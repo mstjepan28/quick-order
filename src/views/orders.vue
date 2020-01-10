@@ -43,56 +43,10 @@
         },
         computed:{
             filtered_cards(){
-                return this.store.order_cards.filter(card => card.order_state == this.order_state[this.i]);  
-            }
-        },
-        mounted(){
-            //data_fetched sprijecava da se podaci dvaput povuku, jer se to dogada iz nekog razloga
-            if(!this.store.data_fetched){
-                //Ako je prijavljen kuhar dohvati narudzbe za hranu
-                if(this.store.position == 'chef'){
-                    console.log("food");
-                    db.collection("orders_food").orderBy("time").limit(30).onSnapshot(snapshot => {
-                        snapshot.docChanges().forEach(change => {
-                            if (change.type === "added"){
-                                const data = change.doc.data()
-                                this.store.order_cards.push({
-                                    id: change.doc.id,
-                                    table: data.table,
-                                    order_state: data.order_state,
-                                    note: data.note,
-                                    date: data.date,
-                                    time: data.time,
-                                    order: data.order,
-                                    selected_by: data.selected_by
-                                })
-                            }
-                        });
-                    });                      
-                }
-                //U suprotnom, ako je prijavljen barmen dohvati narudzbe za pice
-                //else if jer kad se stranica refresha dok je 'order' otvoren position se resetira na resetira i izvodi se kod unutar else-a
-                else if(this.store.position == 'barman'){
-                    console.log("drinks");
-                    db.collection("orders_drinks").orderBy("time").limit(30).onSnapshot(snapshot => {
-                        snapshot.docChanges().forEach(change => {
-                            if (change.type === "added"){
-                                const data = change.doc.data()
-                                this.store.order_cards.push({
-                                    id: change.doc.id,
-                                    table: data.table,
-                                    order_state: data.order_state,
-                                    note: data.note,
-                                    date: data.date,
-                                    time: data.time,
-                                    order: data.order,
-                                    selected_by: data.selected_by
-                                })
-                            }
-                        });
-                    }); 
-                }
-                this.store.data_fetched = true;
+                if(this.store.position == 'chef')
+                    return this.store.order_cards.filter(card => card.food.order_state == this.order_state[this.i]);
+                else if(this.store.position == 'barman')
+                    return this.store.order_cards.filter(card => card.drinks.order_state == this.order_state[this.i]);
             }
         },
         components: {
