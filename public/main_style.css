@@ -16,6 +16,9 @@ hr {
   height: 2px;
   border-top: 2px rgba(245, 166, 35, 0.7) solid;
 }
+body::-webkit-scrollbar {
+  display: none;
+}
 /*-----------------------------------------------------*/
 .stroke{
   text-shadow: -1px 0 rgba(245, 166, 35, 0.7), 0 1px rgba(245, 166, 35, 0.7), 1px 0 rgba(245, 166, 35, 0.7), 0 -1px rgba(245, 166, 35, 0.7);

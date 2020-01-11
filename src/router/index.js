@@ -32,7 +32,7 @@ const routes = [
     component: () => import('../views/food.vue'),
     children:[
       {
-        path: '',
+        path: '/',
         name: 'food_options',
         component: () => import('../views/food_options.vue')
       },
@@ -50,7 +50,7 @@ const routes = [
     component: () => import('../views/drinks.vue'),
     children:[
       {
-        path: '',
+        path: '/',
         name: 'drinks_options',
         component: () => import('../views/drinks_options.vue')
       },

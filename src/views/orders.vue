@@ -43,6 +43,8 @@
         },
         computed:{
             filtered_cards(){
+                //Vrati one kartice ciji order state odgovara onom kojeg smo odabrali izmedu ['Available', 'Being prepared', 'Finished']
+                //Za barmena se vracaju samo pica dok se za kuhara vraca samo hrana
                 if(this.store.position == 'chef')
                     return this.store.order_cards.filter(card => card.food.order_state == this.order_state[this.i]);
                 else if(this.store.position == 'barman')

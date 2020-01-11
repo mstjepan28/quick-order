@@ -51,9 +51,9 @@
             Table #1
             <hr/>
             <div v-if="info.request != undefined">{{info.request}}</div>
-            <div v-else>Order</div>            
+            <div v-else>{{info.sent_by}}</div>            
             <hr/>
-            {{info.time + " " + info.date}}
+            {{info.time}}
         </div>
     </div>
 </template>
@@ -66,27 +66,27 @@
             mark_as_finished(){
                 this.info.call_state = 'Finished';
                 if(info.request != undefined){
-                    db.collection("waiter_calls").doc(this.info.id).set({
+                    db.collection("waiter_calls").doc(this.info.id).update({
                         call_state: 'Finished'
-                    }, { merge: true });                        
+                    });                           
                 }
                 else{
-                     db.collection("orders").doc(this.info.id).set({
+                     db.collection("staff_calls").doc(this.info.id).update({
                         call_state: 'Finished'
-                    }, { merge: true });                        
+                    });                             
                 }    
             },
             mark_as_available(){
                 this.info.call_state = 'Available';
                 if(info.request != undefined){
-                    db.collection("waiter_calls").doc(this.info.id).set({
+                    db.collection("waiter_calls").doc(this.info.id).update({
                         call_state: 'Available'
-                    }, { merge: true });                        
+                    });                        
                 }
                 else{
-                     db.collection("orders").doc(this.info.id).set({
+                     db.collection("staff_calls").doc(this.info.id).update({
                         call_state: 'Available'
-                    }, { merge: true });                        
+                    });                        
                 }                  
             }
         },

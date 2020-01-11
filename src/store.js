@@ -2,9 +2,9 @@ export default {
     authenticated: false,
 
     //Podaci trenutnog korisnika
-    userEmail: 'your_email',
     userId: 'your_id',
-    position: 'chef',
+    userEmail: 'your_email',
+    position: 'your_position',
     
 
     food_options: ['Appetizer', 'Main course', 'Dessert'],

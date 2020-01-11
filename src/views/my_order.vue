@@ -169,11 +169,12 @@
                         current_card.times_ordered = store.order.products[i].counter + store.order.products[i].times_ordered;
                         current_card.counter = 0;
 
-                        db.collection("products").doc(current_card.id).set({
+                        db.collection("products").doc(current_card.id).update({
                             times_ordered: current_card.times_ordered
-                        }, { merge: true });                          
+                        });                          
                     }
-                    products = [];                    
+                    products = [];
+                    this.note = '';                    
                 }
 
             },           

@@ -83,21 +83,22 @@
             <h3>Order for Table#1</h3>
         </div>
 
-        <div class="main">
+        <div v-if="order_info" class="main">
             <h3 class="underline stroke">Note</h3>
             <textarea class="note" disabled v-model="order_info.note"></textarea>
 
             <h3 class="underline stroke">Orders</h3>
-            <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.food.order" />
+            <FoodCard v-if="store.position == 'chef'" v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.food.order" />
+            <FoodCard v-if="store.position == 'barman'" v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.drinks.order" />
         </div>
 
-        <div v-if="store.position == 'chef'" class="bottom_buttons">
+        <div v-if="store.position == 'chef' && order_info" class="bottom_buttons">
             <!--Ako je selected_by u narudzbi jednak onom trenutnog korisnika(pohranjen u store.js) dopusti da se narudzba oznaci kao zavrsena-->
             <button v-if="order_info.food.order_state == 'Available'" type="button" class="accept_button stroke" data-toggle="modal" data-target="#accept_the_order">Accept this order</button>           
             <button v-if="order_info.food.order_state == 'Being prepared' && store.userId == order_info.food.selected_by" type="button" class="finish_button stroke" data-toggle="modal" data-target="#finish_the_order">Mark as finished</button>
         </div>
 
-        <div v-if="store.position == 'barmen'" class="bottom_buttons">
+        <div v-if="store.position == 'barman' && order_info" class="bottom_buttons">
             <button v-if="order_info.drinks.order_state == 'Available'" type="button" class="accept_button stroke" data-toggle="modal" data-target="#accept_the_order">Accept this order</button>
             <button v-if="order_info.drinks.order_state == 'Being prepared' && store.userId == order_info.drinks.selected_by" type="button" class="finish_button stroke" data-toggle="modal" data-target="#finish_the_order">Mark as finished</button>
         </div>
@@ -114,7 +115,7 @@
         data(){
             return{
                 id: this.$route.params.id,
-                order_info: {},
+                order_info: false,
                 store
             }
         },
@@ -127,45 +128,55 @@
             accept_order(){
                 //Update-amo lokalni objekt za narudzbu hrane/pica te ga spajamo sa onim na bazi 
                 if(this.store.position == 'chef'){
-                    order_info.food.order_state = 'Being prepared';
-                    order_info.food.selected_by = this.store.userId;
+                    this.order_info.food.order_state = 'Being prepared';
+                    this.order_info.food.selected_by = this.store.userId;
                     
-                    db.collection("orders").doc(order_info.id).update({
-                        food: order_info.food
+                    db.collection("orders").doc(this.order_info.id).update({
+                        food: this.order_info.food
                     });                                        
                 }
                 else{
-                    order_info.drinks.order_state = 'Being prepared';
-                    order_info.drinks.selected_by = this.store.userId;
+                    this.order_info.drinks.order_state = 'Being prepared';
+                    this.order_info.drinks.selected_by = this.store.userId;
 
-                    db.collection("orders").doc(order_info.id).update({
-                        drinks: order_info.drinks
+                    db.collection("orders").doc(this.order_info.id).update({
+                        drinks: this.order_info.drinks
                     });                              
                 }
 
             },
             finish_order(){
-                if(this.store.position == 'chef'){
-                    order_info.food.order_state = 'Finished';
-                    order_info.food.finished_at = store.current_date();
+                //Kada se narudzba zavrsi, na firebase-u i lokalno se update-a
+                //Sprema se u novi collection koji obavjestava konobara da je narudzba obradena
 
-                    db.collection("orders").doc(order_info.id).update({
-                        food: order_info.food
-                    });                       
+                if(this.store.position == 'chef'){
+                    this.order_info.food.order_state = 'Finished';
+                    this.order_info.food.finished_at = store.current_date();
+                    
+                    db.collection("orders").doc(this.order_info.id).update({
+                        food: this.order_info.food
+                    });                                        
                 }
                 else{
-                    order_info.drinks.order_state = 'Finished';
-                    order_info.drinks.finished_at = store.current_date();
-
-                    db.collection("orders").doc(order_info.id).update({
-                        drinks: order_info.drinks
-                    });                                 
-                }  
+                    this.order_info.drinks.order_state = 'Finished';
+                    this.order_info.drinks.finished_at = store.current_date();
+                    
+                    db.collection("orders").doc(this.order_info.id).update({
+                        drinks: this.order_info.drinks
+                    });                                        
+                }                                   
+                db.collection("staff_calls").add({
+                    table: "this.order_info.table",
+                    sent_by: this.store.position,
+                    call_state: 'Available',
+                    time: store.current_time(),
+                    date: store.current_date()
+                });                                             
+                 
             }
         },
         mounted(){
             //U order_info spremamo kartice iz order_cards(povukli smo ih iz baze u orders.vue)
-            console.log(this);
             this.order_info = store.order_cards.filter(card => card.id == this.id)[0];
         },
         name: 'order_info',

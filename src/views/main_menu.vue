@@ -43,13 +43,7 @@
       <div class="opcija slika" style="background-image: url('/food.jpg')">
         <div class="krug">Products</div>
       </div> 
-    </router-link>
-
-    <router-link v-if="this.position == 'manager'" to="/ingrediants">
-      <div class="opcija slika" style="background-image: url('/food.jpg')">
-        <div class="krug">Ingrediants</div>
-      </div> 
-    </router-link>  
+    </router-link> 
 
 <!--Musterija-Konobar------------------------------------------------------------------------------------->
     <router-link v-if="this.position == 'waiter'" to="/calls">

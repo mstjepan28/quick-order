@@ -6,18 +6,18 @@
                 
                 <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
                 
-                <div v-if="this.is_filled == true" class="modal-body" style="font-size: 30px; padding-bottom: 0">
+                <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
                     Product saved
                     <hr/>
                     <div data-dismiss="modal">Ok</div>
                 </div>
-
+                <!--
                 <div v-else class="modal-body" style="font-size: 30px; padding-bottom: 0">
                     Missing information
                     <hr/>
                     <div data-dismiss="modal">Ok</div>
                 </div>
-
+                -->
                 </div>
 
             </div>
@@ -249,7 +249,7 @@
                     }
                 });
                 //Nakon dodavanja se vracamo na prosu stranicu
-                this.$router.go(-1);
+                //this.$router.go(-1);
             },     
         },
         
