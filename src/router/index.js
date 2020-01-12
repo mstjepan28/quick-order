@@ -32,7 +32,7 @@ const routes = [
     component: () => import('../views/food.vue'),
     children:[
       {
-        path: '/',
+        path: '',
         name: 'food_options',
         component: () => import('../views/food_options.vue')
       },
@@ -50,7 +50,7 @@ const routes = [
     component: () => import('../views/drinks.vue'),
     children:[
       {
-        path: '/',
+        path: '',
         name: 'drinks_options',
         component: () => import('../views/drinks_options.vue')
       },
@@ -115,6 +115,11 @@ const routes = [
     component: () => import('../views/statistics.vue')
   },
   {
+    path: '/order_history',
+    name: 'order_history',
+    component: () => import('../views/order_history.vue')
+  },
+  {
     path: '/employes',
     name: 'employes',
     component: () => import('../views/employes.vue')
@@ -123,11 +128,6 @@ const routes = [
     path: '/products',
     name: 'products',
     component: () => import('../views/products.vue')
-  },
-  {
-    path: '/ingrediants',
-    name: 'ingrediants',
-    component: () => import('../views/ingrediants.vue')
   },
   {
     path: '/add_product',

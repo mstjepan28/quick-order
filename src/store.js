@@ -5,11 +5,10 @@ export default {
     userId: 'your_id',
     userEmail: 'your_email',
     position: 'your_position',
-    
+    table: '',
 
     food_options: ['Appetizer', 'Main course', 'Dessert'],
     drink_options: ['Soda', 'Juice', 'Other', 'Beer', 'Wine', 'Liquors'],
-    order_state: ['Available', 'Being prepared', 'Finished'],
 
     data_fetched: false,
 

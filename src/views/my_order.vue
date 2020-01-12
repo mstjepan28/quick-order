@@ -47,6 +47,11 @@
         </div>
 
         <div class="main">
+            <div v-if="store.position == 'waiter'">
+                <h3 class="underline stroke">Table:</h3>
+                <input class="table_input" type="text" v-model="table">
+            </div>
+
             <div><h3 class="underline stroke">Total price: {{this.price}}$</h3></div>
             <div class="ordered">
                 <h3 class="underline stroke">Selected items:</h3>
@@ -92,7 +97,8 @@
             return{
                 price: 0,
                 note: '',
-                store, 
+                table: '', 
+                store,
             }
         },
         computed:{
@@ -110,6 +116,8 @@
         methods:{
             send_order(){
                 if(store.order.products.length >= 1){
+                    if(store.position == 'waiter')
+                        store.table = table
                     let products = store.order.products;
                     //Narudzbe smo podijelili u dva obijekta, ako ne postoji barem jedan proizvod tipa food/drink ne dodajemo nista na bazu
                     //U suprotno, taj objekt spremamo na bazu zajedno sa narudzbom
@@ -197,7 +205,9 @@
     .krug{
         background-image: url("/my_order.jpg");
     }
-
+    *:focus{
+        outline: none;
+    }
     .customer_note{
         text-align: left;
     }
@@ -210,6 +220,12 @@
         color: #aaaaaa;
         border-radius: 5px;
     }
+    .table_input{
+        width: 99%;
+
+        color: #aaaaaa;
+        border-radius: 5px;
+    }    
     .ordered{
         margin: 30px 0 30px 0;
     }

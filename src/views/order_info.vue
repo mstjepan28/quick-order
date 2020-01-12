@@ -88,8 +88,8 @@
             <textarea class="note" disabled v-model="order_info.note"></textarea>
 
             <h3 class="underline stroke">Orders</h3>
-            <FoodCard v-if="store.position == 'chef'" v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.food.order" />
-            <FoodCard v-if="store.position == 'barman'" v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.drinks.order" />
+            <div v-if="store.position == 'chef'"><FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.food.order" /></div>
+            <div v-if="store.position == 'barman'"><FoodCard  v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.drinks.order" /></div>
         </div>
 
         <div v-if="store.position == 'chef' && order_info" class="bottom_buttons">
@@ -114,6 +114,9 @@
     export default {
         data(){
             return{
+                //order_info: false -> false samo zato da ne iskace greska
+                //Pri ucitavanju view-a order_info bi bio undefined dok se ne izvede mounted() te false govori v-if da ne prikaze taj html
+                //Kada se mounted() zavrsi, u order_info se sprema objekt te se prikazuje dosad 'skriven' html
                 id: this.$route.params.id,
                 order_info: false,
                 store

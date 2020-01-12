@@ -143,7 +143,7 @@
 
 <script>
   import store from '@/store.js'
-import { async } from 'q';
+  import { async } from 'q';
 
   export default {
     data () {
@@ -171,121 +171,128 @@ import { async } from 'q';
         .catch(function(error) {
             console.error("Error adding document: ", error);
         });  
-      }
-    },
-    mounted(){
-      //data_fetched koristimo da nebi došlo do povlačenja podataka više od jednom
-      if(!store.data_fetched){
-        //Dohvacanje korisnika
-        firebase.auth().onAuthStateChanged(user => {
-          if(user){
-            db.collection('users').doc(user.uid).get().then(doc =>{
-              store.position = doc.data().position;
-            })
-            this.authenticated = true;
-            this.userId = user.uid;
-            this.userEmail = user.email; 
-            
-            if(this.$route.name == 'login') 
-              this.$router.push({name:'main_menu'});
-          }
-          else{
-            console.log("User is loged out");
-            this.authenticated = false;
-            if(this.$route.name !== 'login') this.$router.push({name:'login'})
-          }
-        });
-        //Dohvacanje proizvoda
-        db.collection("products").orderBy("title").limit(30).onSnapshot(snapshot => {
-          snapshot.docChanges().forEach(change => {
-              if (change.type === "added" ||change.type === 'modified'){
-                const data = change.doc.data()
-                this.cards.unshift({
-                  id: change.doc.id,
-                  
-                  title: data.title,
-                  price: data.price,
-                  url: data.url,
-                  times_ordered: data.times_ordered,
-                  counter: 0,
+      },
+      get_data(){
+        //Podatke ne pozivamo unutar mounter jer bi se oni zahtjevali pri loginu ali se nebi dobili jer korisnik koji nije prijavljen nema pristup
+        //podacima sa firebase-a. Posto se mounted pokrece samo pri otvaranju stranice trebali bi refreshati stranicu nakon ucitavanja da bi se mi imali te podatke
+        //Kada ih dohvacamo ovako preko funkcije, mozemo ih zatraziti tek nakon smo se prijavili
 
-                  category: data.category,
-                  type: data.type,
-
-                  ingredients: data.ingredients,
-                  description: data.description, 
-
-                  energy_value: data.energy_value,
-                  carbohydrates: data.carbohydrates,
-                  protein: data.protein,
-                  fat: data.fat,
-                  vitamin_a: data.vitamin_a,
-                  vitamin_c: data.vitamin_c,
-                  calcium: data.calcium,
-                  zinc: data.zinc,           
-                })
-              }
-          });
-        });
-        //Dohvacanje narudzbi
-        //Narudzbe uvijek dohvacamo jer position kasni sa firebase-a te npr. store.position == 'chef' daje false
-        //I narudzbe se ne dohvacaju sa firebase-a
-        db.collection("orders").orderBy("time").limit(30).onSnapshot(snapshot => {
+        //data_fetched koristimo da nebi došlo do povlačenja podataka više od jednom
+        if(!store.data_fetched){
+          //Dohvacanje proizvoda
+          db.collection("products").orderBy("title").limit(30).onSnapshot(snapshot => {
             snapshot.docChanges().forEach(change => {
-                if (change.type === "added"){
-                    const data = change.doc.data()
-                    if(data.food != null){
-                        store.order_cards.push({
-                            id: change.doc.id,
-                            price: data.price,
-                            date: data.date,
-                            time: data.time,
-                            note: data.note,
-                            food: data.food,
-                            drinks: data.drinks
-                        })                                      
-                    }
+                if (change.type === "added" ||change.type === 'modified'){
+                  const data = change.doc.data()
+                  this.cards.unshift({
+                    id: change.doc.id,
+                    
+                    title: data.title,
+                    price: data.price,
+                    url: data.url,
+                    times_ordered: data.times_ordered,
+                    counter: 0,
 
+                    category: data.category,
+                    type: data.type,
+
+                    ingredients: data.ingredients,
+                    description: data.description, 
+
+                    energy_value: data.energy_value,
+                    carbohydrates: data.carbohydrates,
+                    protein: data.protein,
+                    fat: data.fat,
+                    vitamin_a: data.vitamin_a,
+                    vitamin_c: data.vitamin_c,
+                    calcium: data.calcium,
+                    zinc: data.zinc,           
+                  })
                 }
             });
-        });
-        //Dohvacanje poziva korisnika za konobara 
-        db.collection("waiter_calls").orderBy("time").limit(30).onSnapshot(snapshot => {
-            snapshot.docChanges().forEach(change => {
-                if (change.type === "added"){
-                    const data = change.doc.data()
-                    store.call_cards.push({
+          });
+          //Dohvacanje narudzbi
+          db.collection("orders").orderBy("time").limit(30).onSnapshot(snapshot => {
+              snapshot.docChanges().forEach(change => {
+                  if (change.type === "added"){
+                      const data = change.doc.data()
+                      if(data.food != null){
+                          store.order_cards.push({
+                              id: change.doc.id,
+                              price: data.price,
+                              date: data.date,
+                              time: data.time,
+                              note: data.note,
+                              food: data.food,
+                              drinks: data.drinks
+                          })                                      
+                      }
+
+                  }
+              });
+          });
+          //Dohvacanje poziva korisnika za konobara 
+          db.collection("waiter_calls").orderBy("time").limit(30).onSnapshot(snapshot => {
+              snapshot.docChanges().forEach(change => {
+                  if (change.type === "added"){
+                      const data = change.doc.data()
+                      store.call_cards.push({
+                          id: change.doc.id,
+                          table: data.table,
+                          request: data.request, 
+                          date: data.date,
+                          time: data.time,
+                          call_state: data.call_state,           
+                      })
+                  }
+              });
+          });
+          //Dohvacanje poziva kuhara i barmena za konobara
+          db.collection("staff_calls").orderBy("time").limit(30).onSnapshot(snapshot => {
+              snapshot.docChanges().forEach(change => {
+                  if (change.type === "added"){
+                      const data = change.doc.data()
+                      store.call_cards_staff.push({
                         id: change.doc.id,
                         table: data.table,
-                        request: data.request, 
-                        date: data.date,
+                        sent_by: data.sent_by,
+                        call_state: data.call_state,
                         time: data.time,
-                        call_state: data.call_state,           
-                    })
-                }
-            });
-        });
-        //Dohvacanje poziva kuhara i barmena za konobara
-        db.collection("staff_calls").orderBy("time").limit(30).onSnapshot(snapshot => {
-            snapshot.docChanges().forEach(change => {
-                if (change.type === "added"){
-                    const data = change.doc.data()
-                    store.call_cards_staff.push({
-                      id: change.doc.id,
-                      table: data.table,
-                      sent_by: data.sent_by,
-                      call_state: data.call_state,
-                      time: data.time,
-                      date: data.date        
-                    })
-                }
-            });
-        });        
-        store.data_fetched = true;
-      }
+                        date: data.date        
+                      })
+                  }
+              });
+          });        
+          store.data_fetched = true;
+        }
 
+      },
+    },
+    mounted(){
+      //Dohvacanje korisnika
+      firebase.auth().onAuthStateChanged(user => {
+        if(user){
+          db.collection('users').doc(user.uid).get().then(doc =>{
+            store.position = doc.data().position;
+          })
+          this.authenticated = true;
+          this.userId = user.uid;
+          this.userEmail = user.email; 
+
+          this.get_data();
+
+          if(this.$route.name == 'login') 
+            this.$router.push({name:'main_menu'});
+        }
+        else{
+          console.log("User is loged out");
+          this.authenticated = false;
+
+          if(this.$route.name !== 'login') 
+            this.$router.push({name:'login'})
+        }
+      });      
     }
-    
   }
 </script>
 

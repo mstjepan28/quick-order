@@ -11,7 +11,7 @@
                 {{this.order_state[this.i]}}
                 <div v-on:click="next"><i class="fas fa-arrow-right"></i></div>
             </div>
-            <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />            
+            <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
         </div>
 
     </div>
@@ -27,7 +27,7 @@
                 //parseInt('neki string', 'brojevni sustav')
                 //i dobivamo kao string iz routera te ga moramo pretvoriti u int za daljne funkcije
                 i: parseInt(this.$route.params.i, 10),
-                order_state: store.order_state,
+                order_state: ['Available', 'Being prepared', 'Finished'],
                 store
             }
         },
