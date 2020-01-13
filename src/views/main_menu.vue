@@ -27,7 +27,7 @@
       </div> 
     </router-link>
 
-    <router-link v-if="this.position == 'manager'" to="/order_history">
+    <router-link v-if="this.position == 'manager'" to="/orders/1">
       <div class="opcija slika" style="background-image: url('/food.jpg'); font-size: 35px">
         <div class="krug">Orders history</div>
       </div> 

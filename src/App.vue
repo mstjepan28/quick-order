@@ -71,7 +71,7 @@
           </li>
 
           <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link to="/order_history" class="nav-link"> Orders history </router-link>
+            <router-link to="/orders/1" class="nav-link"> Orders history </router-link>
           </li>
 
           <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
@@ -80,10 +80,6 @@
 
           <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/products" class="nav-link"> Products </router-link>
-          </li>
-
-          <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link to="/ingrediants" class="nav-link"> Ingrediants </router-link>
           </li>
                     
         <!--Konobar------------------------------------------------------------------------------------->
@@ -249,24 +245,38 @@
           });
           //Dohvacanje poziva kuhara i barmena za konobara
           db.collection("staff_calls").orderBy("time").limit(30).onSnapshot(snapshot => {
-              snapshot.docChanges().forEach(change => {
-                  if (change.type === "added"){
-                      const data = change.doc.data()
-                      store.call_cards_staff.push({
-                        id: change.doc.id,
-                        table: data.table,
-                        sent_by: data.sent_by,
-                        call_state: data.call_state,
-                        time: data.time,
-                        date: data.date        
-                      })
-                  }
+            snapshot.docChanges().forEach(change => {
+                if (change.type === "added"){
+                    const data = change.doc.data()
+                    store.call_cards_staff.push({
+                      id: change.doc.id,
+                      table: data.table,
+                      sent_by: data.sent_by,
+                      call_state: data.call_state,
+                      time: data.time,
+                      date: data.date        
+                    })
+                }
               });
-          });        
+          });
+          //Dohvacanje statistike
+          /*
+          db.collection("statistics").onSnapshot(snapshot =>{
+            snapshot.docChanges().forEach(change => {
+              if(change.type === 'added' || change.type === 'modified'){
+                const data = change.doc.data()
+                store.statistics.id = change.doc.id;
+                store.statistics.hour_price = data.hour_price;
+                store.statistics.hour_orders = data.hour_orders;
+                store.statistics.day_orders = data.day_orders;
+                store.statistics.day_price = data.day_price;
+              }
+            })
+          })
+          */        
           store.data_fetched = true;
         }
-
-      },
+      },    
     },
     mounted(){
       //Dohvacanje korisnika

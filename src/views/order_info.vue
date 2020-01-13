@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="order_info">
         <!--Accept/Finish-Orders------------------------------------------>
         <div class="modal fade" id="finished_confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document" >
@@ -80,10 +80,15 @@
         </div>
         <!---------------------------------------------------------------->
         <div class="top">
-            <h3>Order for Table#1</h3>
-        </div>
+            <h3>Order for {{order_info.table}}</h3><br>
 
-        <div v-if="order_info" class="main">
+            <div v-if="store.position == 'manager'" class="manager_info">
+                <h5>Price:</h5> {{order_info.price}} <h5>$</h5><br>
+                <h5>Date:</h5> {{order_info.date}} <h5>at</h5> {{order_info.time}}<br>
+            </div>
+        </div>
+        <!---------------------------------------------------------------->
+        <div v-if="store.position == 'chef' || store.position == 'barmen'" class="main">
             <h3 class="underline stroke">Note</h3>
             <textarea class="note" disabled v-model="order_info.note"></textarea>
 
@@ -91,7 +96,32 @@
             <div v-if="store.position == 'chef'"><FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.food.order" /></div>
             <div v-if="store.position == 'barman'"><FoodCard  v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.drinks.order" /></div>
         </div>
+        <!---------------------------------------------------------------->
+        <div v-if="store.position == 'manager'" class="main">
+            <h3 class="underline stroke">Note</h3>
+            <textarea class="note" disabled v-model="order_info.note"></textarea>
+            
+            <div class="mb-5">
+                <h3 class="underline stroke">Food</h3>
+                <h5>Selected by:</h5> {{order_info.food.selected_by}}<br>
+                <h5>Order state:</h5> {{order_info.food.order_state}}<br>
+                <h5>Finished at:</h5> {{order_info.food.finished_at}}<br>
 
+                <h4 class="stroke">Order</h4>
+                <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.food.order" />
+            </div>
+
+            <div class="mb-5">
+                <h3 class="underline stroke">Drinks</h3>
+                <h5>Selected by:</h5> {{order_info.drinks.selected_by}}<br>
+                <h5>Order state:</h5> {{order_info.drinks.order_state}}<br>
+                <h5>Finished at:</h5> {{order_info.drinks.finished_at}}<br>
+
+                <h4 class="stroke">Order</h4>
+                <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.drinks.order" />
+            </div>
+        </div>        
+        <!--Prihvacanje i zavrsavanje narudzbe-->
         <div v-if="store.position == 'chef' && order_info" class="bottom_buttons">
             <!--Ako je selected_by u narudzbi jednak onom trenutnog korisnika(pohranjen u store.js) dopusti da se narudzba oznaci kao zavrsena-->
             <button v-if="order_info.food.order_state == 'Available'" type="button" class="accept_button stroke" data-toggle="modal" data-target="#accept_the_order">Accept this order</button>           
@@ -154,7 +184,7 @@
 
                 if(this.store.position == 'chef'){
                     this.order_info.food.order_state = 'Finished';
-                    this.order_info.food.finished_at = store.current_date();
+                    this.order_info.food.finished_at = store.current_time();
                     
                     db.collection("orders").doc(this.order_info.id).update({
                         food: this.order_info.food
@@ -162,7 +192,7 @@
                 }
                 else{
                     this.order_info.drinks.order_state = 'Finished';
-                    this.order_info.drinks.finished_at = store.current_date();
+                    this.order_info.drinks.finished_at = store.current_time();
                     
                     db.collection("orders").doc(this.order_info.id).update({
                         drinks: this.order_info.drinks
@@ -191,14 +221,16 @@
 </script>
 
 <style scoped>
+    h5{
+        display: inline-block;
+        color:rgba(245, 166, 35, 0.7);
+    }
     .top{
-        width: 100%;        
-        height: 75px;
+        width: 100%;
 
         text-align: center;
     }
     .top > h3{
-        line-height: 75px;
         display: inline-block;
 
         margin: 25px 0 0 0;
@@ -208,6 +240,11 @@
     .underline{
         margin: 0 0 25px 0;
     }
+    .manager_info{
+        text-align: left;
+        margin-left: 5%;
+    }
+
     .accept_button{
         width: 100%;
         top: 90%;

@@ -213,7 +213,7 @@
                                 console.log(erros)
                             },
                             function(){
-                                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
                                     db.collection("products").add({
                                         title: product_data.title,                  
                                         price: product_data.price,

@@ -115,11 +115,6 @@ const routes = [
     component: () => import('../views/statistics.vue')
   },
   {
-    path: '/order_history',
-    name: 'order_history',
-    component: () => import('../views/order_history.vue')
-  },
-  {
     path: '/employes',
     name: 'employes',
     component: () => import('../views/employes.vue')

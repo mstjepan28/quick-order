@@ -4,14 +4,19 @@
             <div class="krug" style="background-image: url('/most_ordered.png');"></div>
             <h3 class="top_title">Orders</h3>
         </div>
-
-        <div class="main">
+        <!--Ako je ulogiran kuhar ili barmen pokazi filtrirane narudzbe i strelice za promjenu trenutnog prikaza-->
+        <div v-if="store.position == 'chef' || store.position == 'barmen'" class="main">
             <div class="title stroke">
                 <div v-on:click="previous"><i class="fas fa-arrow-left"></i></div>
                 {{this.order_state[this.i]}}
                 <div v-on:click="next"><i class="fas fa-arrow-right"></i></div>
             </div>
             <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
+        </div>
+        
+        <!--Ako je ulogiran menadzer prikazi sve narudzbe-->
+        <div v-else class="main">
+            <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in store.order_cards" />
         </div>
 
     </div>

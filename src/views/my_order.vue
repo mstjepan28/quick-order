@@ -127,24 +127,20 @@
                    
                     let order_food = [];
                     let order_drinks = [];
-
                     for(let i = 0; i < products.length; i++){
                         if(products[i].type == 'Food')
                             order_food.push(products[i]);
                         else
                             order_drinks.push(products[i]);
                     }
-                    
-                    let food = null;
-                    let drinks = null;
 
+                    let food = null;
+                    let drinks = null;                     
                     if(order_food.length >= 1){
                         food = {
                             selected_by: '',
                             order_state: 'Available',
-                            call_state: 'Available',
                             finished_at: '',
-                            delivered_at: '',
                             order: order_food,
                         };                        
                     }
@@ -152,9 +148,7 @@
                         drinks = {
                             selected_by: '',
                             order_state: 'Available',
-                            call_state: 'Available',
                             finished_at: '',
-                            delivered_at: '',
                             order: order_drinks,
                         };                        
                     }
@@ -164,7 +158,7 @@
                         date: store.current_date(),
                         time: store.current_time(),
                         note: this.note,
-                        table: store.userEmail,
+                        table: store.userEmail, //<---------------------------
                         food: food,
                         drinks: drinks
                     });
@@ -172,7 +166,6 @@
                     //Update 'times_ordered' svakog proizvoda koji se nalazi u store.order.products
                     //Isprazni 'My Order' tako da se vrijednost 'counter'svakog proizvoda postavi na 0 i na kraju prebrisi 'procucts' polje
                     for(let i = 0; i < products.length; i++){
-
                         let current_card = store.cards.filter(card => card.id == store.order.products[i].id)[0];
                         current_card.times_ordered = store.order.products[i].counter + store.order.products[i].times_ordered;
                         current_card.counter = 0;
@@ -181,8 +174,36 @@
                             times_ordered: current_card.times_ordered
                         });                          
                     }
+
+                    //Ako je id jednak null to znaci da collection ne postoji, to jest da nismo dobili nikakve podatke te tada stvaramo taj collection
+                    //Statistics collection moramo popuniti sa nulama jer inace nebi zbrajali nove vrijednosti na brojcanu vrijednost
+                    if(store.statistics.id != null){
+                        let index = new Date();
+                        store.statistics.hour_orders[index.getHours()]++;
+                        store.statistics.hour_price[index.getHours()] += this.price;
+
+                        store.statistics.day_orders[index.getDay()]++;
+                        store.statistics.day_price[index.getDay()] += this.price;
+
+                        db.collection('statistics').doc(store.statistics.id).update({
+                            hour_price: store.statistics.hour_price,
+                            hour_orders: store.statistics.hour_orders,
+                            day_orders: store.statistics.day_orders,
+                            day_price: store.statistics.day_price
+                        })                        
+                    }
+                    else{
+                        db.collection("orders").add({
+                            hour_price: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                            hour_orders: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                            day_orders: [0,0,0,0,0,0,0],
+                            day_price: [0,0,0,0,0,0,0]
+                        });
+                    }
+
                     products = [];
-                    this.note = '';                    
+                    this.note = '';
+                    
                 }
 
             },           
