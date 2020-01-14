@@ -82,13 +82,13 @@
         <div class="top">
             <h3>Order for {{order_info.table}}</h3><br>
 
-            <div v-if="store.position == 'Manager' || store.position == 'Table'" class="Manager_info">
+            <div v-if="store.position == 'Manager'" class="manager_info">
                 <h5>Price:</h5> {{order_info.price}} <h5>$</h5><br>
                 <h5>Date:</h5> {{order_info.date}} <h5>at</h5> {{order_info.time}}<br>
             </div>
         </div>
         <!---------------------------------------------------------------->
-        <div v-if="store.position == 'Chef' || store.position == 'Barman'" class="main">
+        <div v-if="store.position == 'Chef' || store.position == 'Barmen'" class="main">
             <h3 class="underline stroke">Note</h3>
             <textarea class="note" disabled v-model="order_info.note"></textarea>
 
@@ -101,7 +101,7 @@
             <h3 class="underline stroke">Note</h3>
             <textarea class="note" disabled v-model="order_info.note"></textarea>
             
-            <div class="mb-5">
+            <div v-if="order_info.food" class="mb-5">
                 <h3 class="underline stroke">Food</h3>
                 <h5>Selected by:</h5> {{order_info.food.selected_by}}<br>
                 <h5>Order state:</h5> {{order_info.food.order_state}}<br>
@@ -111,7 +111,7 @@
                 <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.food.order" />
             </div>
 
-            <div class="mb-5">
+            <div v-if="order_info.drinks" class="mb-5">
                 <h3 class="underline stroke">Drinks</h3>
                 <h5>Selected by:</h5> {{order_info.drinks.selected_by}}<br>
                 <h5>Order state:</h5> {{order_info.drinks.order_state}}<br>
@@ -121,12 +121,12 @@
                 <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.drinks.order" />
             </div>
         </div>
-
+        
         <div v-if="store.position == 'Table'" class="main">
             <h3 class="underline stroke">Note</h3>
             <textarea class="note" disabled v-model="order_info.note"></textarea>
             
-            <div class="mb-5">
+            <div v-if="order_info.food" class="mb-5">
                 <h3 class="underline stroke">Food</h3>
                 <h5>Order state:</h5> {{order_info.food.order_state}}<br>
                 <h5>Finished at:</h5> {{order_info.food.finished_at}}<br>
@@ -135,7 +135,7 @@
                 <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.food.order" />
             </div>
 
-            <div class="mb-5">
+            <div v-if="order_info.drinks" class="mb-5">
                 <h3 class="underline stroke">Drinks</h3>
                 <h5>Order state:</h5> {{order_info.drinks.order_state}}<br>
                 <h5>Finished at:</h5> {{order_info.drinks.finished_at}}<br>
@@ -143,8 +143,7 @@
                 <h4 class="stroke">Order</h4>
                 <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.drinks.order" />
             </div>
-        </div>
-
+        </div>       
         <!--Prihvacanje i zavrsavanje narudzbe-->
         <div v-if="store.position == 'Chef' && order_info" class="bottom_buttons">
             <!--Ako je selected_by u narudzbi jednak onom trenutnog korisnika(pohranjen u store.js) dopusti da se narudzba oznaci kao zavrsena-->
@@ -235,6 +234,7 @@
         mounted(){
             //U order_info spremamo kartice iz order_cards(povukli smo ih iz baze u orders.vue)
             this.order_info = store.order_cards.filter(card => card.id == this.id)[0];
+            console.log(this.order_info);
         },
         name: 'order_info',
         components: {
@@ -264,7 +264,7 @@
     .underline{
         margin: 0 0 25px 0;
     }
-    .Manager_info{
+    .manager_info{
         text-align: left;
         margin-left: 5%;
     }

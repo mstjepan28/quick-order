@@ -1,7 +1,7 @@
 <template>
     <div class="most_ordered">
         <div class="top">
-            <div class="krug" style="background-image: url('/most_ordered.png');"></div>
+            <div class="krug" style="background-image: url('/voce.jpg'); background-repeat: no-repeat; background-size:100% 100%; "></div>
             <h3 class="top_title">Orders</h3>
         </div>
         
@@ -41,8 +41,9 @@
     .top{
         height: 250px;
         width: 100%;
-        background-image: url("/food.jpg");
-        background-size: cover;
+        background-image: url("/jabuke.jpg");
+        background-repeat: no-repeat; 
+        background-size:100% 100%;
         margin-bottom: 10px;
     }
     .main{

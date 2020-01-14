@@ -105,12 +105,12 @@
                 </div>
             </div>
 
-            <div>
-                <h3 class="stroke underline">Total orders: {{this.total_count}}</h3>
-                <h3 class="stroke underline">Total income: {{this.total_income}}</h3>
-                <h5>Average order price:</h5> {{this.total_income / this.total_count}}
+            <div class="mt-3">
+                <h5>Total orders: </h5> {{this.total_count}}<br>
+                <h5>Total income: </h5> {{this.total_income}}
+                <h3 class="underline"><h3 class="stroke">Average order price:</h3> {{parseInt(this.total_income / this.total_count, 10)}}$</h3>
             </div>
-
+ 
             <router-link to="/most_ordered">
                 <div class="most_ordered mb-3">
                     <h2 class="stroke">Most ordered</h2>
@@ -151,6 +151,9 @@
         display: inline-block;
         color:rgba(245, 166, 35, 0.7);
     }
+    h3{
+        display: inline-block;
+    }
     .statistics{
         margin-top: 75px;
     }
@@ -174,5 +177,8 @@
 
         font-size: 40px;
         color: rgb(87, 87, 87);
+    }
+    .underline{
+        margin-top: 0px;
     }
 </style>

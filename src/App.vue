@@ -75,7 +75,7 @@
           </li>
 
           <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link to="/employes" class="nav-link"> Employes </router-link>
+            <router-link to="/employees" class="nav-link"> Employees </router-link>
           </li>
 
           <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
@@ -180,7 +180,8 @@
         //data_fetched koristimo da nebi došlo do povlačenja podataka više od jednom
         if(!store.data_fetched){
           //Dohvacanje proizvoda
-          db.collection("products").orderBy("title").limit(30).onSnapshot(snapshot => {
+            //console.log('fetching products'); 
+          db.collection("products").orderBy("title").onSnapshot(snapshot => {
             snapshot.docChanges().forEach(change => {
                 if (change.type === "added" ||change.type === 'modified'){
                   const data = change.doc.data()
@@ -212,7 +213,8 @@
             });
           });
           //Dohvacanje narudzbi
-          db.collection("orders").orderBy("time").limit(30).onSnapshot(snapshot => {
+            //console.log('fetching orders'); 
+          db.collection("orders").orderBy("time").onSnapshot(snapshot => {
               snapshot.docChanges().forEach(change => {
                   if (change.type === "added"){
                       const data = change.doc.data()
@@ -231,8 +233,9 @@
                   }
               });
           });
-          //Dohvacanje poziva korisnika za konobara 
-          db.collection("waiter_calls").orderBy("time").limit(30).onSnapshot(snapshot => {
+          //Dohvacanje poziva korisnika za konobara
+            //console.log('fetching waiter calls');  
+          db.collection("waiter_calls").orderBy("time").onSnapshot(snapshot => {
               snapshot.docChanges().forEach(change => {
                   if (change.type === "added"){
                       const data = change.doc.data()
@@ -248,7 +251,8 @@
               });
           });
           //Dohvacanje poziva kuhara i barmena za konobara
-          db.collection("staff_calls").orderBy("time").limit(30).onSnapshot(snapshot => {
+            //console.log('fetching staff_calls'); 
+          db.collection("staff_calls").orderBy("time").onSnapshot(snapshot => {
             snapshot.docChanges().forEach(change => {
                 if (change.type === "added"){
                     const data = change.doc.data()
@@ -264,7 +268,7 @@
               });
           });
           //Dohvacanje statistike
-          /*
+            //console.log('fetching statistics');        
           db.collection("statistics").onSnapshot(snapshot =>{
             snapshot.docChanges().forEach(change => {
               if(change.type === 'added' || change.type === 'modified'){
@@ -276,11 +280,43 @@
                 store.statistics.day_price = data.day_price;
               }
             })
+          });
+          //Dohvacanje korisnika
+          db.collection("users").orderBy("last_login").onSnapshot(snapshot =>{
+            snapshot.docChanges().forEach(change => {
+              if(change.type === 'added' || change.type === 'modified'){
+                const data = change.doc.data()
+                store.users.push({
+                  id: data.id,
+                  username: data.username,
+                  email: data.email,
+                  password: data.password,
+                  photo_url: data.photo_url,
+
+                  full_name: data.full_name,
+                  date_of_birth: data.date_of_birth,
+                  phone: data.phone,
+                  adress: data.adress,
+                  city: data.city,
+                  postal_code: data.postal_code,
+
+                  position: data.position,
+                  contract: data.contract,
+                  wage: data.wage,
+
+                  added: data.added,
+                  last_login: data.last_login,
+                  currently_active: data.currently_active,
+                  active: data.active,
+                  deactivated: data.deactivated,
+                })
+              }
+            })
           })
-          */        
           store.data_fetched = true;
         }
-      },    
+      },
+
     },
     mounted(){
       //Dohvacanje korisnika

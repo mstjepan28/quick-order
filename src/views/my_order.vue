@@ -152,7 +152,6 @@
                             order: order_drinks,
                         };                        
                     }
-
                     db.collection("orders").add({
                         price: this.price,
                         date: store.current_date(),
@@ -162,7 +161,6 @@
                         food: food,
                         drinks: drinks
                     });
-
                     //Update 'times_ordered' svakog proizvoda koji se nalazi u store.order.products
                     //Isprazni 'My Order' tako da se vrijednost 'counter'svakog proizvoda postavi na 0 i na kraju prebrisi 'procucts' polje
                     for(let i = 0; i < products.length; i++){
@@ -174,10 +172,10 @@
                             times_ordered: current_card.times_ordered
                         });                          
                     }
-
                     //Ako je id jednak null to znaci da collection ne postoji, to jest da nismo dobili nikakve podatke te tada stvaramo taj collection
                     //Statistics collection moramo popuniti sa nulama jer inace nebi zbrajali nove vrijednosti na brojcanu vrijednost
-                    if(store.statistics.id ){
+                    
+                    if(store.statistics.id ){   
                         let index = new Date();
                         store.statistics.hour_orders[index.getHours()]++;
                         store.statistics.hour_price[index.getHours()] += this.price;
@@ -201,7 +199,7 @@
                         });
                     }
 
-                    products = [];
+                    //products = [];
                     this.note = '';
                     
                 }
@@ -219,12 +217,15 @@
     .top{
         height: 250px;
         margin-bottom: 10px;
-        background-image: url("/food.jpg");
-        background-size: cover;
+        background-image: url("/jagode.jpg");
+        background-size:100% 100%;
+        background-repeat: no-repeat;
     }
 
     .krug{
-        background-image: url("/my_order.jpg");
+        background-image: url("/palacinke.jpg");
+        background-size:100% 100%;
+        background-repeat: no-repeat;
     }
     *:focus{
         outline: none;

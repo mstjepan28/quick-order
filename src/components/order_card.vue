@@ -17,7 +17,7 @@
         props: ['info'],
         data(){
             return store;
-        },
+        }, 
     }
 
 </script>

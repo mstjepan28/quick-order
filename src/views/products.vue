@@ -69,8 +69,9 @@
     .top{
         height: 250px;
         width: 100%;
-        background-image: url("/food.jpg");
-        background-size: cover;
+        background-image: url('/products_background.jpg'); 
+        background-size: 100% 100%; 
+        background-repeat: no-repeat;
         margin-bottom: 10px;
     }
     .col > h3{
@@ -86,7 +87,9 @@
         width: 175px;
         height: 175px;
 
-        background-image: url("/most_ordered.png");
+        background-image: url('/products_krug.jpg'); 
+        background-size: 100% 100%; 
+        background-repeat: no-repeat;
     }
     a:hover{
         text-decoration: none;

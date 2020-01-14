@@ -3,44 +3,44 @@
     <!--<div style="height: 150px; background: gray; widht: 100%;" v-on:click="funkcija"></div>--><!--Za testiranje nekih funkcija-->
 <!--Kuhar-Barmen------------------------------------------------------------------------------------->
     <router-link v-if="this.position == 'chef' || this.position == 'barman'" v-bind:to="'/orders/' + 0">
-      <div class="opcija slika" style="background-image: url('/food.jpg')">
+      <div class="opcija slika" style="background-image: url('/orders.jpg'); background-size:100% 100%; background-repeat: no-repeat;">
         <div class="krug">Orders</div>
       </div> 
     </router-link>
 
     <router-link v-if="this.position == 'chef' || this.position == 'barman'" v-bind:to="'/orders/' + 1">
-      <div class="opcija slika" style="background-image: url('/food.jpg'); font-size: 30px;">
+      <div class="opcija slika" style="background-image: url('/prepare.jpg'); background-size:100% 100%; background-repeat: no-repeat; font-size: 30px;">
         <div class="krug">Being prepared</div>
       </div>
     </router-link>
 
     <router-link v-if="this.position == 'chef' || this.position == 'barman'" v-bind:to="'/orders/' + 2">
-      <div class="opcija slika" style="background-image: url('/food.jpg')">
+      <div class="opcija slika" style="background-image: url('/food.jpg'); background-size: 100% 100%; background-repeat: no-repeat;">
         <div class="krug">Finished</div>
       </div>
     </router-link>
 
 <!--Menadzer------------------------------------------------------------------------------------->
     <router-link v-if="this.position == 'manager'" to="/statistics">
-      <div class="opcija slika" style="background-image: url('/food.jpg')">
+      <div class="opcija slika" style="background-image: url('/statistics.jpg'); background-size: 100% 100%; background-repeat: no-repeat;">
         <div class="krug">Statistics</div>
       </div> 
     </router-link>
 
     <router-link v-if="this.position == 'manager'" to="/orders/1">
-      <div class="opcija slika" style="background-image: url('/food.jpg'); font-size: 35px">
+      <div class="opcija slika" style="background-image: url('/history.jpg'); background-size: 100% 100%; background-repeat: no-repeat; font-size: 35px">
         <div class="krug">Orders history</div>
       </div> 
     </router-link>
 
-    <router-link v-if="this.position == 'manager'" to="/employes">
-      <div class="opcija slika" style="background-image: url('/food.jpg')">
-        <div class="krug">Employes</div>
+    <router-link v-if="this.position == 'manager'" to="/employees">
+      <div class="opcija slika" style="background-image: url('/employees.jpg'); background-size: 100% 100%; background-repeat: no-repeat;">
+        <div class="krug">Employees</div>
       </div> 
     </router-link>
 
     <router-link v-if="this.position == 'manager'" to="/products">
-      <div class="opcija slika" style="background-image: url('/food.jpg')">
+      <div class="opcija slika" style="background-image: url('/products.jpg'); background-size: 100% 100%; background-repeat: no-repeat;">
         <div class="krug">Products</div>
       </div> 
     </router-link> 

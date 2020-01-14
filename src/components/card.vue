@@ -5,7 +5,7 @@
             <div v-if = "this.position != 'waiter' || this.position != 'Table' || this.$router.name == 'order_info' "  class="col-2" style="text-align:center">
                 <div class="counter">{{info.counter}}</div> 
             </div>
-            
+
             <div v-else class="col-2" style="text-align:center">
                 <i class="fas fa-chevron-up" v-on:click="info.counter = increase(info.counter)"></i>
                 <div>{{info.counter}}</div> 
@@ -14,7 +14,7 @@
 
             
 
-            <router-link v-bind:to="'/food_info/' + info.id" class="col-3 prod_img" :style="{ backgroundImage: `url(${info.url})`}" ></router-link>
+            <router-link v-bind:to="'/food_info/' + info.id" class="col-3 prod_img" :style="{ backgroundImage: `url(${info.url})`}" style="background-size:contain; background-repeat:no-repeat; " ></router-link>
 
             <div class="col-7 details">
                 <h6 style="margin: 8px 0 0 0">{{info.title}}</h6>

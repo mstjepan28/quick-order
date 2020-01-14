@@ -77,8 +77,9 @@
     .top{
         height: 250px;
         width: 100%;
-        background-image: url("/Food.jpg");
-        background-size: cover;
+        background-image: url("/povrce.jpg");
+        background-repeat: no-repeat; 
+        background-size:100% 100%;
         margin-bottom: 10px;
     }
     .col > h3{
@@ -94,7 +95,9 @@
         width: 175px;
         height: 175px;
 
-        background-image: url("/most_ordered.png");
+        background-image: url("/zupa.jpg");
+        background-repeat: no-repeat; 
+        background-size:100% 100%;
     }
     a:hover{
         text-decoration: none;

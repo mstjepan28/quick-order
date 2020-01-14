@@ -26,6 +26,9 @@
     background-size: cover;
   }
   .krug{
-    background-image: url("/food.jpg");
+    background-image: url("/food_selection.jpg");
+    background-size:100% 100%;
+    background-repeat: no-repeat;
+
   }
 </style>

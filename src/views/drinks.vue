@@ -31,7 +31,9 @@
         margin: 40px 0 0 0;
     }
     .krug{
-        background-image: url("/food.jpg");
+        background-image: url("/drinks4.jpg" );
+        background-size: cover;
+        
     }
     .content > h3{
         float: left;
