@@ -12,7 +12,7 @@
                 <input v-model="password" type="password" id="hidden_password" placeholder="password...">
                 <i class="fas fa-eye" id="password_eye" v-on:click="show_password()"></i>
             </div><br>
-
+  
             <div class="failed_login"></div><br>
 
             <button type="submit" class="stroke">Log in</button>
@@ -32,6 +32,8 @@
       return{
         email: '',
         password: '',
+        qrUser: '',
+        qrPass: ''
       }
     },
     methods: {
@@ -52,7 +54,30 @@
           document.getElementsByClassName("fas fa-eye-slash")[0].className = "fas fa-eye";
         } 
         
+      },
+     getParameterByName(name, url) {
+          if (!url) url = window.location.href;
+          name = name.replace(/[\[\]]/g, '\\$&');
+          var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+              results = regex.exec(url);
+          if (!results) return null;
+          if (!results[2]) return '';
+           return decodeURIComponent(results[2].replace(/\+/g, ' '));
       }
+      
+     
+    },
+    mounted(){
+        let url = window.location.href;
+        this.qrUser=this.getParameterByName('username' , url);
+        this.qrPass=this.getParameterByName('password' ,  url);
+        
+        if(this.qrUser!=null && this.qrPass!=null){    
+            firebase.auth().signInWithEmailAndPassword(this.qrUser, this.qrPass).catch(function(error) {
+            document.getElementsByClassName("failed_login")[0].innerHTML = "Failed to log in!";
+        });
+        url=null;
+        }
     }
   }
 </script>
