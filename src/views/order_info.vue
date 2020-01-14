@@ -101,7 +101,7 @@
             <h3 class="underline stroke">Note</h3>
             <textarea class="note" disabled v-model="order_info.note"></textarea>
             
-            <div class="mb-5">
+            <div v-if="order_info.food" class="mb-5">
                 <h3 class="underline stroke">Food</h3>
                 <h5>Selected by:</h5> {{order_info.food.selected_by}}<br>
                 <h5>Order state:</h5> {{order_info.food.order_state}}<br>
@@ -111,7 +111,7 @@
                 <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.food.order" />
             </div>
 
-            <div class="mb-5">
+            <div v-if="order_info.drinks" class="mb-5">
                 <h3 class="underline stroke">Drinks</h3>
                 <h5>Selected by:</h5> {{order_info.drinks.selected_by}}<br>
                 <h5>Order state:</h5> {{order_info.drinks.order_state}}<br>
@@ -211,6 +211,7 @@
         mounted(){
             //U order_info spremamo kartice iz order_cards(povukli smo ih iz baze u orders.vue)
             this.order_info = store.order_cards.filter(card => card.id == this.id)[0];
+            console.log(this.order_info);
         },
         name: 'order_info',
         components: {

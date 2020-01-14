@@ -37,7 +37,7 @@ export default {
     //podaci za funkcionalnosti managera
     imageData: null,
     statistics:{
-      id: 1,
+      id: null,
       /*
       hour_price: null,
       hour_orders: null,
