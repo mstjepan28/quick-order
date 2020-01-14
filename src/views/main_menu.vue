@@ -33,9 +33,9 @@
       </div> 
     </router-link>
 
-    <router-link v-if="this.position == 'manager'" to="/employes">
+    <router-link v-if="this.position == 'manager'" to="/employees">
       <div class="opcija slika" style="background-image: url('/food.jpg')">
-        <div class="krug">Employes</div>
+        <div class="krug">Employees</div>
       </div> 
     </router-link>
 

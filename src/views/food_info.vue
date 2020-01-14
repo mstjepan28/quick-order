@@ -40,8 +40,7 @@
 
             </div>
         </div>
-
-
+        <!------------------------------------------>
         <div v-if="this.store.position != 'manager'">
             <div class="top">
                 <div class="container" style="background-image: url('/food.jpg')">
@@ -68,7 +67,7 @@
 
                 </div>
             </div>
-
+            <!------------------------------------------>
             <div class="main">
                 <div class="info_box stroke">
                     <h3 class="underline">Description</h3>
@@ -122,7 +121,7 @@
         
             </div>
         </div>
-
+        <!------------------------------------------>
         <div v-else>
             <form>
                 <div class="top" style="height: 200px;">
@@ -146,7 +145,7 @@
 
                     </div>
                 </div>
-
+            <!------------------------------------------>
                 <div class="main">
                     <div class="info_box stroke" style="text-align: center">
                         <select v-model="food_info.type" style="margin-right: 20px">
@@ -221,7 +220,7 @@
                     </div><br>
             
                 </div>
-
+            <!------------------------------------------>
                 <div class="bottom_buttons">
                      <button type="button" class="order order_only stroke" data-toggle="modal" data-target="#update_product">Save changes</button>
                 </div>
