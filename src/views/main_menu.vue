@@ -76,6 +76,12 @@
       </div>
     </router-link>
 
+    <router-link v-if="this.position == 'Table'" to="/order_status">
+      <div class="opcija slika" style="background-image: url('/food.jpg')">
+        <div class="krug">Order status</div>
+      </div>
+    </router-link>
+
   </div>
 </template>
 

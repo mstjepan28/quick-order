@@ -107,5 +107,6 @@
         top: -35px;
 
         font-size: 30px;
+        cursor: pointer;
     }
 </style>

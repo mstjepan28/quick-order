@@ -82,22 +82,22 @@
         <div class="top">
             <h3>Order for {{order_info.table}}</h3><br>
 
-            <div v-if="store.position == 'manager'" class="manager_info">
+            <div v-if="store.position == 'Manager' || store.position == 'Table'" class="Manager_info">
                 <h5>Price:</h5> {{order_info.price}} <h5>$</h5><br>
                 <h5>Date:</h5> {{order_info.date}} <h5>at</h5> {{order_info.time}}<br>
             </div>
         </div>
         <!---------------------------------------------------------------->
-        <div v-if="store.position == 'chef' || store.position == 'barmen'" class="main">
+        <div v-if="store.position == 'Chef' || store.position == 'Barman'" class="main">
             <h3 class="underline stroke">Note</h3>
             <textarea class="note" disabled v-model="order_info.note"></textarea>
 
             <h3 class="underline stroke">Orders</h3>
-            <div v-if="store.position == 'chef'"><FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.food.order" /></div>
+            <div v-if="store.position == 'Chef'"><FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.food.order" /></div>
             <div v-if="store.position == 'barman'"><FoodCard  v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.drinks.order" /></div>
         </div>
         <!---------------------------------------------------------------->
-        <div v-if="store.position == 'manager'" class="main">
+        <div v-if="store.position == 'Manager'" class="main">
             <h3 class="underline stroke">Note</h3>
             <textarea class="note" disabled v-model="order_info.note"></textarea>
             
@@ -120,9 +120,33 @@
                 <h4 class="stroke">Order</h4>
                 <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.drinks.order" />
             </div>
-        </div>        
+        </div>
+
+        <div v-if="store.position == 'Table'" class="main">
+            <h3 class="underline stroke">Note</h3>
+            <textarea class="note" disabled v-model="order_info.note"></textarea>
+            
+            <div class="mb-5">
+                <h3 class="underline stroke">Food</h3>
+                <h5>Order state:</h5> {{order_info.food.order_state}}<br>
+                <h5>Finished at:</h5> {{order_info.food.finished_at}}<br>
+
+                <h4 class="stroke">Order</h4>
+                <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.food.order" />
+            </div>
+
+            <div class="mb-5">
+                <h3 class="underline stroke">Drinks</h3>
+                <h5>Order state:</h5> {{order_info.drinks.order_state}}<br>
+                <h5>Finished at:</h5> {{order_info.drinks.finished_at}}<br>
+
+                <h4 class="stroke">Order</h4>
+                <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.drinks.order" />
+            </div>
+        </div>
+
         <!--Prihvacanje i zavrsavanje narudzbe-->
-        <div v-if="store.position == 'chef' && order_info" class="bottom_buttons">
+        <div v-if="store.position == 'Chef' && order_info" class="bottom_buttons">
             <!--Ako je selected_by u narudzbi jednak onom trenutnog korisnika(pohranjen u store.js) dopusti da se narudzba oznaci kao zavrsena-->
             <button v-if="order_info.food.order_state == 'Available'" type="button" class="accept_button stroke" data-toggle="modal" data-target="#accept_the_order">Accept this order</button>           
             <button v-if="order_info.food.order_state == 'Being prepared' && store.userId == order_info.food.selected_by" type="button" class="finish_button stroke" data-toggle="modal" data-target="#finish_the_order">Mark as finished</button>
@@ -160,7 +184,7 @@
             },
             accept_order(){
                 //Update-amo lokalni objekt za narudzbu hrane/pica te ga spajamo sa onim na bazi 
-                if(this.store.position == 'chef'){
+                if(this.store.position == 'Chef'){
                     this.order_info.food.order_state = 'Being prepared';
                     this.order_info.food.selected_by = this.store.userId;
                     
@@ -182,7 +206,7 @@
                 //Kada se narudzba zavrsi, na firebase-u i lokalno se update-a
                 //Sprema se u novi collection koji obavjestava konobara da je narudzba obradena
 
-                if(this.store.position == 'chef'){
+                if(this.store.position == 'Chef'){
                     this.order_info.food.order_state = 'Finished';
                     this.order_info.food.finished_at = store.current_time();
                     
@@ -240,7 +264,7 @@
     .underline{
         margin: 0 0 25px 0;
     }
-    .manager_info{
+    .Manager_info{
         text-align: left;
         margin-left: 5%;
     }

@@ -129,6 +129,11 @@ const routes = [
     name: 'add_product',
     component: () => import('../views/add_product.vue')
   },
+  {
+    path: '/order_status',
+    name: 'order_status',
+    component: () => import('../views/order_status.vue')
+  },
 ]
 
 const router = new VueRouter({

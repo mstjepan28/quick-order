@@ -27,14 +27,14 @@
 
           <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
             <hr/>
-            <div v-on:click="call_the_waiter('Service / Help')" class="mb-2" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Service / Help</div>
-            <div v-on:click="call_the_waiter('Bring the bill')" class="mb-2" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Bring the bill</div>
-            <div v-on:click="call_the_waiter('Complaint')" class="mb-2" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Complaint</div>
-            <div v-on:click="call_the_waiter('Other')" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Other</div>
+            <div v-on:click="call_the_waiter('Service / Help')" class="mb-2" style="cursor:pointer;" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Service / Help</div>
+            <div v-on:click="call_the_waiter('Bring the bill')" class="mb-2" style="cursor:pointer;" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Bring the bill</div>
+            <div v-on:click="call_the_waiter('Complaint')" class="mb-2" style="cursor:pointer;" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Complaint</div>
+            <div v-on:click="call_the_waiter('Other')" style="cursor:pointer;" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Other</div>
             <hr/>
           </div>
 
-          <div class="modal-body" style="font-size: 30px; padding-top: 0">
+          <div class="modal-body" style="font-size: 30px; padding-top: 0; cursor:pointer;">
             <div data-dismiss="modal">Close</div>
           </div>
           
@@ -106,6 +106,10 @@
 
           <li v-if="this.position == 'waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/my_order" class="nav-link"> My order </router-link>
+          </li>
+
+          <li v-if="this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <router-link to="/order_status" class="nav-link"> Order status </router-link>
           </li>
 
         <!--Misc------------------------------------------------------------------------------------->
