@@ -249,7 +249,7 @@
 
 <style scoped>
     .food_info{
-        margin-top: 75px;
+        margin-top: 60px;
     }
     .top{
         height: 200px;

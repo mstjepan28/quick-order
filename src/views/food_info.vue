@@ -43,11 +43,23 @@
         <!------------------------------------------>
         <div v-if="this.store.position != 'Manager'">
             <div class="top">
-                <div class="container" style="background-image: url('/food_and_drinks.jpg')">
+                <div class="container" style="background-image: url('/food_and_drinks.jpg'); background-size: 100% 100%; background-repeat: no-repeat;">
 
                     <div class="row">
                         <div class="col">
-                            <div class="krug stroke" :style="{ backgroundImage: `url(${this.food_info.url})`}"></div>
+                            <croppa v-model="imageData"
+                                initial-image="https://source.unsplash.com/random"
+                                :width="150"
+                                :height="150"
+                                placeholder="Upload image"
+                                placeholder-color="white"
+                                :placeholder-font-size="20"
+                                canvas-color="transparent"
+                                :show-remove-button="true"
+                                remove-button-color="rgba(245, 166, 35, 0.7)"
+                                >
+                            >
+                    </croppa>   
                         </div>
 
                         <div class="col stroke" >
@@ -129,7 +141,18 @@
 
                         <div class="row">
                             <div class="col">
-                                <div class="krug stroke" :style="{ backgroundImage: `url(${this.food_info.url})`}"></div>
+                                <croppa v-model="imageData"
+                                initial-image="https://zhanziyang.github.io/vue-croppa/static/500.jpeg"
+                                :width="145"
+                                :height="145"
+                                placeholder="Upload image"
+                                placeholder-color="white"
+                                :placeholder-font-size="20"
+                                canvas-color="transparent"
+                                :show-remove-button="true"
+                                remove-button-color="rgba(245, 166, 35, 0.7)"
+                            >
+                    </croppa>   
                             </div>
 
                             <div class="col stroke" >
@@ -142,11 +165,7 @@
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-                </div>
-            <!------------------------------------------>
-                <div class="main">
+                        <div class="main">
                     <div class="info_box stroke" style="text-align: center">
                         <select v-model="food_info.type" style="margin-right: 20px">
                             <option disabled value="">Type</option>
@@ -219,7 +238,10 @@
                         </table>
                     </div><br>
             
+                    </div>
+                    </div>
                 </div>
+                
             <!------------------------------------------>
                 <div class="bottom_buttons">
                      <button type="button" class="order order_only stroke" data-toggle="modal" data-target="#update_product">Save changes</button>
@@ -237,7 +259,8 @@
             return{
                 id: this.$route.params.id,
                 food_info: {},
-                store
+                store,
+                imageData: null
             }
         },
         methods:{
@@ -256,6 +279,57 @@
                 return counter
             },
             update_product(){
+                //Spremamo this u varijablu da tom kontekstu mozemo pristupati u daljnjem radu
+                var product_data = this.food_info;
+                this.imageData.generateBlob(imageData =>{ 
+                    //dodati alert ako nema slika a pokusavamo uploadati
+                    let imageName = this.title + ".png";   // jpeg za bolju optimizaciju
+                    var uploadTask = storage.ref(imageName).put(imageData);
+
+                    // Listen for state changes, errors, and completion of the upload.
+                    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null,
+                        function(error){
+                            console.log(erros)
+                        },
+                        function(){
+                            uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
+                                db.collection("products").doc(product_data.id).update({
+                                    title: product_data.title,                  
+                                    price: product_data.price,
+                                    url: downloadURL,
+                                    times_ordered: 0,
+
+                                    category: product_data.category,
+                                    type: product_data.type,
+
+                                    ingredients: product_data.ingredients,
+                                    description: product_data.description,
+
+                                    energy_value: product_data.energy_value,
+                                    carbohydrates: product_data.carbohydrates,
+                                    protein: product_data.protein,
+                                    fat: product_data.fat,
+                                    vitamin_a: product_data.vitamin_a,
+                                    vitamin_c: product_data.vitamin_c,
+                                    calcium: product_data.calcium,
+                                    zinc: product_data.zinc
+                                })
+                                
+                                .catch(function(error) {
+                                    console.error("Error adding document: ", error);
+                                });
+                            });  
+                        }
+
+                    );
+                      
+                    
+                });
+                //Nakon dodavanja se vracamo na prosu stranicu
+                //this.$router.go(-1);
+            },     
+        
+            update_product2(){
                 db.collection("products").doc(this.food_info.id).update({
                     title: this.food_info.title,
                     price: this.food_info.price,
@@ -294,11 +368,14 @@
 <style scoped>
     .top{
         height: 250px;
+        margin-top: 60px;
     }
     .container{
         background-size:cover;
         width:100%;
         height:200px;
+        border-radius: 5px;
+        border: 2px rgba(245, 166, 35, 0.7) solid;
     }
     .col{
         height:200px;
@@ -329,7 +406,8 @@
         font-weight: normal;
 
         background: #343434;
-        border:2px solid rgba(245, 166, 35, 0.7);
+        
+       
     }
     /*--------------------*/
     .info_box > p{
@@ -402,5 +480,21 @@
         border: 2px rgba(245, 166, 35, 0.7) solid;
 
         background: red;
+    }
+
+
+    .croppa-container {
+        position: relative;
+        top: 25px;
+        width: 150px;
+        height: 150px;
+        display: inline-block;
+        color: white;
+
+        border: 2px rgba(245, 166, 35, 0.7) solid;
+        background: #343434;
+    }
+    .croppa-container:hover {
+        opacity: 1;
     }
 </style>

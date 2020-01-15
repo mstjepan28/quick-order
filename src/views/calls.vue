@@ -5,7 +5,7 @@
 
                 <div class="row"> 
                     <div class="col">
-                        <div class="krug stroke"></div>
+                        <div class="krug stroke" style="background-image: url('/waiter_krug.jpg'); background-size: 100% 100%; background-repeat: no-repeat;"></div>
                     </div>
 
                     <div class="col stroke">
