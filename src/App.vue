@@ -7,7 +7,7 @@
         <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
           
           <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
-            A waiter has been notified and will arive shortly!
+            A Waiter has been notified and will arive shortly!
             <hr/>
             <div data-dismiss="modal">Ok</div>
           </div>
@@ -16,7 +16,7 @@
 
       </div>
     </div>
-    <div class="modal fade" id="call_the_waiter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="call_the_Waiter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document" >
         
         <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
@@ -27,10 +27,10 @@
 
           <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
             <hr/>
-            <div v-on:click="call_the_waiter('Service / Help')" class="mb-2" style="cursor:pointer;" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Service / Help</div>
-            <div v-on:click="call_the_waiter('Bring the bill')" class="mb-2" style="cursor:pointer;" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Bring the bill</div>
-            <div v-on:click="call_the_waiter('Complaint')" class="mb-2" style="cursor:pointer;" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Complaint</div>
-            <div v-on:click="call_the_waiter('Other')" style="cursor:pointer;" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Other</div>
+            <div v-on:click="call_the_Waiter('Service / Help')" class="mb-2" style="cursor:pointer;" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Service / Help</div>
+            <div v-on:click="call_the_Waiter('Bring the bill')" class="mb-2" style="cursor:pointer;" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Bring the bill</div>
+            <div v-on:click="call_the_Waiter('Complaint')" class="mb-2" style="cursor:pointer;" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Complaint</div>
+            <div v-on:click="call_the_Waiter('Other')" style="cursor:pointer;" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Other</div>
             <hr/>
           </div>
 
@@ -66,45 +66,45 @@
           </li>
 
         <!--Menadzer------------------------------------------------------------------------------------->
-          <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/statistics" class="nav-link"> Statistics </router-link>
           </li>
 
-          <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/orders/1" class="nav-link"> Orders history </router-link>
           </li>
 
-          <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/employees" class="nav-link"> Employees </router-link>
           </li>
 
-          <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/products" class="nav-link"> Products </router-link>
           </li>
                     
         <!--Konobar------------------------------------------------------------------------------------->
-          <li v-if="this.position == 'waiter'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Waiter'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/calls" class="nav-link"> Calls </router-link>
           </li>
 
         <!--Musterija-Konobar------------------------------------------------------------------------------------->          
-          <li v-if="this.position == 'waiter'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Waiter'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/calls" class="nav-link"> Calls </router-link>
           </li>
 
-          <li v-if="this.position == 'waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/food" class="nav-link"> Food </router-link>
           </li>
 
-          <li v-if="this.position == 'waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/drinks" class="nav-link"> Drinks </router-link>
           </li>
 
-          <li v-if="this.position == 'waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/most_ordered" class="nav-link"> Most ordered </router-link>
           </li>
 
-          <li v-if="this.position == 'waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/my_order" class="nav-link"> My order </router-link>
           </li>
 
@@ -135,7 +135,7 @@
     </div>
 
     <div v-if="this.$route.name !== 'login' && this.$route.name !== 'my_order' && this.position == 'Table'" class="bottom_buttons" >
-        <button type="button" class="call call_only stroke" data-toggle="modal" data-target="#call_the_waiter">Call waiter</button>
+        <button type="button" class="call call_only stroke" data-toggle="modal" data-target="#call_the_Waiter">Call Waiter</button>
     </div> 
 
   </div>
@@ -157,8 +157,8 @@
       go_back(){
         return this.$router.go(-1);
       },
-      call_the_waiter(request){
-        db.collection("waiter_calls").add({
+      call_the_Waiter(request){
+        db.collection("Waiter_calls").add({
             table: this.userEmail, 
             request: request,
             date: this.current_date(),
@@ -234,8 +234,8 @@
               });
           });
           //Dohvacanje poziva korisnika za konobara
-            //console.log('fetching waiter calls');  
-          db.collection("waiter_calls").orderBy("time").onSnapshot(snapshot => {
+            //console.log('fetching Waiter calls');  
+          db.collection("Waiter_calls").orderBy("time").onSnapshot(snapshot => {
               snapshot.docChanges().forEach(change => {
                   if (change.type === "added"){
                       const data = change.doc.data()

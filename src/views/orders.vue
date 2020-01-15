@@ -5,7 +5,7 @@
             <h3 class="top_title">Orders</h3>
         </div>
         <!--Ako je ulogiran kuhar ili barmen pokazi filtrirane narudzbe i strelice za promjenu trenutnog prikaza-->
-        <div v-if="store.position == 'chef' || store.position == 'barmen'" class="main">
+        <div v-if="store.position == 'Chef' || store.position == 'barmen'" class="main">
             <div class="title stroke">
                 <div v-on:click="previous"><i class="fas fa-arrow-left"></i></div>
                 {{this.order_state[this.i]}}
@@ -50,9 +50,9 @@
             filtered_cards(){
                 //Vrati one kartice ciji order state odgovara onom kojeg smo odabrali izmedu ['Available', 'Being prepared', 'Finished']
                 //Za barmena se vracaju samo pica dok se za kuhara vraca samo hrana
-                if(this.store.position == 'chef')
+                if(this.store.position == 'Chef')
                     return this.store.order_cards.filter(card => card.food.order_state == this.order_state[this.i]);
-                else if(this.store.position == 'barman')
+                else if(this.store.position == 'Barman')
                     return this.store.order_cards.filter(card => card.drinks.order_state == this.order_state[this.i]);
             }
         },

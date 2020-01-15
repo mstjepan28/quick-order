@@ -94,7 +94,7 @@
 
             <h3 class="underline stroke">Orders</h3>
             <div v-if="store.position == 'Chef'"><FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.food.order" /></div>
-            <div v-if="store.position == 'barman'"><FoodCard  v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.drinks.order" /></div>
+            <div v-if="store.position == 'Barman'"><FoodCard  v-bind:key="card.id" v-bind:info="card" v-for="card in order_info.drinks.order" /></div>
         </div>
         <!---------------------------------------------------------------->
         <div v-if="store.position == 'Manager'" class="main">
@@ -151,7 +151,7 @@
             <button v-if="order_info.food.order_state == 'Being prepared' && store.userId == order_info.food.selected_by" type="button" class="finish_button stroke" data-toggle="modal" data-target="#finish_the_order">Mark as finished</button>
         </div>
 
-        <div v-if="store.position == 'barman' && order_info" class="bottom_buttons">
+        <div v-if="store.position == 'Barman' && order_info" class="bottom_buttons">
             <button v-if="order_info.drinks.order_state == 'Available'" type="button" class="accept_button stroke" data-toggle="modal" data-target="#accept_the_order">Accept this order</button>
             <button v-if="order_info.drinks.order_state == 'Being prepared' && store.userId == order_info.drinks.selected_by" type="button" class="finish_button stroke" data-toggle="modal" data-target="#finish_the_order">Mark as finished</button>
         </div>

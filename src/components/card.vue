@@ -2,7 +2,7 @@
     <div class="container mt-1">
         <div class="row">
 
-            <div v-if = "this.position != 'waiter' || this.position != 'Table' || this.$router.name == 'order_info' "  class="col-2" style="text-align:center">
+            <div v-if = "this.position != 'Waiter' || this.position != 'Table' || this.$router.name == 'order_info' "  class="col-2" style="text-align:center">
                 <div class="counter">{{info.counter}}</div> 
             </div>
 

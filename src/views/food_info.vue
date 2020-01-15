@@ -41,7 +41,7 @@
             </div>
         </div>
         <!------------------------------------------>
-        <div v-if="this.store.position != 'manager'">
+        <div v-if="this.store.position != 'Manager'">
             <div class="top">
                 <div class="container" style="background-image: url('/food_and_drinks.jpg')">
 
@@ -59,7 +59,7 @@
                         </div>
                     </div>
 
-                    <div v-if="store.position == 'waiter' || store.position == 'Table'" class="row second_row">
+                    <div v-if="store.position == 'Waiter' || store.position == 'Table'" class="row second_row">
                         <div class="col stroke" ><i class="fas fa-chevron-up" v-on:click="food_info.counter = increase(food_info.counter)"></i></div>
                         <div class="col stroke" >{{food_info.counter}}</div>
                         <div class="col stroke" ><i class="fas fa-chevron-down" v-on:click="food_info.counter = decrease(food_info.counter)"></i></div>

@@ -7,44 +7,44 @@
                     <div class="row">
                         <div class="col-4">
                             <h3 class="stroke underline">By day:</h3>
-                            <h5>Mon:</h5> {{this.statistics.hour_orders[0]}}<br>
-                            <h5>Tues:</h5> {{this.statistics.hour_orders[1]}}<br>
-                            <h5>Wed:</h5> {{this.statistics.hour_orders[2]}}<br>
-                            <h5>Thurs:</h5> {{this.statistics.hour_orders[3]}}<br>
-                            <h5>Fri:</h5> {{this.statistics.hour_orders[4]}}<br>
-                            <h5>Sat:</h5> {{this.statistics.hour_orders[5]}}<br>
-                            <h5>Sun:</h5> {{this.statistics.hour_orders[6]}}<br>
+                            <h5>Mon:</h5> {{this.statistics.day_orders[1]}}<br>
+                            <h5>Tues:</h5> {{this.statistics.day_orders[2]}}<br>
+                            <h5>Wed:</h5> {{this.statistics.day_orders[3]}}<br>
+                            <h5>Thurs:</h5> {{this.statistics.day_orders[4]}}<br>
+                            <h5>Fri:</h5> {{this.statistics.day_orders[5]}}<br>
+                            <h5>Sat:</h5> {{this.statistics.day_orders[6]}}<br>
+                            <h5>Sun:</h5> {{this.statistics.day_orders[0]}}<br>
                         </div>
                         <div class="col-8">
                             <h3 class="stroke underline">By hour:</h3>
                             <div class="row">
                                 <div class="col">
-                                    <h5>01:00</h5> {{this.statistics.hour_orders[0]}}<br>
-                                    <h5>02:00</h5> {{this.statistics.hour_orders[1]}}<br>
-                                    <h5>03:00</h5> {{this.statistics.hour_orders[2]}}<br>
-                                    <h5>04:00</h5> {{this.statistics.hour_orders[3]}}<br>
-                                    <h5>05:00</h5> {{this.statistics.hour_orders[4]}}<br>
-                                    <h5>06:00</h5> {{this.statistics.hour_orders[5]}}<br>
-                                    <h5>07:00</h5> {{this.statistics.hour_orders[6]}}<br>
-                                    <h5>08:00</h5> {{this.statistics.hour_orders[7]}}<br>
-                                    <h5>09:00</h5> {{this.statistics.hour_orders[8]}}<br>
-                                    <h5>10:00</h5> {{this.statistics.hour_orders[9]}}<br>
-                                    <h5>11:00</h5> {{this.statistics.hour_orders[10]}}<br>
-                                    <h5>12:00</h5> {{this.statistics.hour_orders[11]}}<br>
+                                    <h5>01:00</h5> {{this.statistics.hour_orders[1]}}<br>
+                                    <h5>02:00</h5> {{this.statistics.hour_orders[2]}}<br>
+                                    <h5>03:00</h5> {{this.statistics.hour_orders[3]}}<br>
+                                    <h5>04:00</h5> {{this.statistics.hour_orders[4]}}<br>
+                                    <h5>05:00</h5> {{this.statistics.hour_orders[5]}}<br>
+                                    <h5>06:00</h5> {{this.statistics.hour_orders[6]}}<br>
+                                    <h5>07:00</h5> {{this.statistics.hour_orders[7]}}<br>
+                                    <h5>08:00</h5> {{this.statistics.hour_orders[8]}}<br>
+                                    <h5>09:00</h5> {{this.statistics.hour_orders[9]}}<br>
+                                    <h5>10:00</h5> {{this.statistics.hour_orders[10]}}<br>
+                                    <h5>11:00</h5> {{this.statistics.hour_orders[11]}}<br>
+                                    <h5>12:00</h5> {{this.statistics.hour_orders[12]}}<br>
                                 </div>
                                 <div class="col">
-                                    <h5>13:00</h5> {{this.statistics.hour_orders[12]}}<br>
-                                    <h5>14:00</h5> {{this.statistics.hour_orders[13]}}<br>
-                                    <h5>15:00</h5> {{this.statistics.hour_orders[14]}}<br>
-                                    <h5>16:00</h5> {{this.statistics.hour_orders[15]}}<br>
-                                    <h5>17:00</h5> {{this.statistics.hour_orders[16]}}<br>
-                                    <h5>18:00</h5> {{this.statistics.hour_orders[17]}}<br>
-                                    <h5>19:00</h5> {{this.statistics.hour_orders[18]}}<br>
-                                    <h5>20:00</h5> {{this.statistics.hour_orders[19]}}<br>
-                                    <h5>21:00</h5> {{this.statistics.hour_orders[20]}}<br>
-                                    <h5>22:00</h5> {{this.statistics.hour_orders[21]}}<br>
-                                    <h5>23:00</h5> {{this.statistics.hour_orders[22]}}<br>
-                                    <h5>24:00</h5> {{this.statistics.hour_orders[23]}}<br>
+                                    <h5>13:00</h5> {{this.statistics.hour_orders[13]}}<br>
+                                    <h5>14:00</h5> {{this.statistics.hour_orders[14]}}<br>
+                                    <h5>15:00</h5> {{this.statistics.hour_orders[15]}}<br>
+                                    <h5>16:00</h5> {{this.statistics.hour_orders[16]}}<br>
+                                    <h5>17:00</h5> {{this.statistics.hour_orders[17]}}<br>
+                                    <h5>18:00</h5> {{this.statistics.hour_orders[18]}}<br>
+                                    <h5>19:00</h5> {{this.statistics.hour_orders[19]}}<br>
+                                    <h5>20:00</h5> {{this.statistics.hour_orders[20]}}<br>
+                                    <h5>21:00</h5> {{this.statistics.hour_orders[21]}}<br>
+                                    <h5>22:00</h5> {{this.statistics.hour_orders[22]}}<br>
+                                    <h5>23:00</h5> {{this.statistics.hour_orders[23]}}<br>
+                                    <h5>24:00</h5> {{this.statistics.hour_orders[0]}}<br>
                                 </div>                                
                             </div>
 
@@ -60,44 +60,44 @@
                     <div class="row">
                         <div class="col-4">
                             <h3 class="stroke underline">By day:</h3>
-                            <h5>Mon:</h5> {{this.statistics.day_price[0]}}<br>
-                            <h5>Tues:</h5> {{this.statistics.day_price[1]}}<br>
-                            <h5>Wed:</h5> {{this.statistics.day_price[2]}}<br>
-                            <h5>Thurs:</h5> {{this.statistics.day_price[3]}}<br>
-                            <h5>Fri:</h5> {{this.statistics.day_price[4]}}<br>
-                            <h5>Sat:</h5> {{this.statistics.day_price[5]}}<br>
-                            <h5>Sun:</h5> {{this.statistics.day_price[6]}}<br>
+                            <h5>Mon:</h5> {{this.statistics.day_price[1]}}<br>
+                            <h5>Tues:</h5> {{this.statistics.day_price[2]}}<br>
+                            <h5>Wed:</h5> {{this.statistics.day_price[3]}}<br>
+                            <h5>Thurs:</h5> {{this.statistics.day_price[4]}}<br>
+                            <h5>Fri:</h5> {{this.statistics.day_price[5]}}<br>
+                            <h5>Sat:</h5> {{this.statistics.day_price[6]}}<br>
+                            <h5>Sun:</h5> {{this.statistics.day_price[0]}}<br>
                         </div>
                         <div class="col-8">
                             <h3 class="stroke underline">By hour:</h3>
                             <div class="row">
                                 <div class="col">
-                                    <h5>01:00</h5> {{this.statistics.hour_price[0]}}<br>
-                                    <h5>02:00</h5> {{this.statistics.hour_price[1]}}<br>
-                                    <h5>03:00</h5> {{this.statistics.hour_price[2]}}<br>
-                                    <h5>04:00</h5> {{this.statistics.hour_price[3]}}<br>
-                                    <h5>05:00</h5> {{this.statistics.hour_price[4]}}<br>
-                                    <h5>06:00</h5> {{this.statistics.hour_price[5]}}<br>
-                                    <h5>07:00</h5> {{this.statistics.hour_price[6]}}<br>
-                                    <h5>08:00</h5> {{this.statistics.hour_price[7]}}<br>
-                                    <h5>09:00</h5> {{this.statistics.hour_price[8]}}<br>
-                                    <h5>10:00</h5> {{this.statistics.hour_price[9]}}<br>
-                                    <h5>11:00</h5> {{this.statistics.hour_price[10]}}<br>
-                                    <h5>12:00</h5> {{this.statistics.hour_price[11]}}<br>
+                                    <h5>01:00</h5> {{this.statistics.hour_price[1]}}<br>
+                                    <h5>02:00</h5> {{this.statistics.hour_price[2]}}<br>
+                                    <h5>03:00</h5> {{this.statistics.hour_price[3]}}<br>
+                                    <h5>04:00</h5> {{this.statistics.hour_price[4]}}<br>
+                                    <h5>05:00</h5> {{this.statistics.hour_price[5]}}<br>
+                                    <h5>06:00</h5> {{this.statistics.hour_price[6]}}<br>
+                                    <h5>07:00</h5> {{this.statistics.hour_price[7]}}<br>
+                                    <h5>08:00</h5> {{this.statistics.hour_price[8]}}<br>
+                                    <h5>09:00</h5> {{this.statistics.hour_price[9]}}<br>
+                                    <h5>10:00</h5> {{this.statistics.hour_price[10]}}<br>
+                                    <h5>11:00</h5> {{this.statistics.hour_price[11]}}<br>
+                                    <h5>12:00</h5> {{this.statistics.hour_price[12]}}<br>
                                 </div>
                                 <div class="col">
-                                    <h5>13:00</h5> {{this.statistics.hour_price[12]}}<br>
-                                    <h5>14:00</h5> {{this.statistics.hour_price[13]}}<br>
-                                    <h5>15:00</h5> {{this.statistics.hour_price[14]}}<br>
-                                    <h5>16:00</h5> {{this.statistics.hour_price[15]}}<br>
-                                    <h5>17:00</h5> {{this.statistics.hour_price[16]}}<br>
-                                    <h5>18:00</h5> {{this.statistics.hour_price[17]}}<br>
-                                    <h5>19:00</h5> {{this.statistics.hour_price[18]}}<br>
-                                    <h5>20:00</h5> {{this.statistics.hour_price[19]}}<br>
-                                    <h5>21:00</h5> {{this.statistics.hour_price[20]}}<br>
-                                    <h5>22:00</h5> {{this.statistics.hour_price[21]}}<br>
-                                    <h5>23:00</h5> {{this.statistics.hour_price[22]}}<br>
-                                    <h5>24:00</h5> {{this.statistics.hour_price[23]}}<br>
+                                    <h5>13:00</h5> {{this.statistics.hour_price[13]}}<br>
+                                    <h5>14:00</h5> {{this.statistics.hour_price[14]}}<br>
+                                    <h5>15:00</h5> {{this.statistics.hour_price[15]}}<br>
+                                    <h5>16:00</h5> {{this.statistics.hour_price[16]}}<br>
+                                    <h5>17:00</h5> {{this.statistics.hour_price[17]}}<br>
+                                    <h5>18:00</h5> {{this.statistics.hour_price[18]}}<br>
+                                    <h5>19:00</h5> {{this.statistics.hour_price[19]}}<br>
+                                    <h5>20:00</h5> {{this.statistics.hour_price[21]}}<br>
+                                    <h5>21:00</h5> {{this.statistics.hour_price[22]}}<br>
+                                    <h5>22:00</h5> {{this.statistics.hour_price[23]}}<br>
+                                    <h5>23:00</h5> {{this.statistics.hour_price[24]}}<br>
+                                    <h5>24:00</h5> {{this.statistics.hour_price[0]}}<br>
                                 </div>
                             </div>
                         </div>
@@ -106,8 +106,8 @@
             </div>
 
             <div class="mt-3">
+                <h5>Total income: </h5> {{this.total_income}}<br>
                 <h5>Total orders: </h5> {{this.total_count}}<br>
-                <h5>Total income: </h5> {{this.total_income}}
                 <h3 class="underline"><h3 class="stroke">Average order price:</h3> {{parseInt(this.total_income / this.total_count, 10)}}$</h3>
             </div>
  

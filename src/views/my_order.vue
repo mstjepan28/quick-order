@@ -47,7 +47,7 @@
         </div>
 
         <div class="main">
-            <div v-if="store.position == 'waiter'">
+            <div v-if="store.position == 'Waiter'">
                 <h3 class="underline stroke">Table:</h3>
                 <input class="table_input" type="text" v-model="table">
             </div>
@@ -68,7 +68,7 @@
             </form>
         </div>
         
-        <div v-if="store.position == 'waiter' && store.order.products.length >=1">
+        <div v-if="store.position == 'Waiter' && store.order.products.length >=1">
             <div class="bottom_buttons" >
                 <button type="button" class="order order_only stroke" data-toggle="modal" data-target="#place_order">Place order</button>
             </div>            
@@ -76,10 +76,10 @@
         <div v-else-if="store.position == 'Table'" class="bottom_buttons">
             <div v-if="store.order.products.length >=1">
                 <button type="button" class="order stroke" data-toggle="modal" data-target="#place_order">Place order</button>
-                <button type="button" class="call stroke"  data-toggle="modal" data-target="#call_the_waiter">Call waiter</button>                
+                <button type="button" class="call stroke"  data-toggle="modal" data-target="#call_the_Waiter">Call Waiter</button>                
             </div>
             <div v-else>
-                <button type="button" class="call call_only stroke"  data-toggle="modal" data-target="#call_the_waiter">Call waiter</button> 
+                <button type="button" class="call call_only stroke"  data-toggle="modal" data-target="#call_the_Waiter">Call Waiter</button> 
             </div>
 
         </div>   
@@ -116,7 +116,7 @@
         methods:{
             send_order(){
                 if(store.order.products.length >= 1){
-                    if(store.position == 'waiter')
+                    if(store.position == 'Waiter')
                         store.table = table
                     let products = store.order.products;
                     //Narudzbe smo podijelili u dva obijekta, ako ne postoji barem jedan proizvod tipa food/drink ne dodajemo nista na bazu
