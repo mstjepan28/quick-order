@@ -43,7 +43,7 @@
         <!------------------------------------------>
         <div v-if="this.store.position != 'Manager'">
             <div class="top">
-                <div class="container" style="background-image: url('/food_and_drinks.jpg')">
+                <div class="container" style="background-image: url('/food_and_drinks.jpg'); background-size: 100% 100%; background-repeat: no-repeat;">
 
                     <div class="row">
                         <div class="col">
@@ -143,8 +143,8 @@
                             <div class="col">
                                 <croppa v-model="imageData"
                                 initial-image="https://zhanziyang.github.io/vue-croppa/static/500.jpeg"
-                                :width="150"
-                                :height="150"
+                                :width="145"
+                                :height="145"
                                 placeholder="Upload image"
                                 placeholder-color="white"
                                 :placeholder-font-size="20"
@@ -374,6 +374,8 @@
         background-size:cover;
         width:100%;
         height:200px;
+        border-radius: 5px;
+        border: 2px rgba(245, 166, 35, 0.7) solid;
     }
     .col{
         height:200px;
@@ -480,11 +482,6 @@
         background: red;
     }
 
-    .row{        
-       border-radius: 5px;
-        border: 2px rgba(245, 166, 35, 0.7) solid;
-
-    }
 
     .croppa-container {
         position: relative;

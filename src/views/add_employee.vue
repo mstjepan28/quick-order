@@ -54,14 +54,12 @@
                     >
                     </croppa>
                 </div>
+            </div>
 
+            <div class="row">
                 <div class="col">
                     <h3 class="stroke underline info">Full name:</h3><input type=text class="input_box" v-model=full_name>
                     <h3 class="stroke underline info">Date of birth:</h3><input type=date class="input_box" v-model=date_of_birth>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
                     <h3 class="stroke underline info">Phone:</h3><input type=tel class="input_box" placeholder="123-4567-890" v-model=phone>
                     <h3 class="stroke underline info">Adress:</h3><input type=text class="input_box" v-model=adress>
                     <h3 class="stroke underline info">City:</h3><input type=text class="input_box" v-model=city>
@@ -250,7 +248,8 @@
     .croppa-container {
         text-align: center;
         position: relative;
-        top: 25px;
+        
+        top: 45px;
         
         color: white;
 
