@@ -160,7 +160,7 @@
         return this.$router.go(-1);
       },
       call_the_Waiter(request){
-        db.collection("Waiter_calls").add({
+        db.collection("waiter_calls").add({
             table: this.userEmail, 
             request: request,
             date: this.current_date(),
@@ -236,7 +236,7 @@
               });
           });
           //Dohvacanje poziva korisnika za konobara
-          store.Waiter_calls_listener = db.collection("Waiter_calls").orderBy("time").onSnapshot(snapshot => {
+          store.Waiter_calls_listener = db.collection("waiter_calls").orderBy("time").onSnapshot(snapshot => {
               snapshot.docChanges().forEach(change => {
                   if (change.type === "added"){
                       const data = change.doc.data()
@@ -319,7 +319,7 @@
         console.log(store.product_listener());
         store.product_listener();
         store.orders_listener();
-        store.Waiter_calls_listener();
+        store.waiter_calls_listener();
         store.staff_calls_listener();
         store.statistics_listener();
         store.users_listener();

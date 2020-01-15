@@ -63,7 +63,7 @@
         methods: {
             mark_as_finished(){
                 this.info.call_state = 'Finished';
-                if(info.request != undefined){
+                if(this.info.request != undefined){
                     db.collection("waiter_calls").doc(this.info.id).update({
                         call_state: 'Finished'
                     });                           
