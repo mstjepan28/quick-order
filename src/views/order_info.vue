@@ -234,7 +234,6 @@
         mounted(){
             //U order_info spremamo kartice iz order_cards(povukli smo ih iz baze u orders.vue)
             this.order_info = store.order_cards.filter(card => card.id == this.id)[0];
-            console.log(this.order_info);
         },
         name: 'order_info',
         components: {

@@ -15,8 +15,8 @@
         </div>
         
         <div class="bottom_buttons">
-            <router-link to="/add_employee" class="call call_only stroke">Add new</router-link>
-        </div>
+            <router-link to="/add_employee" class="call call_only stroke">Add employee</router-link>     
+        </div>        
     </div>
 </template>
 
@@ -28,7 +28,7 @@
         data(){
             return{
                 i: 0,
-                show: ['Waiter', 'Chef', 'Barman', 'Manager', 'Table'],
+                show: ['Waiter', 'Chef', 'Barman', 'Manager'],
                 users: store.users
             }
         },
@@ -45,7 +45,7 @@
             previous(){
                 this.i -= 1;
                 if(this.i < 0) this.i = this.show.length - 1;
-            }
+            },
         },
         components:{
             EmployeeCard
@@ -65,4 +65,5 @@
     .title > div{
         display: inline-block;
     }
+    /*--------------------------------*/
 </style>

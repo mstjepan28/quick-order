@@ -50,5 +50,13 @@ export default {
       day_orders: [0, 1, 2, 3, 4, 5, 6],
       day_price: [1000, 1001, 1002, 1003, 1004, 1005, 1006]      
     },
-    users: []
+    users: [],
+
+    //Listeners
+    product_listener: null,
+    orders_listener: null,
+    Waiter_calls_listener: null,
+    staff_calls_listener: null,
+    statistics_listener: null,
+    users_listener: null,
 }

@@ -117,7 +117,7 @@
             send_order(){
                 if(store.order.products.length >= 1){
                     if(store.position == 'Waiter')
-                        store.table = table
+                        store.table = this.table;
                     let products = store.order.products;
                     //Narudzbe smo podijelili u dva obijekta, ako ne postoji barem jedan proizvod tipa food/drink ne dodajemo nista na bazu
                     //U suprotno, taj objekt spremamo na bazu zajedno sa narudzbom
@@ -157,7 +157,7 @@
                         date: store.current_date(),
                         time: store.current_time(),
                         note: this.note,
-                        table: store.userEmail, //<---------------------------
+                        table: store.table,
                         food: food,
                         drinks: drinks
                     });

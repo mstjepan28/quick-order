@@ -143,7 +143,6 @@
 
 <script>
   import store from '@/store.js'
-  import { async } from 'q';
 
   export default {
     data () {
@@ -151,7 +150,10 @@
     },
     methods: {
       logout() {
-        this.$router.push({name:'login'})
+        this.$router.push({name:'login'}).catch(err => {
+            console.log(err);
+        });
+        this.detach_listeners();
         firebase.auth().signOut()
       },
       go_back(){
@@ -180,8 +182,7 @@
         //data_fetched koristimo da nebi došlo do povlačenja podataka više od jednom
         if(!store.data_fetched){
           //Dohvacanje proizvoda
-            //console.log('fetching products'); 
-          db.collection("products").orderBy("title").onSnapshot(snapshot => {
+          store.product_listener = db.collection("products").orderBy("title").onSnapshot(snapshot => {
             snapshot.docChanges().forEach(change => {
                 if (change.type === "added" ||change.type === 'modified'){
                   const data = change.doc.data()
@@ -213,8 +214,7 @@
             });
           });
           //Dohvacanje narudzbi
-            //console.log('fetching orders'); 
-          db.collection("orders").orderBy("time").onSnapshot(snapshot => {
+          store.orders_listener = db.collection("orders").orderBy("time").onSnapshot(snapshot => {
               snapshot.docChanges().forEach(change => {
                   if (change.type === "added"){
                       const data = change.doc.data()
@@ -234,8 +234,7 @@
               });
           });
           //Dohvacanje poziva korisnika za konobara
-            //console.log('fetching Waiter calls');  
-          db.collection("Waiter_calls").orderBy("time").onSnapshot(snapshot => {
+          store.Waiter_calls_listener = db.collection("Waiter_calls").orderBy("time").onSnapshot(snapshot => {
               snapshot.docChanges().forEach(change => {
                   if (change.type === "added"){
                       const data = change.doc.data()
@@ -251,8 +250,7 @@
               });
           });
           //Dohvacanje poziva kuhara i barmena za konobara
-            //console.log('fetching staff_calls'); 
-          db.collection("staff_calls").orderBy("time").onSnapshot(snapshot => {
+          store.staff_calls_listener = db.collection("staff_calls").orderBy("time").onSnapshot(snapshot => {
             snapshot.docChanges().forEach(change => {
                 if (change.type === "added"){
                     const data = change.doc.data()
@@ -267,9 +265,8 @@
                 }
               });
           });
-          //Dohvacanje statistike
-            //console.log('fetching statistics');        
-          db.collection("statistics").onSnapshot(snapshot =>{
+          //Dohvacanje statistike     
+          store.statistics_listener = db.collection("statistics").onSnapshot(snapshot =>{
             snapshot.docChanges().forEach(change => {
               if(change.type === 'added' || change.type === 'modified'){
                 const data = change.doc.data()
@@ -282,7 +279,7 @@
             })
           });
           //Dohvacanje korisnika
-          db.collection("users").orderBy("last_login").onSnapshot(snapshot =>{
+          store.users_listener = db.collection("users").orderBy("last_login").onSnapshot(snapshot =>{
             snapshot.docChanges().forEach(change => {
               if(change.type === 'added' || change.type === 'modified'){
                 const data = change.doc.data()
@@ -290,7 +287,7 @@
                   id: data.id,
                   username: data.username,
                   email: data.email,
-                  password: data.password,
+                  //password: data.password,
                   photo_url: data.photo_url,
 
                   full_name: data.full_name,
@@ -316,7 +313,14 @@
           store.data_fetched = true;
         }
       },
-
+      detach_listeners(){
+        store.product_listener();
+        store.orders_listener();
+        store.Waiter_calls_listener();
+        store.staff_calls_listener();
+        store.statistics_listener();
+        store.users_listener();
+      }
     },
     mounted(){
       //Dohvacanje korisnika

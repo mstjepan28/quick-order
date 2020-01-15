@@ -2,27 +2,27 @@
     <div class="container mt-1">
         <div class="row">
 
-            <div v-if = "this.position != 'Waiter' || this.position != 'Table' || this.$router.name == 'order_info' "  class="col-2" style="text-align:center">
-                <div class="counter">{{info.counter}}</div> 
-            </div>
-
-            <div v-else class="col-2" style="text-align:center">
+            <div v-if = "this.position != 'Waiter' || this.position != 'Table'"  class="col-2" style="text-align:center">
                 <i class="fas fa-chevron-up" v-on:click="info.counter = increase(info.counter)"></i>
                 <div>{{info.counter}}</div> 
                 <i class="fas fa-chevron-down" v-on:click="info.counter = decrease(info.counter)"></i>
             </div>
 
-            
-
-            <router-link v-bind:to="'/food_info/' + info.id" class="col-3 prod_img" :style="{ backgroundImage: `url(${info.url})`}" style="background-size:contain; background-repeat:no-repeat; " ></router-link>
-
-            <div class="col-7 details">
-                <h6 style="margin: 8px 0 0 0">{{info.title}}</h6>
-                <hr/>
-                <h6>{{"Times ordered: " + info.times_ordered}}</h6>
-                
+            <div v-else class="col-2" style="text-align:center">
+                <div class="counter">{{info.counter}}</div> 
             </div>
-            
+
+            <router-link class="col-10 row" v-bind:to="'/food_info/' + info.id">
+                <div class="col-3 prod_img" :style="{ backgroundImage: `url(${info.url})`}" style="background-size:contain; background-repeat:no-repeat; " ></div>
+
+                <div class="col-9 details">
+                    <h6 style="margin: 8px 0 0 0">{{info.title}}</h6>
+                    <hr/>
+                    <h6>{{"Times ordered: " + info.times_ordered}}</h6>
+                    
+                </div>
+            </router-link>    
+
         </div>
     </div> 
 </template>
@@ -57,7 +57,7 @@
 
 <style scoped>
     .container{
-        height: 75px;
+        height: 72px;
         
         border-radius: 10px;
         border: 2px rgba(245, 166, 35, 0.7) solid;

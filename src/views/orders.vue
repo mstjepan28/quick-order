@@ -15,8 +15,12 @@
         </div>
         
         <!--Ako je ulogiran menadzer prikazi sve narudzbe-->
-        <div v-else class="main">
+        <div v-else-if="store.position == 'Manager'" class="main">
             <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in store.order_cards" />
+        </div>
+        
+        <div v-else>
+            <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in table_orders" />
         </div>
 
     </div>
@@ -54,6 +58,9 @@
                     return this.store.order_cards.filter(card => card.food.order_state == this.order_state[this.i]);
                 else if(this.store.position == 'Barman')
                     return this.store.order_cards.filter(card => card.drinks.order_state == this.order_state[this.i]);
+            },
+            table_orders(){
+                return this.sotre.order_cards
             }
         },
         components: {
