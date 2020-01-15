@@ -142,7 +142,6 @@
                         <div class="row">
                             <div class="col">
                                 <croppa v-model="imageData"
-                                initial-image="https://zhanziyang.github.io/vue-croppa/static/500.jpeg"
                                 :width="145"
                                 :height="145"
                                 placeholder="Upload image"
@@ -152,6 +151,7 @@
                                 :show-remove-button="true"
                                 remove-button-color="rgba(245, 166, 35, 0.7)"
                             >
+                            <img slot="initial" :src= this.food_info.url />
                     </croppa>   
                             </div>
 

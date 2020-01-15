@@ -47,7 +47,7 @@
 
 <!--Musterija-Konobar------------------------------------------------------------------------------------->
     <router-link v-if="this.position == 'Waiter'" to="/calls">
-      <div class="opcija slika" style="background-image: url('/call.jpg'); background-size: 100% 100%; background-repeat: no-repeat;">
+      <div class="opcija slika" style="background-image: url('/call.jpg')">
         <div class="krug">Calls</div>
       </div>
     </router-link>

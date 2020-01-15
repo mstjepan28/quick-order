@@ -22,13 +22,15 @@
 </template>
 
 <script>
+import store from '@/store.js'
   export default {
     data(){
       return{
         email: '',
         password: '',
         qrUser: '',
-        qrPass: ''
+        qrPass: '',
+        store
       }
     },
     methods: {
@@ -56,7 +58,7 @@
 
           name = name.replace(/[\[\]]/g, '\\$&');
 
-          var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+          var regex = new RegExp('[?&]' + name + '(=([^&]*)|&|#|$)'),
               results = regex.exec(url);
           if(!results) 
             return null;
@@ -70,6 +72,7 @@
         let url = window.location.href;
         this.qrUser=this.getParameterByName('username' , url);
         this.qrPass=this.getParameterByName('password' ,  url);
+        this.store.table=this.getParameterByName('table' ,  url);
         
         if(this.qrUser!=null && this.qrPass!=null){    
           firebase.auth().signInWithEmailAndPassword(this.qrUser, this.qrPass).catch(function(error) {
