@@ -47,6 +47,10 @@
                 if(this.i < 0) this.i = this.show.length - 1;
             },
         },
+        mounted(){
+            if(store.position != 'Manager')
+                this.$router.push({name:'main_menu'});
+        },
         components:{
             EmployeeCard
         }

@@ -140,6 +140,7 @@
                         food = {
                             selected_by: '',
                             order_state: 'Available',
+                            order_status: 'Ordered',
                             finished_at: '',
                             order: order_food,
                         };                        
@@ -148,6 +149,7 @@
                         drinks = {
                             selected_by: '',
                             order_state: 'Available',
+                            order_status: 'Ordered',
                             finished_at: '',
                             order: order_drinks,
                         };                        
@@ -157,7 +159,9 @@
                         date: store.current_date(),
                         time: store.current_time(),
                         note: this.note,
+                        feedback: '',
                         table: store.table,
+                        paid: false,
                         food: food,
                         drinks: drinks
                     });

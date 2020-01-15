@@ -5,8 +5,6 @@
             <h3 class="top_title">Orders</h3>
         </div>
         
-        
-        <!--Ako je ulogiran menadzer prikazi sve narudzbe-->
         <div class="main">
             <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
         </div>
@@ -21,14 +19,13 @@
     export default {
         data(){
             return{
-
                 store
             }
         },
         computed:{
             filtered_cards(){
-               // return this.store.order_cards.filter(card => card.table == this.store.table);
-               return this.store.order_cards;
+                //return this.store.order_cards;
+                return this.store.order_cards.filter(order => !order.paid && order.table == this.store.table);
             }
         },
         components: {
