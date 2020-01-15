@@ -221,10 +221,12 @@
                       if(data.food != null){
                           store.order_cards.push({
                               id: change.doc.id,
+                              table: data.table,
                               price: data.price,
                               date: data.date,
                               time: data.time,
                               note: data.note,
+                              feedback: data.feedback,
                               food: data.food,
                               drinks: data.drinks
                           })                                      
@@ -284,7 +286,7 @@
               if(change.type === 'added' || change.type === 'modified'){
                 const data = change.doc.data()
                 store.users.push({
-                  id: data.id,
+                  id: change.doc.id,
                   username: data.username,
                   email: data.email,
                   //password: data.password,
@@ -314,6 +316,7 @@
         }
       },
       detach_listeners(){
+        console.log(store.product_listener());
         store.product_listener();
         store.orders_listener();
         store.Waiter_calls_listener();

@@ -185,6 +185,10 @@
                 });                
 
             },           
+        },
+        mounted(){
+            if(store.position != 'Manager')
+                this.$router.push({name:'main_menu'});
         }
     }
 </script>

@@ -14,11 +14,6 @@ const routes = [
     name: 'login',
     component: () => import('../views/login.vue')
   },
-  {
-    path: '/signup',
-    name: 'signup',
-    component: () => import('../views/signup.vue')
-  },
   /*-----------------------------------------------------*/
   {
     path: '/',
@@ -113,6 +108,11 @@ const routes = [
     path: '/statistics',
     name: 'statistics',
     component: () => import('../views/statistics.vue')
+  },
+  {
+    path: '/employee_info',
+    name: 'employee_info',
+    component: () => import('../views/employee_info.vue')
   },
   {
     path: '/employees',

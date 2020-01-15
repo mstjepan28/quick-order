@@ -25,20 +25,14 @@
                     <h2 class="modal-title" id="exampleModalLongTitle" style="display: inline-block">Order confirmation</h2>
                 </div>
 
-                <div v-if="this.info.call_state == 'Available'" class="modal-body" style="font-size: 30px;">
+                <div class="modal-body" style="font-size: 30px;">
                     <hr/>
                     Do you want to mark this call as finished?
                     <hr/>
                 </div>
-                <div v-else class="modal-body" style="font-size: 30px;">
-                    <hr/>
-                    Do you want to mark this call as available?
-                    <hr/>
-                </div>
 
                 <div class="modal-footer" style="text-align: center; width: 100%; border-style:none; padding-top:0">
-                    <div v-if="this.info.call_state == 'Available'" v-on:click="mark_as_finished" style="display: inline-block; font-size: 40px; width: 50%; color: green" data-dismiss="modal" data-toggle="modal" data-target="#order_confirmation"><i class="fas fa-check"></i></div>
-                    <div v-else v-on:click="mark_as_available" style="display: inline-block; font-size: 40px; width: 50%; color: green" data-dismiss="modal" data-toggle="modal" data-target="#order_confirmation"><i class="fas fa-check"></i></div>
+                    <div v-on:click="mark_as_finished" style="display: inline-block; font-size: 40px; width: 50%; color: green" data-dismiss="modal" data-toggle="modal" data-target="#order_confirmation"><i class="fas fa-check"></i></div>
                     <div style="display: inline-block; font-size: 40px; width: 50%; color: red"  data-dismiss="modal"><i class="fas fa-times"></i></div>  
                  </div>
                 
@@ -59,9 +53,13 @@
 </template>
 
 <script>
-    
+    import store from '@/store.js'
+
     export default {
         props: ['info'],
+        data(){
+            return store;
+        },
         methods: {
             mark_as_finished(){
                 this.info.call_state = 'Finished';
@@ -71,24 +69,25 @@
                     });                           
                 }
                 else{
-                     db.collection("staff_calls").doc(this.info.id).update({
+                    db.collection("staff_calls").doc(this.info.id).update({
                         call_state: 'Finished'
-                    });                             
+                    });
+
+                    let order = store.order_cards.filter(card => card.id == this.info.order_id);
+                    if(this.info.sent_by == 'Chef'){
+                        order.food.order_status = 'Served';
+                        db.collection('orders').doc(this.info.order_id).update({
+                            food: order.food
+                        });
+                    }
+                    else{
+                        order.drinks.order_status = 'Served';
+                        db.collection('orders').doc(this.info.order_id).update({
+                            drinks: order.drinks
+                        });
+                    }        
                 }    
             },
-            mark_as_available(){
-                this.info.call_state = 'Available';
-                if(info.request != undefined){
-                    db.collection("waiter_calls").doc(this.info.id).update({
-                        call_state: 'Available'
-                    });                        
-                }
-                else{
-                     db.collection("staff_calls").doc(this.info.id).update({
-                        call_state: 'Available'
-                    });                        
-                }                  
-            }
         },
     }
 </script>
