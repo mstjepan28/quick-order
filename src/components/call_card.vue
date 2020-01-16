@@ -41,7 +41,16 @@
             </div>
         </div>
 
-        <div class="stroke" data-toggle="modal" data-target="#customer_call">
+        <div v-if="info.call_state != 'Finished'" class="stroke" data-toggle="modal" data-target="#customer_call">
+            Table #1
+            <hr/>
+            <div v-if="info.request != undefined">{{info.request}}</div>
+            <div v-else>{{info.sent_by}}</div>            
+            <hr/>
+            {{info.time}}
+        </div>
+
+        <div v-else class="stroke">
             Table #1
             <hr/>
             <div v-if="info.request != undefined">{{info.request}}</div>
@@ -73,7 +82,7 @@
                         call_state: 'Finished'
                     });
 
-                    let order = store.order_cards.filter(card => card.id == this.info.order_id);
+                    let order = store.order_cards.filter(card => card.id == this.info.order_id)[0];
                     if(this.info.sent_by == 'Chef'){
                         order.food.order_status = 'Served';
                         db.collection('orders').doc(this.info.order_id).update({
