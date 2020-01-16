@@ -53,12 +53,13 @@
                         remove-button-color="rgba(245, 166, 35, 0.7)"
                     >
                     </croppa>
+                    <h3 class="stroke underline info">Full name:</h3><input type=text class="input_box" v-model=full_name>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col">
-                    <h3 class="stroke underline info">Full name:</h3><input type=text class="input_box" v-model=full_name>
+                    
                     <h3 class="stroke underline info">Date of birth:</h3><input type=date class="input_box" v-model=date_of_birth>
                     <h3 class="stroke underline info">Phone:</h3><input type=tel class="input_box" placeholder="123-4567-890" v-model=phone>
                     <h3 class="stroke underline info">Adress:</h3><input type=text class="input_box" v-model=adress>
@@ -200,7 +201,7 @@
         margin-bottom: 25px;
     }
     .top{
-        height: 300px;
+        height: 375px;
 
         border-radius: 5px;
         border: 2px rgba(245, 166, 35, 0.7) solid;
@@ -254,6 +255,8 @@
         position: relative;
         
         top: 45px;
+
+        margin-bottom: 50px;
         
         color: white;
 

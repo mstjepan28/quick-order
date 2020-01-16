@@ -47,19 +47,9 @@
 
                     <div class="row">
                         <div class="col">
-                            <croppa v-model="imageData"
-                                initial-image="https://source.unsplash.com/random"
-                                :width="150"
-                                :height="150"
-                                placeholder="Upload image"
-                                placeholder-color="white"
-                                :placeholder-font-size="20"
-                                canvas-color="transparent"
-                                :show-remove-button="true"
-                                remove-button-color="rgba(245, 166, 35, 0.7)"
-                                >
-                            >
-                    </croppa>   
+                            <div class="col">
+                                <div class="krug stroke" :style="{ backgroundImage: `url(${this.food_info.url})`}"></div>
+                            </div> 
                         </div>
 
                         <div class="col stroke" >

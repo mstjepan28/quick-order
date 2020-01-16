@@ -5,7 +5,7 @@
             <h3 class="top_title">Orders</h3>
         </div>
         <!--Ako je ulogiran kuhar ili barmen pokazi filtrirane narudzbe i strelice za promjenu trenutnog prikaza-->
-        <div v-if="store.position == 'Chef' || store.position == 'barmen'" class="main">
+        <div v-if="store.position == 'Chef' || store.position == 'Barman'" class="main">
             <div class="title stroke">
                 <div v-on:click="previous"><i class="fas fa-arrow-left"></i></div>
                 {{this.order_state[this.i]}}

@@ -6,19 +6,21 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-4">
-                            <h3 class="stroke underline">By day:</h3>
-                            <h5>Mon:</h5> {{this.statistics.day_orders[1]}}<br>
-                            <h5>Tues:</h5> {{this.statistics.day_orders[2]}}<br>
-                            <h5>Wed:</h5> {{this.statistics.day_orders[3]}}<br>
-                            <h5>Thurs:</h5> {{this.statistics.day_orders[4]}}<br>
-                            <h5>Fri:</h5> {{this.statistics.day_orders[5]}}<br>
-                            <h5>Sat:</h5> {{this.statistics.day_orders[6]}}<br>
-                            <h5>Sun:</h5> {{this.statistics.day_orders[0]}}<br>
+                            <h3 class="stroke underline">By day:</h3><br>
+                            <div class="backdrop" style="padding-left: 5px;">
+                                <h5>Mon:</h5> {{this.statistics.day_orders[1]}}<br>
+                                <h5>Tues:</h5> {{this.statistics.day_orders[2]}}<br>
+                                <h5>Wed:</h5> {{this.statistics.day_orders[3]}}<br>
+                                <h5>Thurs:</h5> {{this.statistics.day_orders[4]}}<br>
+                                <h5>Fri:</h5> {{this.statistics.day_orders[5]}}<br>
+                                <h5>Sat:</h5> {{this.statistics.day_orders[6]}}<br>
+                                <h5>Sun:</h5> {{this.statistics.day_orders[0]}}<br>
+                            </div>
                         </div>
                         <div class="col-8">
                             <h3 class="stroke underline">By hour:</h3>
                             <div class="row">
-                                <div class="col">
+                                <div class="col backdrop">
                                     <h5>01:00</h5> {{this.statistics.hour_orders[1]}}<br>
                                     <h5>02:00</h5> {{this.statistics.hour_orders[2]}}<br>
                                     <h5>03:00</h5> {{this.statistics.hour_orders[3]}}<br>
@@ -32,7 +34,7 @@
                                     <h5>11:00</h5> {{this.statistics.hour_orders[11]}}<br>
                                     <h5>12:00</h5> {{this.statistics.hour_orders[12]}}<br>
                                 </div>
-                                <div class="col">
+                                <div class="col backdrop">
                                     <h5>13:00</h5> {{this.statistics.hour_orders[13]}}<br>
                                     <h5>14:00</h5> {{this.statistics.hour_orders[14]}}<br>
                                     <h5>15:00</h5> {{this.statistics.hour_orders[15]}}<br>
@@ -59,19 +61,22 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-4">
-                            <h3 class="stroke underline">By day:</h3>
-                            <h5>Mon:</h5> {{this.statistics.day_price[1]}}<br>
-                            <h5>Tues:</h5> {{this.statistics.day_price[2]}}<br>
-                            <h5>Wed:</h5> {{this.statistics.day_price[3]}}<br>
-                            <h5>Thurs:</h5> {{this.statistics.day_price[4]}}<br>
-                            <h5>Fri:</h5> {{this.statistics.day_price[5]}}<br>
-                            <h5>Sat:</h5> {{this.statistics.day_price[6]}}<br>
-                            <h5>Sun:</h5> {{this.statistics.day_price[0]}}<br>
+                            <h3 class="stroke underline">By day:</h3><br>
+                            <div class="backdrop" style="padding-left: 5px;">
+                                <h5>Mon:</h5> {{this.statistics.day_price[1]}}<br>
+                                <h5>Tues:</h5> {{this.statistics.day_price[2]}}<br>
+                                <h5>Wed:</h5> {{this.statistics.day_price[3]}}<br>
+                                <h5>Thurs:</h5> {{this.statistics.day_price[4]}}<br>
+                                <h5>Fri:</h5> {{this.statistics.day_price[5]}}<br>
+                                <h5>Sat:</h5> {{this.statistics.day_price[6]}}<br>
+                                <h5>Sun:</h5> {{this.statistics.day_price[0]}}<br>                                
+                            </div>
+
                         </div>
                         <div class="col-8">
                             <h3 class="stroke underline">By hour:</h3>
                             <div class="row">
-                                <div class="col">
+                                <div class="col backdrop">
                                     <h5>01:00</h5> {{this.statistics.hour_price[1]}}<br>
                                     <h5>02:00</h5> {{this.statistics.hour_price[2]}}<br>
                                     <h5>03:00</h5> {{this.statistics.hour_price[3]}}<br>
@@ -85,7 +90,7 @@
                                     <h5>11:00</h5> {{this.statistics.hour_price[11]}}<br>
                                     <h5>12:00</h5> {{this.statistics.hour_price[12]}}<br>
                                 </div>
-                                <div class="col">
+                                <div class="col backdrop">
                                     <h5>13:00</h5> {{this.statistics.hour_price[13]}}<br>
                                     <h5>14:00</h5> {{this.statistics.hour_price[14]}}<br>
                                     <h5>15:00</h5> {{this.statistics.hour_price[15]}}<br>
@@ -93,10 +98,10 @@
                                     <h5>17:00</h5> {{this.statistics.hour_price[17]}}<br>
                                     <h5>18:00</h5> {{this.statistics.hour_price[18]}}<br>
                                     <h5>19:00</h5> {{this.statistics.hour_price[19]}}<br>
-                                    <h5>20:00</h5> {{this.statistics.hour_price[21]}}<br>
-                                    <h5>21:00</h5> {{this.statistics.hour_price[22]}}<br>
-                                    <h5>22:00</h5> {{this.statistics.hour_price[23]}}<br>
-                                    <h5>23:00</h5> {{this.statistics.hour_price[24]}}<br>
+                                    <h5>20:00</h5> {{this.statistics.hour_price[20]}}<br>
+                                    <h5>21:00</h5> {{this.statistics.hour_price[21]}}<br>
+                                    <h5>22:00</h5> {{this.statistics.hour_price[22]}}<br>
+                                    <h5>23:00</h5> {{this.statistics.hour_price[23]}}<br>
                                     <h5>24:00</h5> {{this.statistics.hour_price[0]}}<br>
                                 </div>
                             </div>
@@ -150,6 +155,9 @@
 
 
 <style scoped>
+    .backdrop{
+        background:rgba(245, 166, 35, 0.1)
+    }
     h5{
         display: inline-block;
         color:rgba(245, 166, 35, 0.7);

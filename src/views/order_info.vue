@@ -138,7 +138,12 @@
         </div>
         <!--Menadzer------------------------------------------------------>
         <div v-if="store.position == 'Manager' || store.position == 'Waiter'" class="main">
-            <h3 class="underline stroke">Paid:</h3> {{order_info.paid}}
+            <div v-if="order_info.paid">
+                <h3 class="underline stroke">The order has been paid for</h3>
+            </div>
+            <div v-else>
+                <h3 class="underline stroke">The order has not been paid</h3>
+            </div>
             <h3 class="underline stroke">Note</h3>
             <textarea class="note" disabled v-model="order_info.note"></textarea>
             
@@ -206,7 +211,7 @@
             <button v-if="order_info.drinks.order_state == 'Being prepared' && store.userEmail == order_info.drinks.selected_by" type="button" class="finish_button stroke" data-toggle="modal" data-target="#finish_the_order">Mark as finished</button>
         </div>
 
-        <div v-if="store.position == 'Manager' || store.position == 'Waiter' && order_info" class="bottom_buttons">
+        <div v-if="(store.position == 'Manager' || store.position == 'Waiter') && (order_info) && (order_info.paid == false)" class="bottom_buttons">
             <button type="button" class="accept_button stroke" data-toggle="modal" data-target="#mark_as_paid">Mark as paid</button>
         </div>
 

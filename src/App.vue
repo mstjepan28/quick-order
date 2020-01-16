@@ -223,6 +223,7 @@
                               id: change.doc.id,
                               table: data.table,
                               price: data.price,
+                              paid: data.paid,
                               date: data.date,
                               time: data.time,
                               note: data.note,
@@ -236,7 +237,7 @@
               });
           });
           //Dohvacanje poziva korisnika za konobara
-          store.Waiter_calls_listener = db.collection("waiter_calls").orderBy("time").onSnapshot(snapshot => {
+          store.waiter_calls_listener = db.collection("waiter_calls").orderBy("time").onSnapshot(snapshot => {
               snapshot.docChanges().forEach(change => {
                   if (change.type === "added"){
                       const data = change.doc.data()
@@ -316,7 +317,6 @@
         }
       },
       detach_listeners(){
-        console.log(store.product_listener());
         store.product_listener();
         store.orders_listener();
         store.waiter_calls_listener();
@@ -342,9 +342,9 @@
             this.$router.push({name:'main_menu'});
         }
         else{
-          console.log("User is loged out");
           this.authenticated = false;
-
+          this.detach_listeners();
+          
           if(this.$route.name !== 'login') 
             this.$router.push({name:'login'})
         }

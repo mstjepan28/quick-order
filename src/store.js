@@ -55,7 +55,7 @@ export default {
     //Listeners
     product_listener: null,
     orders_listener: null,
-    Waiter_calls_listener: null,
+    waiter_calls_listener: null,
     staff_calls_listener: null,
     statistics_listener: null,
     users_listener: null,
