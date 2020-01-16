@@ -128,7 +128,7 @@
             </div>
         </div>
         <!--Kuhar-i-barmen------------------------------------------------>
-        <div v-if="store.position == 'Chef' || store.position == 'Barmen'" class="main">
+        <div v-if="store.position == 'Chef' || store.position == 'Barman'" class="main">
             <h3 class="underline stroke">Note</h3>
             <textarea class="note" disabled v-model="order_info.note"></textarea>
 

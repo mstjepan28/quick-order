@@ -132,17 +132,17 @@
                         <div class="row">
                             <div class="col">
                                 <croppa v-model="imageData"
-                                :width="145"
-                                :height="145"
-                                placeholder="Upload image"
-                                placeholder-color="white"
-                                :placeholder-font-size="20"
-                                canvas-color="transparent"
-                                :show-remove-button="true"
-                                remove-button-color="rgba(245, 166, 35, 0.7)"
-                            >
-                            <img slot="initial" :src= this.food_info.url />
-                    </croppa>   
+                                    :width="145"
+                                    :height="145"
+                                    placeholder="Upload image"
+                                    placeholder-color="white"
+                                    :placeholder-font-size="20"
+                                    canvas-color="transparent"
+                                    :show-remove-button="true"
+                                    remove-button-color="rgba(245, 166, 35, 0.7)"
+                                >
+                                    <img slot="initial" :src= this.food_info.url />
+                                </croppa>   
                             </div>
 
                             <div class="col stroke" >

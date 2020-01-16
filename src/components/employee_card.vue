@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-1">
         <div class="row">
-            <router-link class="col-6 prod_img" v-bind:to="'/employee_info/' + info.id" :style="{ backgroundImage: `url(${info.photo_url})`}" ></router-link>
+            <router-link v-bind:to="'/employee_info/' + info.id" class="col-6 prod_img"  :style="{ backgroundImage: `url(${info.photo_url})`}" ></router-link>
 
             <div class="col-6 details">
                 <h6 style="margin: 8px 0 0 0">{{info.full_name}}</h6>
