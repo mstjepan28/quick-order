@@ -2,7 +2,7 @@
     <div class="container mt-1">
         <div class="row">
             <!--Ako trenutni korisnik nije musterija ILI konobar I ako trenutna stranica NIJE order_info-->
-            <div v-if="this.position == 'Waiter' || this.position == 'Table' && this.$router.currentRoute.name != 'order_info'"  class="col-2" style="text-align:center">
+            <div v-if="(this.position == 'Waiter' || this.position == 'Table') && this.$router.currentRoute.name != 'order_info'"  class="col-2" style="text-align:center">
                 <i class="fas fa-chevron-up" v-on:click="info.counter = increase(info.counter)"></i>
                 <div>{{info.counter}}</div> 
                 <i class="fas fa-chevron-down" v-on:click="info.counter = decrease(info.counter)"></i>

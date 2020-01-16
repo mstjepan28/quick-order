@@ -105,6 +105,7 @@
 <script>
     import store from '@/store.js'
     import 'vue-croppa/dist/vue-croppa.css'
+    
     export default {
         data(){
             return{
@@ -146,7 +147,7 @@
                         function(){
                             uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
                                 db.collection('users').add({
-                                    id: this.id,
+                                    id: employee_data.id,
                                     username: employee_data.username,
                                     email: employee_data.email,
                                     password: employee_data.password,
@@ -184,10 +185,6 @@
                 });                
 
             },           
-        },
-        mounted(){
-            if(store.position != 'Manager')
-                this.$router.push({name:'main_menu'});
         }
     }
 </script>

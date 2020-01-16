@@ -149,9 +149,9 @@
       return store;
     },
     methods: {
-      logout() {
+      logout(){
         this.$router.push({name:'login'}).catch(err => {
-            console.log(err);
+            
         });
         this.detach_listeners();
         firebase.auth().signOut()
@@ -184,7 +184,7 @@
           //Dohvacanje proizvoda
           store.product_listener = db.collection("products").orderBy("title").onSnapshot(snapshot => {
             snapshot.docChanges().forEach(change => {
-                if (change.type === "added" ||change.type === 'modified'){
+                if (change.type === "added"){
                   const data = change.doc.data()
                   this.cards.unshift({
                     id: change.doc.id,
@@ -216,7 +216,7 @@
           //Dohvacanje narudzbi
           store.orders_listener = db.collection("orders").orderBy("time").onSnapshot(snapshot => {
               snapshot.docChanges().forEach(change => {
-                  if (change.type === "added"){
+                  if(change.type === "added"){
                       const data = change.doc.data()
                       if(data.food != null){
                           store.order_cards.push({
@@ -257,8 +257,9 @@
             snapshot.docChanges().forEach(change => {
                 if (change.type === "added"){
                     const data = change.doc.data()
-                    store.call_cards_staff.push({
+                    store.call_cards_staff.push({ 
                       id: change.doc.id,
+                      order_id: data.order_id,
                       table: data.table,
                       sent_by: data.sent_by,
                       call_state: data.call_state,
@@ -271,7 +272,7 @@
           //Dohvacanje statistike     
           store.statistics_listener = db.collection("statistics").onSnapshot(snapshot =>{
             snapshot.docChanges().forEach(change => {
-              if(change.type === 'added' || change.type === 'modified'){
+              if(change.type === 'added'){
                 const data = change.doc.data()
                 store.statistics.id = change.doc.id;
                 store.statistics.hour_price = data.hour_price;
@@ -284,7 +285,7 @@
           //Dohvacanje korisnika
           store.users_listener = db.collection("users").orderBy("last_login").onSnapshot(snapshot =>{
             snapshot.docChanges().forEach(change => {
-              if(change.type === 'added' || change.type === 'modified'){
+              if(change.type === 'added'){
                 const data = change.doc.data()
                 store.users.push({
                   id: change.doc.id,
@@ -332,6 +333,10 @@
           db.collection('users').doc(user.uid).get().then(doc =>{
             store.position = doc.data().position;
           })
+          .catch(error => {
+            console.log(store.position)
+          })
+          
           this.authenticated = true;
           this.userId = user.uid;
           this.userEmail = user.email; 
@@ -343,7 +348,6 @@
         }
         else{
           this.authenticated = false;
-          this.detach_listeners();
           
           if(this.$route.name !== 'login') 
             this.$router.push({name:'login'})
