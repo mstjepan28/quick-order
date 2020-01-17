@@ -5,7 +5,7 @@
 
                 <div class="row"> 
                     <div class="col">
-                        <div class="krug stroke"></div>
+                        <div class="krug stroke" style="background-image: url('/waiter_krug.jpg'); background-size: 100% 100%; background-repeat: no-repeat;"></div>
                     </div>
 
                     <div class="col stroke">
@@ -43,15 +43,18 @@
             return{
                 store,
                 i: 0,
+                show_who: "Customer",
                 call_state: ['Available', 'Finished'],
             }
         },
         computed: {
             filtered_cards(){
-                if(this.store.show_who == "Customer")
+                if(this.show_who == "Customer")
+                    //Vrati pozive musterije koje odgovaraju trenutno odabranom stanju
                     return store.call_cards.filter(card => card.call_state == this.call_state[this.i])
-                else if(this.store.show_who == "Staff")
-                    return store.call_cards_staff.filter(card => card.call_state == this.call_state[this.i] && card.order_state == 'Finished')
+                else if(this.show_who == "Staff")
+                    //Vrati pozive osoblja za obradene nerudzbe koje odgovaraju trenutno odabranom stanju
+                    return store.call_cards_staff.filter(card => card.call_state == this.call_state[this.i])
             },
         },
         methods:{
@@ -64,63 +67,8 @@
                 if(this.i < 0) this.i = this.call_state.length - 1;
             },
             show_calls(show_who){
-                this.store.show_who = show_who;
+                this.show_who = show_who;
             },
-        },
-        mounted(){
-            if(!store.data_fetched){
-                db.collection("waiter_calls").orderBy("time").limit(30).onSnapshot(snapshot => {
-                    snapshot.docChanges().forEach(change => {
-                        if (change.type === "added"){
-                            const data = change.doc.data()
-                            store.call_cards.push({
-                                id: change.doc.id,
-                                table: data.table,
-                                request: data.request, 
-                                date: data.date,
-                                time: data.time,
-                                call_state: data.call_state,           
-                            })
-                        }
-                    });
-                });
-                db.collection("orders_food").orderBy("time").limit(30).onSnapshot(snapshot => {
-                    snapshot.docChanges().forEach(change => {
-                        if(change.type === "added" || change.type == 'modified'){
-                            const data = change.doc.data()
-                            this.store.call_cards_staff.push({
-                                id: change.doc.id,
-                                table: data.table,
-                                order_state: data.order_state,
-                                call_state: data.call_state,
-                                note: data.note,
-                                date: data.date,
-                                time: data.time,
-                                order: data.order,           
-                            })
-                        }
-                    });
-                });
-                db.collection("orders_drinks").orderBy("time").limit(30).onSnapshot(snapshot => {
-                    snapshot.docChanges().forEach(change => {
-                        if(change.type === "added" || change.type == 'modified'){
-                            const data = change.doc.data()
-                            this.store.call_cards_staff.push({
-                                id: change.doc.id,
-                                table: data.table,
-                                order_state: data.order_state,
-                                call_state: data.call_state,
-                                note: data.note,
-                                date: data.date,
-                                time: data.time,
-                                order: data.order,           
-                            })
-                        }
-                    });
-                });                    
-                store.data_fetched = true;
-            }
-
         },
         name: 'calls',
         components: {
@@ -154,8 +102,9 @@
     .top{
         height: 250px;
         width: 100%;
-        background-image: url("/food.jpg");
-        background-size: cover;
+        background-image: url("/restoran.jpg");
+        background-repeat: no-repeat; 
+        background-size:100% 100%;
         margin-bottom: 10px;
     }
     .col > h3{
@@ -172,19 +121,14 @@
         width: 175px;
         height: 175px;
 
-        background-image: url("/most_ordered.png");
-        background-size: cover;
+        background-image: url("/konobar.jpg");
+        background-repeat: no-repeat; 
+        background-size:100% 100%;
     }
 
 
     .main{
         text-align: center;
-    }
-    .title{
-        margin: 20px 0 20px 0;
-
-        font-size: 30px;
-        text-decoration: underline;
     }
     .title > div{
         display: inline-block;

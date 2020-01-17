@@ -1,17 +1,22 @@
 <template>
     <div class="most_ordered">
         <div class="top">
-            <div class="krug" style="background-image: url('/most_ordered.png');"></div>
+            <div class="krug" style="background-image: url('/order_krug.jpg'); background-size:100% 100%; background-repeat: no-repeat;"></div>
             <h3 class="top_title">Orders</h3>
         </div>
-
-        <div class="main">
+        <!--Ako je ulogiran kuhar ili barmen pokazi filtrirane narudzbe i strelice za promjenu trenutnog prikaza-->
+        <div v-if="store.position == 'Chef' || store.position == 'Barman'" class="main">
             <div class="title stroke">
                 <div v-on:click="previous"><i class="fas fa-arrow-left"></i></div>
                 {{this.order_state[this.i]}}
                 <div v-on:click="next"><i class="fas fa-arrow-right"></i></div>
             </div>
-            <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />            
+            <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
+        </div>
+        
+        <!--Ako je ulogiran menadzer prikazi sve narudzbe-->
+        <div v-else-if="store.position == 'Manager' || store.position == 'Waiter'" class="main">
+            <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in store.order_cards" />
         </div>
 
     </div>
@@ -27,7 +32,7 @@
                 //parseInt('neki string', 'brojevni sustav')
                 //i dobivamo kao string iz routera te ga moramo pretvoriti u int za daljne funkcije
                 i: parseInt(this.$route.params.i, 10),
-                order_state: store.order_state,
+                order_state: ['Available', 'Being prepared', 'Finished'],
                 store
             }
         },
@@ -43,57 +48,13 @@
         },
         computed:{
             filtered_cards(){
-                return this.store.order_cards.filter(card => card.order_state == this.order_state[this.i]);  
-            }
-        },
-        mounted(){
-            //data_fetched sprijecava da se podaci dvaput povuku, jer se to dogada iz nekog razloga
-            if(!this.store.data_fetched){
-                //Ako je prijavljen kuhar dohvati narudzbe za hranu
-                if(this.store.position == 'chef'){
-                    console.log("food");
-                    db.collection("orders_food").orderBy("time").limit(30).onSnapshot(snapshot => {
-                        snapshot.docChanges().forEach(change => {
-                            if (change.type === "added"){
-                                const data = change.doc.data()
-                                this.store.order_cards.push({
-                                    id: change.doc.id,
-                                    table: data.table,
-                                    order_state: data.order_state,
-                                    note: data.note,
-                                    date: data.date,
-                                    time: data.time,
-                                    order: data.order,
-                                    selected_by: data.selected_by
-                                })
-                            }
-                        });
-                    });                      
-                }
-                //U suprotnom, ako je prijavljen barmen dohvati narudzbe za pice
-                //else if jer kad se stranica refresha dok je 'order' otvoren position se resetira na resetira i izvodi se kod unutar else-a
-                else if(this.store.position == 'barman'){
-                    console.log("drinks");
-                    db.collection("orders_drinks").orderBy("time").limit(30).onSnapshot(snapshot => {
-                        snapshot.docChanges().forEach(change => {
-                            if (change.type === "added"){
-                                const data = change.doc.data()
-                                this.store.order_cards.push({
-                                    id: change.doc.id,
-                                    table: data.table,
-                                    order_state: data.order_state,
-                                    note: data.note,
-                                    date: data.date,
-                                    time: data.time,
-                                    order: data.order,
-                                    selected_by: data.selected_by
-                                })
-                            }
-                        });
-                    }); 
-                }
-                this.store.data_fetched = true;
-            }
+                //Vrati one kartice ciji order state odgovara onom kojeg smo odabrali izmedu ['Available', 'Being prepared', 'Finished']
+                //Za barmena se vracaju samo pica dok se za kuhara vraca samo hrana
+                if(this.store.position == 'Chef')
+                    return this.store.order_cards.filter(card => card.food.order_state == this.order_state[this.i]);
+                else if(this.store.position == 'Barman')
+                    return this.store.order_cards.filter(card => card.drinks.order_state == this.order_state[this.i]);
+            },
         },
         components: {
             OrderCard
@@ -105,18 +66,13 @@
     .top{
         height: 250px;
         width: 100%;
-        background-image: url("/food.jpg");
-        background-size: cover;
+        background-image: url('/order_background.jpg'); 
+        background-size:100% 100%; 
+        background-repeat: no-repeat;
         margin-bottom: 10px;
     }
     .main{
         text-align: center;
-    }
-    .title{
-        margin: 20px 0 20px 0;
-
-        font-size: 30px;
-        text-decoration: underline;
     }
     .title > div{
         display: inline-block;

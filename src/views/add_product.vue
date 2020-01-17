@@ -1,22 +1,20 @@
 <template>
     <div class="food_info">
-        <!--Call-the-Waiter--------------------------------------------------->
-        <div class="modal fade" id="add_product_confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <!--Save info--------------------------------------------------->
+        <div class="modal fade" id="save_confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document" >
                 
-                <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
-                
-                <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
-                    Product saved
-                    <hr/>
-                    <div data-dismiss="modal">Ok</div>
-                </div>
-                
+                <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">            
+                    <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
+                        Info saved
+                        <hr/>
+                        <div data-dismiss="modal">Ok</div>
+                    </div>
                 </div>
 
             </div>
         </div>
-        <div class="modal fade" id="add_product" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="save_product" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document" >
                 
                 <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
@@ -27,12 +25,12 @@
 
                 <div class="modal-body" style="font-size: 30px;">
                     <hr/>
-                    Do you want to add this product?
+                    Do you want to save?
                     <hr/>
                 </div>
 
                 <div class="modal-footer" style="text-align: center; width: 100%; border-style:none; padding-top:0">
-                    <div v-on:click="add_product" style="display: inline-block; font-size: 40px; width: 50%; color: green" data-dismiss="modal" data-toggle="modal" data-target="#add_product_confirmation"><i class="fas fa-check"></i></div>
+                    <div v-on:click="add_product" style="display: inline-block; font-size: 40px; width: 50%; color: green" data-dismiss="modal" data-toggle="modal" data-target="#save_confirmation"><i class="fas fa-check"></i></div>
                     <div style="display: inline-block; font-size: 40px; width: 50%; color: red"  data-dismiss="modal"><i class="fas fa-times"></i></div>  
                  </div>
                 
@@ -41,25 +39,29 @@
             </div>
         </div>
 
-        <form>
-            <div class="top" style="height: 200px;">
-                <div class="container" style="background-image: url('/food.jpg')">
+        <div class="container">
+            <div class="row top">
+                <div class="col">
+                    <croppa v-model="imageData"
+                        :width="150"
+                        :height="150"
+                        placeholder="Upload image"
+                        placeholder-color="white"
+                        :placeholder-font-size="20"
+                        canvas-color="transparent"
+                        :show-remove-button="true"
+                        remove-button-color="rgba(245, 166, 35, 0.7)"
+                    >
+                    </croppa>                      
+                </div>
 
-                    <div class="row">
-                        <div class="col">
-                            <div class="krug stroke" :style="{ backgroundImage: `url(${this.url})`}"></div>
-                        </div>
+                <div class="col stroke" >
+                    <div class="main_info">
+                        <h2><input type=text v-model=title></h2>
+                        <p>Price: <input type=text v-model=price style="height:30px;width:55%"> $</p>
 
-                        <div class="col stroke" >
-                            <div class="main_info">
-                                <h2><input type=text v-model=title></h2>
-                                <p>Price: <input type=text v-model=price style="height:30px;width:55%"> $</p>
-
-                                <p>Times ordered:</p>
-                            </div>
-                        </div>
+                        <p>Times ordered:</p>
                     </div>
-
                 </div>
             </div>
 
@@ -135,26 +137,26 @@
                         </tr>
                     </table>
                 </div><br>
-        
-            </div>
 
-            <div class="bottom_buttons">
-                <button type="button" class="order order_only stroke" data-toggle="modal" data-target="#add_product">Save changes</button>
             </div>
-        </form>
+        </div>
+
+
+        <div class="bottom_buttons">
+            <button type=button class="order order_only stroke" data-toggle="modal" data-target="#save_product">Save changes</button>
+        </div>
     </div>
 </template>
 
 <script>
     import store from '@/store.js'
-
+    import 'vue-croppa/dist/vue-croppa.css'
+    
     export default {
         data(){
             return{
                 title: '',
-                
                 price: '',
-                url: '',
 
                 category: '',
                 type: '',
@@ -169,44 +171,94 @@
                 vitamin_a: '',
                 vitamin_c: '',
                 calcium: '',
-                zinc: ''
+                zinc: '',
+
+                imageData: null
             }
         },
         methods:{
-            add_product(){
-                db.collection("products").add({
-                    title: this.title,
+            is_filled(){
+                if(this.title != '' && this.price != '' && this.category != '' && this.type != '' && this.imageData.img != null){
+                    return true;
+                }
+                else{
+                    return false;
+                }
                     
-                    price: this.price,
-                    url: this.url,
+            },
+            add_product(){
+                //Spremamo this u varijablu da tom kontekstu mozemo pristupati u daljnjem radu
+                var product_data = this;
+                this.imageData.generateBlob(imageData =>{ 
+                    //dodati alert ako nema slika a pokusavamo uploadati
+                    let imageName = this.title + ".png";   // jpeg za bolju optimizaciju
+                    var uploadTask = storage.ref(imageName).put(imageData);
 
-                    category: this.category,
+                    // Listen for state changes, errors, and completion of the upload.
+                    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null,
+                        function(error){
+                            console.log(erros)
+                        },
+                        function(){
+                            uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
+                                db.collection("products").add({
+                                    title: product_data.title,                  
+                                    price: product_data.price,
+                                    url: downloadURL,
+                                    times_ordered: 0,
 
-                    ingredients: this.ingredients,
-                    description: this.description,
+                                    category: product_data.category,
+                                    type: product_data.type,
 
-                    energy_value: this.energy_value,
-                    carbohydrates: this.carbohydrates,
-                    protein: this.protein,
-                    fat: this.fat,
-                    vitamin_a: this.vitamin_a,
-                    vitamin_c: this.vitamin_c,
-                    calcium: this.calcium,
-                    zinc: this.zinc,
-                });                
-            }
+                                    ingredients: product_data.ingredients,
+                                    description: product_data.description,
+
+                                    energy_value: product_data.energy_value,
+                                    carbohydrates: product_data.carbohydrates,
+                                    protein: product_data.protein,
+                                    fat: product_data.fat,
+                                    vitamin_a: product_data.vitamin_a,
+                                    vitamin_c: product_data.vitamin_c,
+                                    calcium: product_data.calcium,
+                                    zinc: product_data.zinc
+                                })
+                                .then(function(docRef) {
+                                    console.log("Document written with ID: ", docRef.id);
+                                })
+                                .catch(function(error) {
+                                    console.error("Error adding document: ", error);
+                                });
+                            });  
+                        }
+
+                    );
+                      
+                    
+                });
+                //Nakon dodavanja se vracamo na prosu stranicu
+                //this.$router.go(-1);
+            },     
         },
+        mounted(){
+            if(store.position != 'Manager')
+                this.$router.push({name:'main_menu'});
+        }
         
     }
 </script>
 
 <style scoped>
-    .top{
-        height: 250px;
+    .food_info{
+        margin-top: 60px;
     }
-    .container{
-        width:100%;
-        height:200px;
+    .top{
+        height: 200px;
+
+        border-radius: 5px;
+        border: 2px rgba(245, 166, 35, 0.7) solid;
+
+        background-size: cover;
+        background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('/food.jpg');
     }
     .col{
         height:200px;
@@ -247,21 +299,18 @@
     }
     /*--------------------*/
     table {
-    border-collapse: collapse;
-    width: 100%;
+        border-collapse: collapse;
+        width: 100%;
     }
-
     td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
     }
-
     tr:nth-child(even) {
-    background-color: #404040;
+        background-color: #404040;
     }
     /*--------------------*/
-
     *:focus{
         outline: none;
     }
@@ -270,6 +319,7 @@
         width: 100%;
 
         padding-left: 5px;
+        font-size: 20px;
 
         color: white;
 
@@ -310,5 +360,18 @@
         border: 2px rgba(245, 166, 35, 0.7) solid;
 
         background: red;
+    }
+    /*--------------------*/
+    .croppa-container {
+        position: relative;
+        top: 25px;
+        
+        color: white;
+
+        border: 2px rgba(245, 166, 35, 0.7) solid;
+        background: #343434;
+    }
+    .croppa-container:hover {
+        opacity: 1;
     }
 </style>

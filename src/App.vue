@@ -7,7 +7,7 @@
         <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
           
           <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
-            A waiter has been notified and will arive shortly!
+            A Waiter has been notified and will arive shortly!
             <hr/>
             <div data-dismiss="modal">Ok</div>
           </div>
@@ -16,7 +16,7 @@
 
       </div>
     </div>
-    <div class="modal fade" id="call_the_waiter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="call_the_Waiter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document" >
         
         <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
@@ -27,14 +27,14 @@
 
           <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
             <hr/>
-            <div v-on:click="call_the_waiter('Service / Help')" class="mb-2" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Service / Help</div>
-            <div v-on:click="call_the_waiter('Bring the bill')" class="mb-2" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Bring the bill</div>
-            <div v-on:click="call_the_waiter('Complaint')" class="mb-2" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Complaint</div>
-            <div v-on:click="call_the_waiter('Other')" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Other</div>
+            <div v-on:click="call_the_Waiter('Service / Help')" class="mb-2" style="cursor:pointer;" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Service / Help</div>
+            <div v-on:click="call_the_Waiter('Bring the bill')" class="mb-2" style="cursor:pointer;" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Bring the bill</div>
+            <div v-on:click="call_the_Waiter('Complaint')" class="mb-2" style="cursor:pointer;" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Complaint</div>
+            <div v-on:click="call_the_Waiter('Other')" style="cursor:pointer;" data-toggle="modal" data-dismiss="modal" data-target="#call_confirmation">Other</div>
             <hr/>
           </div>
 
-          <div class="modal-body" style="font-size: 30px; padding-top: 0">
+          <div class="modal-body" style="font-size: 30px; padding-top: 0; cursor:pointer;">
             <div data-dismiss="modal">Close</div>
           </div>
           
@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <!----------------------------------------------------->
+    <!--Navbar--------------------------------------------------->
     <nav v-if="this.$route.name !== 'login'" class="navbar navbar-expand-lg navbar-dark bg-dark">
      
       <div v-if="this.$route.name !== 'main_menu'" v-on:click="go_back" class="back_button">
@@ -66,50 +66,50 @@
           </li>
 
         <!--Menadzer------------------------------------------------------------------------------------->
-          <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/statistics" class="nav-link"> Statistics </router-link>
           </li>
 
-          <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link to="/order_history" class="nav-link"> Orders history </router-link>
+          <li v-if="this.position == 'Manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <router-link to="/orders/1" class="nav-link"> Orders history </router-link>
           </li>
 
-          <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link to="/employes" class="nav-link"> Employes </router-link>
+          <li v-if="this.position == 'Manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <router-link to="/employees" class="nav-link"> Employees </router-link>
           </li>
 
-          <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/products" class="nav-link"> Products </router-link>
-          </li>
-
-          <li v-if="this.position == 'manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link to="/ingrediants" class="nav-link"> Ingrediants </router-link>
           </li>
                     
         <!--Konobar------------------------------------------------------------------------------------->
-          <li v-if="this.position == 'waiter'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Waiter'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/calls" class="nav-link"> Calls </router-link>
           </li>
 
         <!--Musterija-Konobar------------------------------------------------------------------------------------->          
-          <li v-if="this.position == 'waiter'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Waiter'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/calls" class="nav-link"> Calls </router-link>
           </li>
 
-          <li v-if="this.position == 'waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/food" class="nav-link"> Food </router-link>
           </li>
 
-          <li v-if="this.position == 'waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/drinks" class="nav-link"> Drinks </router-link>
           </li>
 
-          <li v-if="this.position == 'waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/most_ordered" class="nav-link"> Most ordered </router-link>
           </li>
 
-          <li v-if="this.position == 'waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/my_order" class="nav-link"> My order </router-link>
+          </li>
+
+          <li v-if="this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <router-link to="/order_status" class="nav-link"> Order status </router-link>
           </li>
 
         <!--Misc------------------------------------------------------------------------------------->
@@ -124,7 +124,6 @@
         </ul>
 
         <span>
-          {{userEmail + "  -  " + position}}
           <a @click="logout" class="btn btn-info my-2 my-sm-0 mr-2" href="#">Logout</a>
         </span>
 
@@ -136,7 +135,7 @@
     </div>
 
     <div v-if="this.$route.name !== 'login' && this.$route.name !== 'my_order' && this.position == 'Table'" class="bottom_buttons" >
-        <button type="button" class="call call_only stroke" data-toggle="modal" data-target="#call_the_waiter">Call waiter</button>
+        <button type="button" class="call call_only stroke" data-toggle="modal" data-target="#call_the_Waiter">Call Waiter</button>
     </div> 
 
   </div>
@@ -150,15 +149,17 @@
       return store;
     },
     methods: {
-      logout() {
-        this.$router.push({name:'login'})
-        document.location.reload(true)
+      logout(){
+        this.$router.push({name:'login'}).catch(err => {
+            
+        });
+        this.detach_listeners();
         firebase.auth().signOut()
       },
       go_back(){
         return this.$router.go(-1);
       },
-      call_the_waiter(request){
+      call_the_Waiter(request){
         db.collection("waiter_calls").add({
             table: this.userEmail, 
             request: request,
@@ -172,51 +173,187 @@
         .catch(function(error) {
             console.error("Error adding document: ", error);
         });  
+      },
+      get_data(){
+        //Podatke ne pozivamo unutar mounter jer bi se oni zahtjevali pri loginu ali se nebi dobili jer korisnik koji nije prijavljen nema pristup
+        //podacima sa firebase-a. Posto se mounted pokrece samo pri otvaranju stranice trebali bi refreshati stranicu nakon ucitavanja da bi se mi imali te podatke
+        //Kada ih dohvacamo ovako preko funkcije, mozemo ih zatraziti tek nakon smo se prijavili
+
+        //data_fetched koristimo da nebi došlo do povlačenja podataka više od jednom
+        if(!store.data_fetched){
+          //Dohvacanje proizvoda
+          store.product_listener = db.collection("products").orderBy("title").onSnapshot(snapshot => {
+            snapshot.docChanges().forEach(change => {
+                if (change.type === "added"){
+                  const data = change.doc.data()
+                  this.cards.unshift({
+                    id: change.doc.id,
+                    
+                    title: data.title,
+                    price: data.price,
+                    url: data.url,
+                    times_ordered: data.times_ordered,
+                    counter: 0,
+
+                    category: data.category,
+                    type: data.type,
+
+                    ingredients: data.ingredients,
+                    description: data.description, 
+
+                    energy_value: data.energy_value,
+                    carbohydrates: data.carbohydrates,
+                    protein: data.protein,
+                    fat: data.fat,
+                    vitamin_a: data.vitamin_a,
+                    vitamin_c: data.vitamin_c,
+                    calcium: data.calcium,
+                    zinc: data.zinc,           
+                  })
+                }
+            });
+          });
+          //Dohvacanje narudzbi
+          store.orders_listener = db.collection("orders").orderBy("time").onSnapshot(snapshot => {
+              snapshot.docChanges().forEach(change => {
+                  if(change.type === "added"){
+                      const data = change.doc.data()
+                      if(data.food != null){
+                          store.order_cards.push({
+                              id: change.doc.id,
+                              table: data.table,
+                              price: data.price,
+                              paid: data.paid,
+                              date: data.date,
+                              time: data.time,
+                              note: data.note,
+                              feedback: data.feedback,
+                              food: data.food,
+                              drinks: data.drinks
+                          })                                      
+                      }
+
+                  }
+              });
+          });
+          //Dohvacanje poziva korisnika za konobara
+          store.waiter_calls_listener = db.collection("waiter_calls").orderBy("time").onSnapshot(snapshot => {
+              snapshot.docChanges().forEach(change => {
+                  if (change.type === "added"){
+                      const data = change.doc.data()
+                      store.call_cards.push({
+                          id: change.doc.id,
+                          table: data.table,
+                          request: data.request, 
+                          date: data.date,
+                          time: data.time,
+                          call_state: data.call_state,           
+                      })
+                  }
+              });
+          });
+          //Dohvacanje poziva kuhara i barmena za konobara
+          store.staff_calls_listener = db.collection("staff_calls").orderBy("time").onSnapshot(snapshot => {
+            snapshot.docChanges().forEach(change => {
+                if (change.type === "added"){
+                    const data = change.doc.data()
+                    store.call_cards_staff.push({ 
+                      id: change.doc.id,
+                      order_id: data.order_id,
+                      table: data.table,
+                      sent_by: data.sent_by,
+                      call_state: data.call_state,
+                      time: data.time,
+                      date: data.date        
+                    })
+                }
+              });
+          });
+          //Dohvacanje statistike     
+          store.statistics_listener = db.collection("statistics").onSnapshot(snapshot =>{
+            snapshot.docChanges().forEach(change => {
+              if(change.type === 'added'){
+                const data = change.doc.data()
+                store.statistics.id = change.doc.id;
+                store.statistics.hour_price = data.hour_price;
+                store.statistics.hour_orders = data.hour_orders;
+                store.statistics.day_orders = data.day_orders;
+                store.statistics.day_price = data.day_price;
+              }
+            })
+          });
+          //Dohvacanje korisnika
+          store.users_listener = db.collection("users").orderBy("last_login").onSnapshot(snapshot =>{
+            snapshot.docChanges().forEach(change => {
+              if(change.type === 'added'){
+                const data = change.doc.data()
+                store.users.push({
+                  id: change.doc.id,
+                  username: data.username,
+                  email: data.email,
+                  //password: data.password,
+                  photo_url: data.photo_url,
+
+                  full_name: data.full_name,
+                  date_of_birth: data.date_of_birth,
+                  phone: data.phone,
+                  adress: data.adress,
+                  city: data.city,
+                  postal_code: data.postal_code,
+
+                  position: data.position,
+                  contract: data.contract,
+                  wage: data.wage,
+
+                  added: data.added,
+                  last_login: data.last_login,
+                  currently_active: data.currently_active,
+                  active: data.active,
+                  deactivated: data.deactivated,
+                })
+              }
+            })
+          })
+          store.data_fetched = true;
+        }
+      },
+      detach_listeners(){
+        store.product_listener();
+        store.orders_listener();
+        store.waiter_calls_listener();
+        store.staff_calls_listener();
+        store.statistics_listener();
+        store.users_listener();
       }
     },
-    mounted() {
+    mounted(){
       //Dohvacanje korisnika
       firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          const user_data = db.collection('users').doc(user.uid);
-
-          console.log("User is loged in " + user.email);
+        if(user){
+          db.collection('users').doc(user.uid).get().then(doc =>{
+            store.position = doc.data().position;
+          })
+          .catch(error => {
+            console.log(store.position)
+          })
+          
           this.authenticated = true;
           this.userId = user.uid;
-          this.userEmail = user.email;
-          //Iz kolekcije user-a dohvaca se pozicija trenutnog user-a koja se sprema u store.js
-          user_data.get().then((doc) =>{
-            this.position = doc.data().position;
-          })  
-          if(this.$route.name !== 'main_menu') this.$router.push({name:'main_menu'})
+          this.userEmail = user.email; 
+
+          this.get_data();
+
+          if(this.$route.name == 'login') 
+            this.$router.push({name:'main_menu'});
         }
         else{
-          console.log("User is loged out");
           this.authenticated = false;
-          if(this.$route.name !== 'login') this.$router.push({name:'login'})
+          
+          if(this.$route.name !== 'login') 
+            this.$router.push({name:'login'})
         }
-      });
-      //Dohvacanje proizvoda
-      db.collection("products").orderBy("title").limit(30).onSnapshot(snapshot => {
-        snapshot.docChanges().forEach(change => {
-            if (change.type === "added"){
-              const data = change.doc.data()
-              this.cards.unshift({
-                id: change.doc.id,
-                title: data.title,
-                description: data.description, 
-                url: data.url,
-                type: data.type,
-                category: data.category,
-                counter: data.counter,
-                times_ordered: data.times_ordered                
-              })
-            }
-        });
-      });
-
+      });      
     }
-    
   }
 </script>
 

@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Croppa from 'vue-croppa'
 
-Vue.use(VueRouter)
 
+Vue.use(VueRouter);
+
+Vue.use(Croppa);
 
 const routes = [
   /*-----------------------------------------------------*/
@@ -10,11 +13,6 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('../views/login.vue')
-  },
-  {
-    path: '/signup',
-    name: 'signup',
-    component: () => import('../views/signup.vue')
   },
   /*-----------------------------------------------------*/
   {
@@ -107,9 +105,24 @@ const routes = [
   },
   /*-----------------------------------------------------*/
   {
-    path: '/employes',
-    name: 'employes',
-    component: () => import('../views/employes.vue')
+    path: '/statistics',
+    name: 'statistics',
+    component: () => import('../views/statistics.vue')
+  },
+  {
+    path: '/employee_info/:id',
+    name: 'employee_info',
+    component: () => import('../views/employee_info.vue')
+  },
+  {
+    path: '/employees',
+    name: 'employees',
+    component: () => import('../views/employees.vue')
+  },
+  {
+    path: '/add_employee',
+    name: 'add_employee',
+    component: () => import('../views/add_employee.vue')
   },
   {
     path: '/products',
@@ -117,15 +130,15 @@ const routes = [
     component: () => import('../views/products.vue')
   },
   {
-    path: '/ingrediants',
-    name: 'ingrediants',
-    component: () => import('../views/ingrediants.vue')
-  },
-  {
     path: '/add_product',
     name: 'add_product',
     component: () => import('../views/add_product.vue')
-  },  
+  },
+  {
+    path: '/order_status',
+    name: 'order_status',
+    component: () => import('../views/order_status.vue')
+  },
 ]
 
 const router = new VueRouter({

@@ -47,6 +47,12 @@
         </div>
 
         <div class="main">
+            <div v-if="store.position == 'Waiter'">
+                <h3 class="underline stroke">Table:</h3>
+                <input class="table_input" type="text" v-model="table">
+            </div>
+
+            <div><h3 class="underline stroke">Total price: {{this.price}}$</h3></div>
             <div class="ordered">
                 <h3 class="underline stroke">Selected items:</h3>
                 <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in ordered" />
@@ -62,7 +68,7 @@
             </form>
         </div>
         
-        <div v-if="store.position == 'waiter' && store.order.products.length >=1">
+        <div v-if="store.position == 'Waiter' && store.order.products.length >=1">
             <div class="bottom_buttons" >
                 <button type="button" class="order order_only stroke" data-toggle="modal" data-target="#place_order">Place order</button>
             </div>            
@@ -70,10 +76,10 @@
         <div v-else-if="store.position == 'Table'" class="bottom_buttons">
             <div v-if="store.order.products.length >=1">
                 <button type="button" class="order stroke" data-toggle="modal" data-target="#place_order">Place order</button>
-                <button type="button" class="call stroke"  data-toggle="modal" data-target="#call_the_waiter">Call waiter</button>                
+                <button type="button" class="call stroke"  data-toggle="modal" data-target="#call_the_Waiter">Call Waiter</button>                
             </div>
             <div v-else>
-                <button type="button" class="call call_only stroke"  data-toggle="modal" data-target="#call_the_waiter">Call waiter</button> 
+                <button type="button" class="call call_only stroke"  data-toggle="modal" data-target="#call_the_Waiter">Call Waiter</button> 
             </div>
 
         </div>   
@@ -89,75 +95,119 @@
     export default {
         data(){
             return{
-                count: 0,
+                price: 0,
                 note: '',
+                table: '', 
                 store,
             }
         },
         computed:{
             ordered(){
                 store.order.products = store.cards.filter(card => card.counter > 0);
+                
+                this.price = 0;
+                for(let i in store.order.products){
+                    this.price += ( parseInt(store.order.products[i].counter) * parseInt(store.order.products[i].price));
+                }
+
                 return store.order.products;
             },
         },
         methods:{
             send_order(){
-                let products = store.order.products;
-                let order_food = [];
-                let order_drinks = [];
+                if(store.order.products.length >= 1){
+                    if(store.position == 'Waiter')
+                        store.table = this.table;
+                    let products = store.order.products;
+                    //Narudzbe smo podijelili u dva obijekta, ako ne postoji barem jedan proizvod tipa food/drink ne dodajemo nista na bazu
+                    //U suprotno, taj objekt spremamo na bazu zajedno sa narudzbom
+                    //
+                    //U zasebne objekte spremamo da bi se narudzba mogla pravilno prikazati kuharu i barmenu, tj. da vide samo svoj dio narudzbe za obavljanje
+                    //Unutar food/drinks takoder pohranjujemo podatke o narudzbi kao sto je vrijeme zavrsetka narudzbe
+                   
+                    let order_food = [];
+                    let order_drinks = [];
+                    for(let i = 0; i < products.length; i++){
+                        if(products[i].type == 'Food')
+                            order_food.push(products[i]);
+                        else
+                            order_drinks.push(products[i]);
+                    }
 
-                for(let i = 0; i < products.length; i++){
-                    if(products[i].type == 'food')
-                        order_food.push(products[i]);
-                    else
-                        order_drinks.push(products[i]);
-                }
-
-                if(products.length >= 1){
-                    //Narudzbe smo podijelili u dva collectiona da ih se moze odvojeno slati konobaru kada se zavrse
-                    //Spremanje narudzbe hrane koja se salje kuharu ako posotji hrana za pohranit
-                    //selected_by - oznacava kuhara/barmena koji je odabrao narudzbu za izvrsavanje, samo on ce imati mogucnost oznaciti tu narudzbu kao zavrsenu
+                    let food = null;
+                    let drinks = null;                     
                     if(order_food.length >= 1){
-                        db.collection("orders_food").add({
-                            table: store.userEmail, 
+                        food = {
+                            selected_by: '',
                             order_state: 'Available',
-                            call_state: 'Available',
-                            note: this.note,
-                            date: store.current_date(),
-                            time: store.current_time(),
+                            order_status: 'Ordered',
+                            finished_at: '',
                             order: order_food,
-                            selected_by: '' 
-                        });                        
+                        };                        
                     }
-                    //Spremanje narudzbe pica koja se salje barmenu ako postoji pice za pohranit
                     if(order_drinks.length >= 1){
-                        db.collection("orders_drinks").add({
-                            table: store.userEmail, 
+                        drinks = {
+                            selected_by: '',
                             order_state: 'Available',
-                            call_state: 'Available',
-                            note: this.note,
-                            date: store.current_date(),
-                            time: store.current_time(),
+                            order_status: 'Ordered',
+                            finished_at: '',
                             order: order_drinks,
-                            selected_by: '' 
-
-                        });                          
+                        };                        
                     }
-                  
+                    db.collection("orders").add({
+                        price: this.price,
+                        date: store.current_date(),
+                        time: store.current_time(),
+                        note: this.note,
+                        feedback: '',
+                        table: store.table,
+                        paid: false,
+                        food: food,
+                        drinks: drinks
+                    });
                     //Update 'times_ordered' svakog proizvoda koji se nalazi u store.order.products
                     //Isprazni 'My Order' tako da se vrijednost 'counter'svakog proizvoda postavi na 0 i na kraju prebrisi 'procucts' polje
                     for(let i = 0; i < products.length; i++){
-
                         let current_card = store.cards.filter(card => card.id == store.order.products[i].id)[0];
                         current_card.times_ordered = store.order.products[i].counter + store.order.products[i].times_ordered;
                         current_card.counter = 0;
 
-                        db.collection("products").doc(current_card.id).set({
+                        db.collection("products").doc(current_card.id).update({
                             times_ordered: current_card.times_ordered
-                        }, { merge: true });                          
+                        });                          
                     }
-                    products = [];
+                    //Ako je id jednak null to znaci da collection ne postoji, to jest da nismo dobili nikakve podatke te tada stvaramo taj collection
+                    //Statistics collection moramo popuniti sa nulama jer inace nebi zbrajali nove vrijednosti na brojcanu vrijednost
+                    
+                    if(store.statistics.id ){   
+                        let index = new Date();
+                        store.statistics.hour_orders[index.getHours()]++;
+                        store.statistics.hour_price[index.getHours()] += this.price;
+
+                        store.statistics.day_orders[index.getDay()]++;
+                        store.statistics.day_price[index.getDay()] += this.price;
+
+                        db.collection('statistics').doc(store.statistics.id).update({
+                            hour_price: store.statistics.hour_price,
+                            hour_orders: store.statistics.hour_orders,
+                            day_orders: store.statistics.day_orders,
+                            day_price: store.statistics.day_price
+                        })                        
+                    }
+                    else{
+                        db.collection("orders").add({
+                            hour_price: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                            hour_orders: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                            day_orders: [0,0,0,0,0,0,0],
+                            day_price: [0,0,0,0,0,0,0]
+                        });
+                    }
+
+                    //products = [];
+                    this.note = '';
+                    
                 }
+
             },           
         },
         name: 'my_order',
@@ -171,14 +221,19 @@
     .top{
         height: 250px;
         margin-bottom: 10px;
-        background-image: url("/food.jpg");
-        background-size: cover;
+        background-image: url("/jagode.jpg");
+        background-size:100% 100%;
+        background-repeat: no-repeat;
     }
 
     .krug{
-        background-image: url("/my_order.jpg");
+        background-image: url("/palacinke.jpg");
+        background-size:100% 100%;
+        background-repeat: no-repeat;
     }
-
+    *:focus{
+        outline: none;
+    }
     .customer_note{
         text-align: left;
     }
@@ -191,6 +246,12 @@
         color: #aaaaaa;
         border-radius: 5px;
     }
+    .table_input{
+        width: 99%;
+
+        color: #aaaaaa;
+        border-radius: 5px;
+    }    
     .ordered{
         margin: 30px 0 30px 0;
     }

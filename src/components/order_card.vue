@@ -1,7 +1,7 @@
 <template>
     <div class="order_card stroke">
         <router-link v-bind:to="'/order_info/' + info.id">
-            Table #1
+            Table {{info.table}}
             <hr/>
             Order
             <hr/>
@@ -17,7 +17,7 @@
         props: ['info'],
         data(){
             return store;
-        },
+        }, 
     }
 
 </script>
