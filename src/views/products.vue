@@ -1,20 +1,13 @@
 <template>
     <div class="products">
         <div class="top">
-            <div class="krug row"></div>
-
-            <div v-if="show == 'Food'" class="row options">
-                <div class="col selected" style="font-size: 23px" v-on:click="show = 'Food'">Food</div>
-                <div class="col stroke" style="font-size: 15px" v-on:click="show = 'Drinks'">Drinks</div>
-            </div>
-            <div v-else class="row options">
-                <div class="col stroke" style="font-size: 15px" v-on:click="show = 'Food'">Food</div>
-                <div class="col selected" style="font-size: 23px" v-on:click="show = 'Drinks'">Drinks</div>
-            </div>
+            <div class="krug row"><h3 class="top_title">Products</h3></div>
         </div>
         
         <div class="main">
-            <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
+            <router-link to="food"><div class="product_option stroke" style="background-image: url('/voce.jpg')">Food</div></router-link>
+            <router-link to="drinks"><div class="product_option stroke" style="background-image: url('/order_background.jpg')">Drinks</div></router-link>
+            <router-link to="most_ordered"><div class="product_option stroke" style="background-image: url('/restoran.jpg')">Most ordered</div></router-link>
         </div>
 
         <div class="bottom_buttons">
@@ -30,7 +23,6 @@
     export default {
         data(){
             return{
-                show: 'Food',
                 store
             }
         },

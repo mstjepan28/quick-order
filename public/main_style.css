@@ -155,3 +155,18 @@ a:hover{
 
   background: rgba(52, 52, 52, 0.7);
 }
+
+.product_option{
+  height: 100px;
+  line-height: 100px;
+
+  margin-bottom: 10px;
+
+  text-align: center;
+  font-size: 40px;
+
+  border-radius: 10px;
+  border: 2px rgba(245, 166, 35) solid; 
+
+  background-size: cover;
+}

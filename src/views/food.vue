@@ -2,13 +2,10 @@
   <div class="food">
 
     <div class="top">
-      <div class="krug"></div>
-      <h3 class="top_title">Food</h3>
+      <div class="krug"><h3 class="top_title">Food</h3></div>
     </div>
+    <router-view/>
 
-    <div>
-      <router-view/>
-    </div>
   </div>
 </template>
 
@@ -29,6 +26,5 @@
     background-image: url("/food_selection.jpg");
     background-size:100% 100%;
     background-repeat: no-repeat;
-
   }
 </style>

@@ -1,11 +1,11 @@
 <template>
     <div class="content">
-        <h3 class="stroke">Non-Alcoholic</h3><br>
+        <h3 class="stroke underline">Non-Alcoholic</h3>
         <router-link to="drinks_selection/0"><button type="button" class="btn btn-secondary btn-lg btn-block stroke">Soda</button></router-link>
         <router-link to="drinks_selection/1"><button type="button" class="btn btn-secondary btn-lg btn-block stroke">Juice</button></router-link>
         <router-link to="drinks_selection/2"><button type="button" class="btn btn-secondary btn-lg btn-block stroke">Other</button></router-link>
         
-        <h3 class="stroke" style="margin-top: 25px;">Alcoholic</h3>
+        <h3 class="stroke underline">Alcoholic</h3>
         <router-link to="drinks_selection/3"><button type="button" class="btn btn-secondary btn-lg btn-block stroke">Beer</button></router-link>
         <router-link to="drinks_selection/4"><button type="button" class="btn btn-secondary btn-lg btn-block stroke">Wine</button></router-link>
         <router-link to="drinks_selection/5"><button type="button" class="btn btn-secondary btn-lg btn-block stroke">Liquors</button></router-link>
