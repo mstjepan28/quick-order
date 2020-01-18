@@ -60,7 +60,7 @@
             <div class="row">
                 <div class="col">
                     
-                    <h3 class="stroke underline info">Date of birth:</h3><input type=date class="input_box" v-model=date_of_birth>
+                    <h3 class="stroke underline info">Date of birth:</h3><input type="date" data-date="" data-date-format="DD MMMM YYYY" value="2015-08-09" v-model=date_of_birth>
                     <h3 class="stroke underline info">Phone:</h3><input type=tel class="input_box" placeholder="123-4567-890" v-model=phone>
                     <h3 class="stroke underline info">Adress:</h3><input type=text class="input_box" v-model=adress>
                     <h3 class="stroke underline info">City:</h3><input type=text class="input_box" v-model=city>
@@ -262,5 +262,15 @@
     }
     .croppa-container:hover {
         opacity: 1;
+    }
+    input[type=date]::-webkit-inner-spin-button, 
+    input[type=date]::-webkit-outer-spin-button { 
+        display:none;
+    }
+    input[type=date]::-webkit-calendar-picker-indicator { 
+        display:none;
+    }
+    input[type="date"]::-webkit-clear-button {
+         display: none;
     }
 </style>
