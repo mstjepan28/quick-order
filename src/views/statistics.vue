@@ -116,11 +116,7 @@
                 <h3 class="underline"><h3 class="stroke">Average order price:</h3> {{parseInt(this.total_income / this.total_count, 10)}}$</h3>
             </div>
  
-            <router-link to="/most_ordered">
-                <div class="most_ordered mb-3">
-                    <h2 class="stroke">Most ordered</h2>
-                </div> 
-            </router-link>
+            <router-link to="most_ordered"><div class="product_option stroke" style="background-image: url('/restoran.jpg')">Most ordered</div></router-link>
 
         </div>
         <div v-else class="no_stats">

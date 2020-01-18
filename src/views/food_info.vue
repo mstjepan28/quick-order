@@ -272,50 +272,76 @@
                 return counter
             },
             update_product(){
-                
-                var product_data = this.food_info;
+                let product_data = this.food_info;
 
-                this.imageData.generateBlob(imageData =>{ 
-                    let imageName = product_data.title + ".png";
-                    var uploadTask = storage.ref(imageName).put(imageData);
-                    
-                    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null,
-                        function(error){
-                            console.log(erros)
-                        },
-                        function(){
-                            uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
-                                db.collection("products").doc(product_data.id).update({
-                                    title: product_data.title,                  
-                                    price: product_data.price,
-                                    url: downloadURL,
-                                    times_ordered: 0,
+                if(this.imageData.img){
+                    this.imageData.generateBlob(imageData =>{ 
+                        let imageName = product_data.title + ".png";
+                        var uploadTask = storage.ref(imageName).put(imageData);
+                        
+                        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null,
+                            function(error){
+                                console.log(erros)
+                            },
+                            function(){
+                                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
+                                    db.collection("products").doc(product_data.id).update({
+                                        title: product_data.title,                  
+                                        price: product_data.price,
+                                        url: downloadURL,
+                                        times_ordered: 0,
 
-                                    category: product_data.category,
-                                    type: product_data.type,
+                                        category: product_data.category,
+                                        type: product_data.type,
 
-                                    ingredients: product_data.ingredients,
-                                    description: product_data.description,
+                                        ingredients: product_data.ingredients,
+                                        description: product_data.description,
 
-                                    energy_value: product_data.energy_value,
-                                    carbohydrates: product_data.carbohydrates,
-                                    protein: product_data.protein,
-                                    fat: product_data.fat,
-                                    vitamin_a: product_data.vitamin_a,
-                                    vitamin_c: product_data.vitamin_c,
-                                    calcium: product_data.calcium,
-                                    zinc: product_data.zinc
-                                })
-                                .catch(function(error) {
-                                    console.error("Error adding document: ", error);
-                                });
-                            });  
-                        }
+                                        energy_value: product_data.energy_value,
+                                        carbohydrates: product_data.carbohydrates,
+                                        protein: product_data.protein,
+                                        fat: product_data.fat,
+                                        vitamin_a: product_data.vitamin_a,
+                                        vitamin_c: product_data.vitamin_c,
+                                        calcium: product_data.calcium,
+                                        zinc: product_data.zinc
+                                    })
+                                    .catch(function(error) {
+                                        console.error("Error adding document: ", error);
+                                    });
+                                });  
+                            }
 
-                    );
-                      
-                    
-                });
+                        );
+                        
+                        
+                    });
+                }
+                else{
+                    db.collection("products").doc(product_data.id).update({
+                        title: product_data.title,                  
+                        price: product_data.price,
+
+                        category: product_data.category,
+                        type: product_data.type,
+
+                        ingredients: product_data.ingredients,
+                        description: product_data.description,
+
+                        energy_value: product_data.energy_value,
+                        carbohydrates: product_data.carbohydrates,
+                        protein: product_data.protein,
+                        fat: product_data.fat,
+                        vitamin_a: product_data.vitamin_a,
+                        vitamin_c: product_data.vitamin_c,
+                        calcium: product_data.calcium,
+                        zinc: product_data.zinc
+                    })
+                    .catch(function(error) {
+                        console.error("Error adding document: ", error);
+                    });                    
+                }
+
                 //Polje cards filtriraj na nacin da iz njega izbacis objekt koji ima isti Id kao food_info
                 //Ovo radimo jer ce se s baze pri update-u podataka ponovno povuci jelo s tim Id-om
                 //Sto bi dalje uzrokovalo duplim elementima u nasem izborniku

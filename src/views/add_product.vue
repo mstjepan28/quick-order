@@ -59,7 +59,6 @@
                     <div class="main_info">
                         <h2><input type=text v-model=title></h2>
                         <p>Price: <input type=text v-model=price style="height:30px;width:55%"> $</p>
-
                         <p>Times ordered:</p>
                     </div>
                 </div>

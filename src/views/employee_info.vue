@@ -41,7 +41,7 @@
         </div>
 
         <div v-if="enable_edit" class="container">
-            <div class="row top">
+            <div class="row top" style="height: 425px;">
                 <div class="col">
                     <croppa v-model="imageData"
                         :width="200"
@@ -152,48 +152,73 @@
         },
         methods:{
             update_employee(){
-                var employee_data = this.employee_info;
+                let employee_data = this.employee_info;
+
+                if(this.imageData.img){
+                    this.imageData.generateBlob(imageData =>{ 
+                        let imageName = employee_data.email + ".png";
+                        var uploadTask = storage.ref(imageName).put(imageData);
+
+                        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null,
+                            function(error){
+                                console.log(erros)
+                            },
+                            function(){
+                                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
+                                    db.collection("users").doc(employee_data.id).update({
+                                        id: employee_data.id,
+                                        email: employee_data.email,
+                                        photo_url: downloadURL,
+
+                                        full_name: employee_data.full_name,
+                                        date_of_birth: employee_data.date_of_birth,
+                                        phone: employee_data.phone,
+                                        adress: employee_data.adress,
+                                        city: employee_data.city,
+                                        postal_code: employee_data.postal_code,
+
+                                        position: employee_data.position,
+                                        contract: employee_data.contract,
+                                        wage: employee_data.wage,
+
+                                        active: true,
+                                        deactivated: null,   
+                                    })
+                                    .catch(function(error) {
+                                        console.error("Error adding document: ", error);
+                                    });
+                                });  
+                            }
+
+                        );
+                        
+                        
+                    });
+                }
+                else{
+                    db.collection("users").doc(employee_data.id).update({
+                        id: employee_data.id,
+                        email: employee_data.email,
+
+                        full_name: employee_data.full_name,
+                        date_of_birth: employee_data.date_of_birth,
+                        phone: employee_data.phone,
+                        adress: employee_data.adress,
+                        city: employee_data.city,
+                        postal_code: employee_data.postal_code,
+
+                        position: employee_data.position,
+                        contract: employee_data.contract,
+                        wage: employee_data.wage,
+
+                        active: true,
+                        deactivated: null,   
+                    })
+                    .catch(function(error) {
+                        console.error("Error adding document: ", error);
+                    });
+                }
                 
-                this.imageData.generateBlob(imageData =>{ 
-                    let imageName = employee_data.email + ".png";
-                    var uploadTask = storage.ref(imageName).put(imageData);
-
-                    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null,
-                        function(error){
-                            console.log(erros)
-                        },
-                        function(){
-                            uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
-                                db.collection("users").doc(employee_data.id).update({
-                                    id: employee_data.id,
-                                    email: employee_data.email,
-                                    photo_url: downloadURL,
-
-                                    full_name: employee_data.full_name,
-                                    date_of_birth: employee_data.date_of_birth,
-                                    phone: employee_data.phone,
-                                    adress: employee_data.adress,
-                                    city: employee_data.city,
-                                    postal_code: employee_data.postal_code,
-
-                                    position: employee_data.position,
-                                    contract: employee_data.contract,
-                                    wage: employee_data.wage,
-
-                                    active: true,
-                                    deactivated: null,   
-                                })
-                                .catch(function(error) {
-                                    console.error("Error adding document: ", error);
-                                });
-                            });  
-                        }
-
-                    );
-                      
-                    
-                });
-
                 this.store.users = this.store.users.filter(user => user.id != this.employee_info.id);
             },    
         },
@@ -243,7 +268,7 @@
         margin-bottom: 25px;
     }
     .top{
-        height: 375px;
+        height: 350px;
 
         border-radius: 5px;
         border: 2px rgba(245, 166, 35, 0.7) solid;
