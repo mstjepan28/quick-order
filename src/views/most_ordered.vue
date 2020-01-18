@@ -1,28 +1,16 @@
 <template>
     <div class="most_ordered">
         <div class="top">
-            <div class="container">
+            <div class="krug row stroke"><h3 class="top_title">Most ordered</h3></div>
+            
 
-                <div class="row"> 
-
-                    <div class="col">
-                        <div class="krug stroke"></div>
-                    </div>
-
-                    <div class="col stroke">
-                        <h3>Most ordered</h3>
-                    </div>
-                </div>
-
-                <div class="row Food_Drinks stroke">
-                    <div class="col">
-                        <div v-on:click="change_show">Food</div>
-                    </div>
-                    <div class="col">
-                        <div v-on:click="change_show">Drinks</div>
-                    </div>
-                </div>
-
+            <div v-if="show == 'Food'" class="row options">
+                <div class="col selected" style="font-size: 23px" v-on:click="show = 'Food'">Food</div>
+                <div class="col stroke" style="font-size: 15px" v-on:click="show = 'Drinks'">Drinks</div>
+            </div>
+            <div v-else class="row options">
+                <div class="col stroke" style="font-size: 15px" v-on:click="show = 'Food'">Food</div>
+                <div class="col selected" style="font-size: 23px" v-on:click="show = 'Drinks'">Drinks</div>
             </div>
         </div>
         
@@ -45,14 +33,6 @@
                 store
             }
         },
-        methods:{
-            change_show(){
-                if(this.show == 'Food')
-                    this.show = 'Drinks'
-                else 
-                    this.show = 'Food'
-            }
-        },
         computed:{
             filtered_cards(){
                 function compare(a, b){
@@ -71,45 +51,17 @@
 </script>
 
 <style scoped>
-    .row{
-        height:240px;
-    }
     .top{
-        height: 250px;
-        width: 100%;
-        background-image: url("/povrce.jpg");
-        background-repeat: no-repeat; 
-        background-size:100% 100%;
-        margin-bottom: 10px;
-    }
-    .col > h3{
-        display: inline-block;
-        
-        position: relative;
-        top: 80px;
-
-        font-size: 30px;
-        text-decoration: underline;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-image: url("/povrce.jpg");    
     }
     .krug{
-        width: 175px;
-        height: 175px;
-
+        background-size: 100% 100%; 
+        background-repeat: no-repeat;
         background-image: url("/zupa.jpg");
-        background-repeat: no-repeat; 
-        background-size:100% 100%;
     }
-    a:hover{
-        text-decoration: none;
-        color: white;
-    }
-    .Food_Drinks{
-        width: 100%;
-
-        position: relative;
-        top: -35px;
-
-        font-size: 30px;
-        cursor: pointer;
+    .top_title{
+        font-size: 35px
     }
 </style>

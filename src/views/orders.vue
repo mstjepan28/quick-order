@@ -1,8 +1,8 @@
 <template>
     <div class="most_ordered">
         <div class="top">
-            <div class="krug" style="background-image: url('/order_krug.jpg'); background-size:100% 100%; background-repeat: no-repeat;"></div>
-            <h3 class="top_title">Orders</h3>
+            <div class="krug"><h3 class="top_title">Orders</h3></div>
+            
         </div>
         <!--Ako je ulogiran kuhar ili barmen pokazi filtrirane narudzbe i strelice za promjenu trenutnog prikaza-->
         <div v-if="store.position == 'Chef' || store.position == 'Barman'" class="main">
@@ -70,6 +70,11 @@
         background-size:100% 100%; 
         background-repeat: no-repeat;
         margin-bottom: 10px;
+    }
+    .krug{
+        background-size:100% 100%; 
+        background-repeat: no-repeat;
+        background-image: url('/order_krug.jpg'); 
     }
     .main{
         text-align: center;

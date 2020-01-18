@@ -1,26 +1,18 @@
 <template>
     <div class="calls">
         <div class="top">
-            <div class="container">
+            <div class="krug row"></div>
 
-                <div class="row"> 
-                    <div class="col">
-                        <div class="krug stroke" style="background-image: url('/waiter_krug.jpg'); background-size: 100% 100%; background-repeat: no-repeat;"></div>
-                    </div>
-
-                    <div class="col stroke">
-                        <h3>Calls</h3>
-                    </div>
-                </div>
-
-                <div class="call_options stroke">
-                    <div v-on:click="show_calls('Customer')">Customer</div>
-                    <div v-on:click="show_calls('Staff')" >Staff</div>
-                </div>
-
+            <div v-if="show == 'Customer'" class="row options">
+                <div class="col selected" style="font-size: 23px" v-on:click="show = 'Customer'">Customer</div>
+                <div class="col stroke" style="font-size: 15px" v-on:click="show = 'Staff'">Staff</div>
             </div>
-        </div>    
-
+            <div v-else class="row options">
+                <div class="col stroke" style="font-size: 15px" v-on:click="show = 'Customer'">Customer</div>
+                <div class="col selected" style="font-size: 23px" v-on:click="show = 'Staff'">Staff</div>
+            </div>
+        </div>   
+ 
         <div class="main">
             <div class="title stroke">
                 <div v-on:click="previous"><i class="fas fa-arrow-left"></i></div>
@@ -43,16 +35,16 @@
             return{
                 store,
                 i: 0,
-                show_who: "Customer",
+                show: "Customer",
                 call_state: ['Available', 'Finished'],
             }
         },
         computed: {
             filtered_cards(){
-                if(this.show_who == "Customer")
+                if(this.show == "Customer")
                     //Vrati pozive musterije koje odgovaraju trenutno odabranom stanju
                     return store.call_cards.filter(card => card.call_state == this.call_state[this.i])
-                else if(this.show_who == "Staff")
+                else if(this.show == "Staff")
                     //Vrati pozive osoblja za obradene nerudzbe koje odgovaraju trenutno odabranom stanju
                     return store.call_cards_staff.filter(card => card.call_state == this.call_state[this.i])
             },
@@ -65,12 +57,8 @@
             previous(){
                 this.i -= 1;
                 if(this.i < 0) this.i = this.call_state.length - 1;
-            },
-            show_calls(show_who){
-                this.show_who = show_who;
-            },
+            }
         },
-        name: 'calls',
         components: {
             callCard
         },
@@ -78,59 +66,27 @@
 </script>
 
 <style scoped>
-    .calls{
-        text-align: center;
-    }
-    .container, .col{
-        height: 250px;
-    }
-    .call_options{
-        width: 100%;
-
-        position: relative;
-        top: -35px;
-
-        font-size: 30px;
-    }
-    .call_options > div{
-        display: inline-block;
-        width: 50%;
-    }
-    .row{
-        height:240px;
-    }
     .top{
-        height: 250px;
-        width: 100%;
-        background-image: url("/restoran.jpg");
-        background-repeat: no-repeat; 
-        background-size:100% 100%;
-        margin-bottom: 10px;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-image: url("/restoran.jpg");    
     }
-    .col > h3{
-        display: inline-block;
-        
-        position: relative;
-        top: 80px;
-
-        font-size: 30px;
-        text-decoration: underline;
-    }
-
     .krug{
-        width: 175px;
-        height: 175px;
-
-        background-image: url("/konobar.jpg");
-        background-repeat: no-repeat; 
-        background-size:100% 100%;
+        background-size: 100% 100%; 
+        background-repeat: no-repeat;
+        background-image: url('/waiter_krug.jpg');
     }
-
-
-    .main{
+    .title{
         text-align: center;
     }
     .title > div{
         display: inline-block;
+    }
+
+    .calls{
+        text-align: center;
+    }
+    .main{
+        text-align: center;
     }
 </style>

@@ -341,8 +341,11 @@
 
           this.get_data();
 
-          if(this.$route.name == 'login') 
+          if(this.$route.name == 'login'){
+            console.log(123);
             this.$router.push({name:'main_menu'});
+          }
+
         }
         else{
           this.authenticated = false;

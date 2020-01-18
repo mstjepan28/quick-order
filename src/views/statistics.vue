@@ -142,9 +142,6 @@
             }
         },
         mounted(){
-            if(store.position != 'Manager')
-                this.$router.push({name:'main_menu'});
-                
             for(let i = 0; i < 7; i++){
                 this.total_income += this.statistics.day_price[i];
                 this.total_count += this.statistics.day_orders[i];

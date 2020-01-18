@@ -1,10 +1,15 @@
 <template>
     <div class="employees">
         <div class="top">
-            <div class="krug row" style="background-image: url('/mare_krug.jpg'); background-size: 100% 100%; background-repeat: no-repeat;"></div>
-            <div class="row options">
-                <div class="col stroke" v-on:click="show_main = 'employees'">Employees</div>
-                <div class="col stroke" v-on:click="show_main = 'new_employees'">New employees</div>
+            <div class="krug row"></div>
+            
+            <div v-if="show_main == 'employees'" class="row options">
+                <div class="col selected" style="font-size: 23px" v-on:click="show_main = 'employees'">Employees</div>
+                <div class="col stroke" style="font-size: 15px" v-on:click="show_main = 'new_employees'">New employees</div>
+            </div>
+            <div v-else class="row options">
+                <div class="col stroke" style="font-size: 15px" v-on:click="show_main = 'employees'">Employees</div>
+                <div class="col selected" style="font-size: 23px" v-on:click="show_main = 'new_employees'">New employees</div>
             </div>
         </div>
         
@@ -55,10 +60,6 @@
                 if(this.i < 0) this.i = this.show.length - 1;
             },
         },
-        mounted(){
-            if(store.position != 'Manager')
-                this.$router.push({name:'main_menu'});
-        },
         components:{
             EmployeeCard
         }
@@ -71,21 +72,16 @@
         background-repeat: no-repeat;
         background-image: url('/employees_background.jpg');        
     }
+    .krug{
+        background-size: 100% 100%; 
+        background-repeat: no-repeat;
+        background-image: url('/mare_krug.jpg'); 
+    }
+
     .title{
         text-align: center;
     }
     .title > div{
         display: inline-block;
-    }
-    /*--------------------------------*/
-    .options{
-        font-size: 20px;
-        margin: 0 0;
-    }
-    .options > .col{
-        border-radius: 9px;
-        border: 2px rgba(245, 166, 35, 0.7) solid;
-
-        background: rgba(52, 52, 52, 0.7);
     }
 </style>

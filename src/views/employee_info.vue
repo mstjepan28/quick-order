@@ -44,8 +44,8 @@
             <div class="row top">
                 <div class="col">
                     <croppa v-model="imageData"
-                        :width="150"
-                        :height="150"
+                        :width="200"
+                        :height="200"
                         placeholder="Upload image"
                         placeholder-color="white"
                         :placeholder-font-size="20"
@@ -311,9 +311,6 @@
     /*--------------------*/
     h4{
         display:inline-block
-    }
-    .gold{
-        color:rgb(245, 166, 35)
     }
     .edit_button{
         height: 45px;
