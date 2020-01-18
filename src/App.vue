@@ -150,9 +150,6 @@
     },
     methods: {
       logout(){
-        this.$router.push({name:'login'}).catch(err => {
-            
-        });
         this.detach_listeners();
         firebase.auth().signOut()
       },
@@ -184,7 +181,7 @@
           //Dohvacanje proizvoda
           store.product_listener = db.collection("products").orderBy("title").onSnapshot(snapshot => {
             snapshot.docChanges().forEach(change => {
-                if (change.type === "added"){
+                if(change.type === "added" || change.type === "modified"){
                   const data = change.doc.data()
                   this.cards.unshift({
                     id: change.doc.id,
@@ -249,6 +246,7 @@
                           time: data.time,
                           call_state: data.call_state,           
                       })
+
                   }
               });
           });
@@ -283,13 +281,12 @@
             })
           });
           //Dohvacanje korisnika
-          store.users_listener = db.collection("users").orderBy("last_login").onSnapshot(snapshot =>{
+          store.users_listener = db.collection("users").onSnapshot(snapshot =>{        
             snapshot.docChanges().forEach(change => {
-              if(change.type === 'added'){
+              if(change.type === 'added' || change.type === "modified"){
                 const data = change.doc.data()
                 store.users.push({
                   id: change.doc.id,
-                  username: data.username,
                   email: data.email,
                   //password: data.password,
                   photo_url: data.photo_url,
@@ -311,6 +308,7 @@
                   active: data.active,
                   deactivated: data.deactivated,
                 })
+
               }
             })
           })
@@ -349,8 +347,11 @@
         else{
           this.authenticated = false;
           
-          if(this.$route.name !== 'login') 
+          //Ako stavimo != onda ne radi
+          if(this.$route.name == 'login' || this.$route.name == 'add_employee'){}
+          else
             this.$router.push({name:'login'})
+      
         }
       });      
     }

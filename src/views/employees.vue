@@ -1,17 +1,21 @@
 <template>
     <div class="employees">
         <div class="top">
-            <div class="krug" style="background-image: url('/mare_krug.jpg'); background-size: 100% 100%; background-repeat: no-repeat;"></div>
+            <div class="krug row" style="background-image: url('/mare_krug.jpg'); background-size: 100% 100%; background-repeat: no-repeat;"></div>
+            <div class="row options">
+                <div class="col stroke" v-on:click="show_main = 'employees'">Employees</div>
+                <div class="col stroke" v-on:click="show_main = 'new_employees'">New employees</div>
+            </div>
         </div>
         
         <div class="main">
-            <div class="title stroke">
+            <div v-if="show_main == 'employees'" class="title stroke">
                 <div v-on:click="previous"><i class="fas fa-arrow-left"></i></div>
                 {{this.show[this.i]}}
                 <div v-on:click="next"><i class="fas fa-arrow-right"></i></div>
             </div>
-            <EmployeeCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
 
+            <EmployeeCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
         </div>
         
         <div class="bottom_buttons">
@@ -29,12 +33,16 @@
             return{
                 i: 0,
                 show: ['Waiter', 'Chef', 'Barman', 'Manager'],
+                show_main: 'employees',
                 users: store.users
             }
         },
         computed:{
             filtered_cards(){
-                return this.users.filter(user => user.position == this.show[this.i]);
+                if(this.show_main == 'employees')
+                    return this.users.filter(user => user.position == this.show[this.i] && !(user.wage == undefined || user.wage == null));
+                else
+                    return this.users.filter(user => user.wage == undefined || user.wage == null);
             }
         },
         methods:{
@@ -70,4 +78,14 @@
         display: inline-block;
     }
     /*--------------------------------*/
+    .options{
+        font-size: 20px;
+        margin: 0 0;
+    }
+    .options > .col{
+        border-radius: 9px;
+        border: 2px rgba(245, 166, 35, 0.7) solid;
+
+        background: rgba(52, 52, 52, 0.7);
+    }
 </style>

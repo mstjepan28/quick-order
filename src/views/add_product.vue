@@ -238,10 +238,6 @@
                 //Nakon dodavanja se vracamo na prosu stranicu
                 //this.$router.go(-1);
             },     
-        },
-        mounted(){
-            if(store.position != 'Manager')
-                this.$router.push({name:'main_menu'});
         }
         
     }

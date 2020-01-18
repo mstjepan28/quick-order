@@ -1,5 +1,5 @@
 <template>
-    <div class="add_employee">
+    <div v-if="employee_info" class="add_employee">
         <!--Save info--------------------------------------------------->
         <div class="modal fade" id="save_confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document" >
@@ -9,7 +9,7 @@
                         Info saved
                         <hr/>
                         <!--Nakon dodavanja se vracamo na prosu stranicu-->
-                        <div v-on:click="this.$router.go(-1)" data-dismiss="modal">Ok</div>
+                        <div v-on:click="$router.go(-1)" data-dismiss="modal">Ok</div>
                     </div>
                 </div>
 
@@ -40,28 +40,29 @@
             </div>
         </div>
 
-        <div class="container">
+        <div v-if="enable_edit" class="container">
             <div class="row top">
                 <div class="col">
                     <croppa v-model="imageData"
-                        :width="145"
-                        :height="145"
+                        :width="150"
+                        :height="150"
                         placeholder="Upload image"
                         placeholder-color="white"
                         :placeholder-font-size="20"
                         canvas-color="transparent"
-                        :show-remove-button="true"
+                        :show-remove-button="false"
                         remove-button-color="rgba(245, 166, 35, 0.7)"
                         >
                     </croppa> 
-                    <h3 class="stroke underline info">Full name:</h3><input type=text class="input_box" v-model=employee_info.full_name>
+                    <h3 class="stroke underline info">Full name:</h3><input disable type=text class="input_box" v-model=employee_info.full_name>
+                    <div v-if="store.position == 'Manager'" class="edit_button stroke mt-3" v-on:click="enable_edit = false">Disable editing</div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col">
                     
-                    <h3 class="stroke underline info">Date of birth:</h3><input type=date class="input_box" v-model=employee_info.date_of_birth>
+                    <h3 class="stroke underline info">Date of birth:</h3><input disabled type=date class="input_box" v-model=employee_info.date_of_birth>
                     <h3 class="stroke underline info">Phone:</h3><input type=tel class="input_box" placeholder="123-4567-890" v-model=employee_info.phone>
                     <h3 class="stroke underline info">Adress:</h3><input type=text class="input_box" v-model=employee_info.adress>
                     <h3 class="stroke underline info">City:</h3><input type=text class="input_box" v-model=employee_info.city>
@@ -69,17 +70,15 @@
 
                     <hr class="mb-5 mt-5">
 
-                    <h3 class="stroke underline info">Username:</h3><input type=text class="input_box" v-model=employee_info.username>
-                    <h3 class="stroke underline info">E-Mail:</h3><input type=email class="input_box" v-model=employee_info.email>
-                    <h3 class="stroke underline info">Password:</h3><input type=text class="input_box" v-model=employee_info.password>
-
+                    <h3 class="stroke underline info">E-Mail:</h3><input disabled type=email class="input_box" v-model=employee_info.email>
+                    
                     <hr class="mb-5 mt-5">
                     
                     <div class="stroke" style="text-align: center">
                         <select v-model="employee_info.position" style="margin-right: 20px">
                             <option disabled value="">Position</option>
                             <option>Waiter</option>
-                            <option>Barmen</option>
+                            <option>Barman</option>
                             <option>Chef</option>
                             <option>Manager</option>
                         </select>
@@ -97,7 +96,41 @@
             </div>    
         </div>
 
-        <div class="bottom_buttons">
+        <div v-else class="container">
+            <div class="row top">
+                <div class="col">
+                    <div class="krug stroke" :style="{ backgroundImage: `url(${this.employee_info.photo_url})`}"></div>
+                        <h2>{{employee_info.full_name}}</h2>
+                        <div v-if="store.position == 'Manager'" class="edit_button stroke" v-on:click="enable_edit = true">Edit</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <hr class="m-4">
+
+                    <h4 class="underline info"><h4 class="gold">Date of birth:</h4> {{employee_info.date_of_birth}}</h4>
+                    <h4 class="underline info"><h4 class="gold">Phone:</h4> {{employee_info.phone}}</h4>
+                    <h4 class="underline info"><h4 class="gold">Adress:</h4> {{employee_info.adress}}</h4>
+                    <h4 class="underline info"><h4 class="gold">City:</h4> {{employee_info.city}}</h4>
+                    <h4 class="underline info"><h4 class="gold">Postal code:</h4> {{employee_info.postal_code}}</h4>
+
+                    <hr class="m-4">
+
+                    <h4 class="underline info"><h4 class="gold">E-Mail:</h4> {{employee_info.email}}</h4>
+                    
+                    <hr class="m-4">
+                    
+                    <h4 class="underline info"><h4 class="gold">Position:</h4> {{employee_info.position}}</h4>
+                    <h4 class="underline info"><h4 class="gold">Contract:</h4> {{employee_info.contract}}</h4>
+                    <h4 class="underline info"><h4 class="gold">Wage:</h4> {{employee_info.wage}}</h4>
+                    
+                    <hr class="m-4">
+                </div>
+            </div>    
+        </div>
+
+        <div v-if="enable_edit" class="bottom_buttons">
             <button type=button class="order order_only stroke" data-toggle="modal" data-target="#save_employee">Save changes</button>
         </div>              
     </div>
@@ -113,7 +146,8 @@
                 id: this.$route.params.id,
                 employee_info: false,
                 store,
-                imageData: null
+                imageData: null,
+                enable_edit: false
             }
         },
         methods:{
@@ -130,11 +164,9 @@
                         },
                         function(){
                             uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
-                                db.collection("products").doc(employee_data.id).update({
+                                db.collection("users").doc(employee_data.id).update({
                                     id: employee_data.id,
-                                    username: employee_data.username,
-                                    //email: employee_data.email,
-                                    //password: employee_data.password,
+                                    email: employee_data.email,
                                     photo_url: downloadURL,
 
                                     full_name: employee_data.full_name,
@@ -167,6 +199,37 @@
         },
         mounted(){
             this.employee_info = store.users.filter(user => user.id == this.id)[0];
+
+            if(this.employee_info == undefined){
+                let info = this;
+                db.collection('users').doc(this.id).get().then(user => {
+                    let data = user.data();
+                    info.employee_info = {
+                        id: info.id,
+                        email: data.email,
+                        //password: data.password,
+                        photo_url: data.photo_url,
+
+                        full_name: data.full_name,
+                        date_of_birth: data.date_of_birth,
+                        phone: data.phone,
+                        adress: data.adress,
+                        city: data.city,
+                        postal_code: data.postal_code,
+
+                        position: data.position,
+                        contract: data.contract,
+                        wage: data.wage,
+
+                        added: data.added,
+                        last_login: data.last_login,
+                        currently_active: data.currently_active,
+                        active: data.active,
+                        deactivated: data.deactivated,                        
+                    }
+
+                })
+            }
         },
     }
 </script>
@@ -244,5 +307,25 @@
     }
     .croppa-container:hover {
         opacity: 1;
+    }
+    /*--------------------*/
+    h4{
+        display:inline-block
+    }
+    .gold{
+        color:rgb(245, 166, 35)
+    }
+    .edit_button{
+        height: 45px;
+        line-height: 45px;
+
+        text-align: center;     
+        font-size: 20px;
+
+
+        border-radius: 9px;
+        border: 2px rgba(245, 166, 35, 0.7) solid;
+    
+        background: #343434;
     }
 </style>

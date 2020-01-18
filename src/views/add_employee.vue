@@ -6,7 +6,7 @@
                 
                 <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">            
                     <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
-                        Info saved
+                        Information saved
                         <hr/>
                         <div data-dismiss="modal">Ok</div>
                     </div>
@@ -68,35 +68,39 @@
 
                     <hr class="mb-5 mt-5">
 
-                    <h3 class="stroke underline info">Username:</h3><input type=text class="input_box" v-model=username>
                     <h3 class="stroke underline info">E-Mail:</h3><input type=email class="input_box" v-model=email>
                     <h3 class="stroke underline info">Password:</h3><input type=text class="input_box" v-model=password>
 
-                    <hr class="mb-5 mt-5">
+                    <div v-if="store.position == 'Manager'">
+                        <hr class="mb-5 mt-5"> 
+                        
+                        <div class="stroke" style="text-align: center">
+                            <select v-model="position" style="margin-right: 20px">
+                                <option disabled>Position</option>
+                                <option>Waiter</option>
+                                <option>Barman</option>
+                                <option>Chef</option>
+                                <option>Manager</option>
+                            </select>
+
+                            <select v-model="contract">
+                                <option disabled>Contract</option>
+                                <option>Permanent employment</option>
+                                <option>Fixed-term</option>
+                                <option>Casual employment</option>
+                            </select>                                                
+                        </div><br>
+
+                        <h3 class="stroke underline info">Wage:</h3><input type=text class="input_box" v-model=wage>
+                        
+                                                
+                    </div>
                     
-                    <div class="stroke" style="text-align: center">
-                        <select v-model="position" style="margin-right: 20px">
-                            <option disabled value="">Position</option>
-                            <option>Waiter</option>
-                            <option>Barmen</option>
-                            <option>Chef</option>
-                            <option>Manager</option>
-                        </select>
-
-                        <select v-model="contract">
-                            <option disabled value="">Contract</option>
-                            <option>Permanent employment</option>
-                            <option>Fixed-term</option>
-                            <option>Casual employment</option>
-                        </select>                                                
-                    </div><br>
-
-                    <h3 class="stroke underline info">Wage:</h3><input type=text class="input_box" v-model=wage>
                 </div>
             </div>    
         </div>
 
-        <div class="bottom_buttons">
+        <div v-if="store.position == 'Manager'" class="bottom_buttons">
             <button type=button class="order order_only stroke" data-toggle="modal" data-target="#save_employee">Save changes</button>
         </div>              
     </div>
@@ -110,7 +114,6 @@
         data(){
             return{
                 id: null,
-                username: null,
                 email: null,
                 password: null,
                 photo_url: null,
@@ -122,68 +125,69 @@
                 city: null,
                 postal_code: null,
 
-                position: 'Position',
-                contract: 'Contract',
+                position: '',
+                contract: '',
                 wage: null,
+
+                store
             }
         },
         methods:{
             add_employee(){
                 var employee_data = this;
                 firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(cred => {
-                    this.id = cred.user.uid;
+                    employee_data.id = cred.user.uid;
+
+                    employee_data.photo_url.generateBlob(photo_url => {  
+                        //dodati alert ako nema slika a pokusavamo uploadati
+                        let imageName = this.email + ".png";   // jpeg za bolju optimizaciju
+                        var uploadTask = storage.ref(imageName).put(photo_url);
+
+                        // Listen for state changes, errors, and completion of the upload.
+                        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null,
+                            function(error){
+                                console.log(erros)
+                            },
+                            function(){
+                                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
+                                    db.collection('users').add({
+                                        id: employee_data.id,
+                                        email: employee_data.email,
+                                        password: employee_data.password,
+                                        photo_url: downloadURL,
+
+                                        full_name: employee_data.full_name,
+                                        date_of_birth: employee_data.date_of_birth,
+                                        phone: employee_data.phone,
+                                        adress: employee_data.adress,
+                                        city: employee_data.city,
+                                        postal_code: employee_data.postal_code,
+
+                                        position: employee_data.position,
+                                        contract: employee_data.contract,
+                                        wage: employee_data.wage,
+
+                                        added: store.current_date() + " " + store.current_time(),
+                                        last_login: null,
+                                        currently_active: false,
+                                        active: true,
+                                        deactivated: null,                   
+                                    })
+                                    .then(function(docRef) {
+                                        console.log("Document written with ID: ", docRef.id);
+                                    })
+                                    .catch(function(error) {
+                                        console.error("Error adding document: ", error);
+                                    });
+                                });  
+                            }
+
+                        );
+                        
+                        
+                    });   
                 });
                 
-                this.photo_url.generateBlob(photo_url => {  
-                    //dodati alert ako nema slika a pokusavamo uploadati
-                    let imageName = this.email + ".png";   // jpeg za bolju optimizaciju
-                    var uploadTask = storage.ref(imageName).put(photo_url);
-
-                    // Listen for state changes, errors, and completion of the upload.
-                    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null,
-                        function(error){
-                            console.log(erros)
-                        },
-                        function(){
-                            uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
-                                db.collection('users').add({
-                                    id: employee_data.id,
-                                    username: employee_data.username,
-                                    email: employee_data.email,
-                                    password: employee_data.password,
-                                    photo_url: downloadURL,
-
-                                    full_name: employee_data.full_name,
-                                    date_of_birth: employee_data.date_of_birth,
-                                    phone: employee_data.phone,
-                                    adress: employee_data.adress,
-                                    city: employee_data.city,
-                                    postal_code: employee_data.postal_code,
-
-                                    position: employee_data.position,
-                                    contract: employee_data.contract,
-                                    wage: employee_data.wage,
-
-                                    added: store.current_date() + " " + store.current_time(),
-                                    last_login: null,
-                                    currently_active: false,
-                                    active: true,
-                                    deactivated: null,                   
-                                })
-                                .then(function(docRef) {
-                                    console.log("Document written with ID: ", docRef.id);
-                                })
-                                .catch(function(error) {
-                                    console.error("Error adding document: ", error);
-                                });
-                            });  
-                        }
-
-                    );
-                      
-                    
-                });                
-
             },           
         }
     }

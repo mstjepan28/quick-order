@@ -2,7 +2,7 @@
     <div class="login">
         <h1 class="stroke">Quick Order</h1>
         <form @submit.prevent="login">
-            <div class="username">
+            <div class="email">
                 <i class="far fa-user"></i>
                 <input v-model="email" type="text" placeholder="e-mail...">
             </div><br>
@@ -62,7 +62,7 @@ import store from '@/store.js'
               results = regex.exec(url);
           if(!results) 
             return null;
-          if (!results[2]) 
+          if(!results[2]) 
             return '';
            return decodeURIComponent(results[2].replace(/\+/g, ' '));
       }
@@ -70,7 +70,7 @@ import store from '@/store.js'
     },
     mounted(){
         let url = window.location.href;
-        this.qrUser=this.getParameterByName('username' , url);
+        this.qrUser=this.getParameterByName('email' , url);
         this.qrPass=this.getParameterByName('password' ,  url);
         this.store.table=this.getParameterByName('table' ,  url);
         
@@ -134,7 +134,7 @@ import store from '@/store.js'
       margin-left: 15px
     }
 
-    .username, .password{
+    .email, .password{
         width: 300px;
 
         padding: 10px;
