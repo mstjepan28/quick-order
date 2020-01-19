@@ -102,7 +102,10 @@
 
         <div v-if="store.position == 'Manager'" class="bottom_buttons">
             <button type=button class="order order_only stroke" data-toggle="modal" data-target="#save_employee">Save changes</button>
-        </div>              
+        </div>
+        <div v-else class="bottom_buttons">
+            <button type=button class="order order_only stroke" data-toggle="modal" data-target="#save_employee">Sign up</button>
+        </div>                 
     </div>
 </template>
 
@@ -187,7 +190,7 @@
                         
                     });   
                 });
-                
+                this.$root.logout();
             },           
         }
     }

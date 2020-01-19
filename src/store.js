@@ -4,7 +4,7 @@ export default {
     //Podaci trenutnog korisnika
     userId: 'your_id',
     userEmail: 'your_email',
-    position: 'your_position',
+    position: null,
     table: 'Table#1',
 
     food_options: ['Appetizer', 'Main course', 'Dessert'],

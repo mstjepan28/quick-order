@@ -46,13 +46,18 @@
     <!--Navbar--------------------------------------------------->
     <nav v-if="this.$route.name !== 'login'" class="navbar navbar-expand-lg navbar-dark bg-dark">
      
-      <div v-if="this.$route.name !== 'main_menu'" v-on:click="go_back" class="back_button">
+      <div v-if="this.$route.name !== 'main_menu' && this.authenticated" v-on:click="go_back" class="back_button">
         <i class="fas fa-arrow-left stroke" style="font-size: 25px"></i>
       </div>
 
-      <router-link to="/" class="navbar-brand stroke">
-        <img src="/icon.ico" class="icon"> Quick order
-      </router-link>
+      <div v-if="this.authenticated" class="navbar-brand stroke">
+        <router-link to="/">
+          <img src="/icon.ico" class="icon"> Quick order
+        </router-link>  
+      </div>
+      <div v-else class="navbar-brand stroke">
+          <img src="/icon.ico" class="icon"> Quick order
+      </div>      
 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -61,7 +66,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
         <!--------------------------------------------------------------------------------------->          
-          <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/" class="nav-link"> Main menu </router-link>
           </li>
 
@@ -123,7 +128,7 @@
           
         </ul>
 
-        <span>
+        <span v-if="this.authenticated">
           <a @click="logout" class="btn btn-info my-2 my-sm-0 mr-2" href="#">Logout</a>
         </span>
 
@@ -325,6 +330,8 @@
       }
     },
     mounted(){
+      console.log(this.$route)
+
       //Dohvacanje korisnika
       firebase.auth().onAuthStateChanged(user => {
         if(user){
@@ -342,7 +349,6 @@
           this.get_data();
 
           if(this.$route.name == 'login'){
-            console.log(123);
             this.$router.push({name:'main_menu'});
           }
 
@@ -351,9 +357,12 @@
           this.authenticated = false;
           
           //Ako stavimo != onda ne radi
-          if(this.$route.name == 'login' || this.$route.name == 'add_employee'){}
-          else
-            this.$router.push({name:'login'})
+          if(this.$route.name !== 'login' || this.$route.name == 'add_employee'){
+            if(this.$route.name !== 'add_employee'){
+              console.log('login')//<-------------------------------------------
+              this.$router.push({name:'login'})
+            }
+          }
       
         }
       });      
