@@ -195,7 +195,7 @@
                         })                        
                     }
                     else{
-                        db.collection("orders").add({
+                        db.collection("statistics").add({
                             hour_price: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                             hour_orders: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                             day_orders: [0,0,0,0,0,0,0],

@@ -12,7 +12,9 @@
                 <input v-model="password" type="password" id="hidden_password" placeholder="password...">
                 <i class="fas fa-eye" id="password_eye" v-on:click="show_password()"></i>
             </div><br>
-  
+
+            <router-link to="add_employee" class="stroke" style="text-decoration: underline">Sign up</router-link><br>
+            
             <div class="failed_login"></div><br>
 
             <button type="submit" class="stroke">Log in</button>
@@ -22,7 +24,7 @@
 </template>
 
 <script>
-import store from '@/store.js'
+  import store from '@/store.js'
   export default {
     data(){
       return{
@@ -36,7 +38,7 @@ import store from '@/store.js'
     methods: {
       login(){
         firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch(function(error) {
-          document.getElementsByClassName("failed_login")[0].innerHTML = "Failed to log in!";
+          document.getElementsByClassName("failed_login")[0].innerHTML = error;
         });
       },
       show_password() {
@@ -52,19 +54,21 @@ import store from '@/store.js'
         } 
         
       },
-     getParameterByName(name, url) {
+      getParameterByName(name, url) {
           if(!url) 
             url = window.location.href;
 
           name = name.replace(/[\[\]]/g, '\\$&');
 
           var regex = new RegExp('[?&]' + name + '(=([^&]*)|&|#|$)'),
-              results = regex.exec(url);
+          results = regex.exec(url);
+
           if(!results) 
             return null;
           if(!results[2]) 
             return '';
-           return decodeURIComponent(results[2].replace(/\+/g, ' '));
+          
+          return decodeURIComponent(results[2].replace(/\+/g, ' '));
       }
       
     },

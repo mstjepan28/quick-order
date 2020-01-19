@@ -59,6 +59,14 @@
 
             <div class="row">
                 <div class="col">
+                    <div v-if="store.position != 'Manager'">
+                        <h3 class="stroke underline info">Registration code:</h3>
+                        <input type=text class="input_box gold" v-model=registration_code_input>
+                    </div>
+                    <div v-else class="row">
+                        <h3 class="stroke underline info">Registration code:</h3><br>
+                        <input type=text class="input_box col-7 gold" v-model=registration_code><div v-on:click="update_registration_code" class="update_button col-5 stroke">Update code</div>
+                    </div>
                     
                     <h3 class="stroke underline info">Date of birth:</h3><input type="date" data-date="" data-date-format="DD MMMM YYYY" value="2015-08-09" v-model=date_of_birth>
                     <h3 class="stroke underline info">Phone:</h3><input type=tel class="input_box" placeholder="123-4567-890" v-model=phone>
@@ -116,6 +124,8 @@
     export default {
         data(){
             return{
+                store,
+
                 id: null,
                 email: null,
                 password: null,
@@ -131,67 +141,110 @@
                 position: '',
                 contract: '',
                 wage: null,
-
-                store
+                
+                registration_code_input: '',
             }
         },
         methods:{
             add_employee(){
-                var employee_data = this;
-                firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(cred => {
-                    employee_data.id = cred.user.uid;
+                if(this.check_registration_code()){
+                    var employee_data = this;
+                    firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(cred => {
+                        employee_data.id = cred.user.uid;
 
-                    employee_data.photo_url.generateBlob(photo_url => {  
-                        //dodati alert ako nema slika a pokusavamo uploadati
-                        let imageName = this.email + ".png";   // jpeg za bolju optimizaciju
-                        var uploadTask = storage.ref(imageName).put(photo_url);
+                        employee_data.photo_url.generateBlob(photo_url => {  
+                            //dodati alert ako nema slika a pokusavamo uploadati
+                            let imageName = this.email + ".png";   // jpeg za bolju optimizaciju
+                            var uploadTask = storage.ref(imageName).put(photo_url);
 
-                        // Listen for state changes, errors, and completion of the upload.
-                        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null,
-                            function(error){
-                                console.log(erros)
-                            },
-                            function(){
-                                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
-                                    db.collection('users').add({
-                                        id: employee_data.id,
-                                        email: employee_data.email,
-                                        password: employee_data.password,
-                                        photo_url: downloadURL,
+                            // Listen for state changes, errors, and completion of the upload.
+                            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null,
+                                function(error){
+                                    console.log(erros)
+                                },
+                                function(){
+                                    uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
+                                        db.collection('users').add({
+                                            id: employee_data.id,
+                                            email: employee_data.email,
+                                            password: employee_data.password,
+                                            photo_url: downloadURL,
 
-                                        full_name: employee_data.full_name,
-                                        date_of_birth: employee_data.date_of_birth,
-                                        phone: employee_data.phone,
-                                        adress: employee_data.adress,
-                                        city: employee_data.city,
-                                        postal_code: employee_data.postal_code,
+                                            full_name: employee_data.full_name,
+                                            date_of_birth: employee_data.date_of_birth,
+                                            phone: employee_data.phone,
+                                            adress: employee_data.adress,
+                                            city: employee_data.city,
+                                            postal_code: employee_data.postal_code,
 
-                                        position: employee_data.position,
-                                        contract: employee_data.contract,
-                                        wage: employee_data.wage,
+                                            position: employee_data.position,
+                                            contract: employee_data.contract,
+                                            wage: employee_data.wage,
 
-                                        added: store.current_date() + " " + store.current_time(),
-                                        last_login: null,
-                                        currently_active: false,
-                                        active: true,
-                                        deactivated: null,                   
-                                    })
-                                    .then(function(docRef) {
-                                        console.log("Document written with ID: ", docRef.id);
-                                    })
-                                    .catch(function(error) {
-                                        console.error("Error adding document: ", error);
-                                    });
-                                });  
-                            }
+                                            added: store.current_date() + " " + store.current_time(),
+                                            last_login: null,
+                                            currently_active: false,
+                                            active: true,
+                                            deactivated: null,                   
+                                        })
+                                        .then(function(docRef) {
+                                            console.log("Document written with ID: ", docRef.id);
+                                        })
+                                        .catch(function(error) {
+                                            console.error("Error adding document: ", error);
+                                        });
+                                    });  
+                                }
 
-                        );
-                        
-                        
-                    });   
+                            );
+                            
+                            
+                        });   
+                    });
+                    this.$root.logout();
+                }
+                else{
+                    console.log('failed to add employee')
+                }
+            },
+            update_registration_code(){
+                if(this.store.misc.registration_code != ''){
+                    if(this.store.misc.id){
+                        db.collection('misc').doc(this.store.misc.id).update({
+                            registration_code: this.store.misc.registration_code
+                        })                    
+                    }
+                    else{
+                        db.collection('misc').add({
+                            registration_code: this.store.misc.registration_code
+                        })                     
+                    }                    
+                }
+
+            },
+            check_registration_code(){
+                if(this.store.misc.registration_code === this.registration_code_input){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }         
+        },
+        mounted(){
+            if(!this.store.misc.id){
+                store.misc_listener = db.collection("misc").onSnapshot(snapshot =>{
+                    snapshot.docChanges().forEach(change => {
+                    if(change.type === 'added'){
+                        const data = change.doc.data()
+
+                        store.misc.id = change.doc.id;
+                        store.misc.registration_code = data.registration_code;
+                    }
+                    })
                 });
-                this.$root.logout();
-            },           
+            }
+
         }
     }
 </script>
@@ -252,6 +305,20 @@
 
         border-radius: 5px;
         border: 2px rgba(245, 166, 35, 0.7) solid;
+    }
+    .update_button{
+        font-size: 20px;
+        color: white;
+
+        cursor: pointer;
+
+        border-radius: 5px;
+        border: 2px rgba(245, 166, 35, 0.7) solid;
+
+        background: #343434;
+    }
+    .gold{
+        color:rgb(245, 166, 35);
     }
     /*--------------------*/
     .croppa-container {

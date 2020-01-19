@@ -46,7 +46,7 @@
     <!--Navbar--------------------------------------------------->
     <nav v-if="this.$route.name !== 'login'" class="navbar navbar-expand-lg navbar-dark bg-dark">
      
-      <div v-if="this.$route.name !== 'main_menu' && this.authenticated" v-on:click="go_back" class="back_button">
+      <div v-if="this.$route.name !== 'main_menu'" v-on:click="go_back" class="back_button">
         <i class="fas fa-arrow-left stroke" style="font-size: 25px"></i>
       </div>
 
@@ -131,6 +131,9 @@
         <span v-if="this.authenticated">
           <a @click="logout" class="btn btn-info my-2 my-sm-0 mr-2" href="#">Logout</a>
         </span>
+        <span v-else>
+          <router-link to="/login" class="btn btn-info my-2 my-sm-0 mr-2">Login</router-link>
+        </span>
 
       </div>
     </nav>
@@ -150,7 +153,7 @@
   import store from '@/store.js'
 
   export default {
-    data () {
+    data(){
       return store;
     },
     methods: {
@@ -316,7 +319,16 @@
 
               }
             })
-          })
+          });
+          store.misc_listener = db.collection("misc").onSnapshot(snapshot =>{
+            snapshot.docChanges().forEach(change => {
+              if(change.type === 'added'){
+                const data = change.doc.data()
+                store.misc.id = change.doc.id;
+                store.misc.registration_code = data.registration_code;
+              }
+            })
+          });
           store.data_fetched = true;
         }
       },
@@ -327,11 +339,10 @@
         store.staff_calls_listener();
         store.statistics_listener();
         store.users_listener();
+        store.misc_listener();
       }
     },
     mounted(){
-      console.log(this.$route)
-
       //Dohvacanje korisnika
       firebase.auth().onAuthStateChanged(user => {
         if(user){
@@ -339,7 +350,7 @@
             store.position = doc.data().position;
           })
           .catch(error => {
-            console.log(store.position)
+            
           })
           
           this.authenticated = true;
@@ -356,12 +367,9 @@
         else{
           this.authenticated = false;
           
-          //Ako stavimo != onda ne radi
-          if(this.$route.name !== 'login' || this.$route.name == 'add_employee'){
-            if(this.$route.name !== 'add_employee'){
-              console.log('login')//<-------------------------------------------
-              this.$router.push({name:'login'})
-            }
+          if(this.$route.name !== 'login' || this.$route.name !== 'add_employee'){
+            this.$router.push({name:'login'}).catch(error =>{
+            })
           }
       
         }
