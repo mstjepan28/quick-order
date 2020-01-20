@@ -3,7 +3,7 @@ export default {
 
     //Podaci trenutnog korisnika
     userId: 'your_id',
-    userEmail: 'your_email',
+    userEmail: null,
     position: null,
     table: 'Table#1',
 

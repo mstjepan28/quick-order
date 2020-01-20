@@ -166,7 +166,6 @@
                             function(){
                                 uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
                                     db.collection("users").doc(employee_data.id).update({
-                                        id: employee_data.id,
                                         email: employee_data.email,
                                         photo_url: downloadURL,
 
@@ -197,7 +196,6 @@
                 }
                 else{
                     db.collection("users").doc(employee_data.id).update({
-                        id: employee_data.id,
                         email: employee_data.email,
 
                         full_name: employee_data.full_name,
@@ -230,9 +228,7 @@
                 db.collection('users').doc(this.id).get().then(user => {
                     let data = user.data();
                     info.employee_info = {
-                        id: info.id,
                         email: data.email,
-                        //password: data.password,
                         photo_url: data.photo_url,
 
                         full_name: data.full_name,

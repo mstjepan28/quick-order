@@ -128,7 +128,7 @@
           
         </ul>
 
-        <span v-if="this.authenticated">
+        <span v-if="this.userEmail">
           <a @click="logout" class="btn btn-info my-2 my-sm-0 mr-2" href="#">Logout</a>
         </span>
         <span v-else>
@@ -159,7 +159,7 @@
     methods: {
       logout(){
         this.detach_listeners();
-        firebase.auth().signOut()
+        firebase.auth().signOut();
       },
       go_back(){
         return this.$router.go(-1);
@@ -294,9 +294,7 @@
               if(change.type === 'added' || change.type === "modified"){
                 const data = change.doc.data()
                 store.users.push({
-                  id: change.doc.id,
                   email: data.email,
-                  //password: data.password,
                   photo_url: data.photo_url,
 
                   full_name: data.full_name,
@@ -320,6 +318,7 @@
               }
             })
           });
+          //Dohvacanje ostalih podataka, tj. registraciskog koda
           store.misc_listener = db.collection("misc").onSnapshot(snapshot =>{
             snapshot.docChanges().forEach(change => {
               if(change.type === 'added'){
@@ -333,13 +332,20 @@
         }
       },
       detach_listeners(){
-        store.product_listener();
-        store.orders_listener();
-        store.waiter_calls_listener();
-        store.staff_calls_listener();
-        store.statistics_listener();
-        store.users_listener();
-        store.misc_listener();
+        if(store.product_listener)
+          store.product_listener();
+        if(store.orders_listener)
+          store.orders_listener();
+        if(store.waiter_calls_listener)
+          store.waiter_calls_listener();
+        if(store.staff_calls_listener)
+          store.staff_calls_listener();
+        if(store.statistics_listener)
+          store.statistics_listener();
+        if(store.users_listener)
+          store.users_listener();
+        if(store.misc_listener)
+          store.misc_listener();
       }
     },
     mounted(){
@@ -350,9 +356,10 @@
             store.position = doc.data().position;
           })
           .catch(error => {
-            
-          })
-          
+            firebase.auth().signOut();
+            return;
+          })          
+
           this.authenticated = true;
           this.userId = user.uid;
           this.userEmail = user.email; 

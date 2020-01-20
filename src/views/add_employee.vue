@@ -65,7 +65,7 @@
                     </div>
                     <div v-else class="row">
                         <h3 class="stroke underline info">Registration code:</h3><br>
-                        <input type=text class="input_box col-7 gold" v-model=registration_code><div v-on:click="update_registration_code" class="update_button col-5 stroke">Update code</div>
+                        <input type=text class="input_box col-7 gold" v-model=store.misc.registration_code><div v-on:click="update_registration_code" class="update_button col-5 stroke">Update code</div>
                     </div>
                     
                     <h3 class="stroke underline info">Date of birth:</h3><input type="date" data-date="" data-date-format="DD MMMM YYYY" value="2015-08-09" v-model=date_of_birth>
@@ -160,12 +160,11 @@
                             // Listen for state changes, errors, and completion of the upload.
                             uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null,
                                 function(error){
-                                    console.log(erros)
+                                    console.log(error)
                                 },
                                 function(){
                                     uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
-                                        db.collection('users').add({
-                                            id: employee_data.id,
+                                        db.collection('users').doc(employee_data.id).set({
                                             email: employee_data.email,
                                             password: employee_data.password,
                                             photo_url: downloadURL,
@@ -188,7 +187,7 @@
                                             deactivated: null,                   
                                         })
                                         .then(function(docRef) {
-                                            console.log("Document written with ID: ", docRef.id);
+                                            console.log("Document written with ID: ", employee_data.id);
                                         })
                                         .catch(function(error) {
                                             console.error("Error adding document: ", error);
@@ -201,10 +200,9 @@
                             
                         });   
                     });
-                    this.$root.logout();
                 }
                 else{
-                    console.log('failed to add employee')
+                    
                 }
             },
             update_registration_code(){
@@ -227,6 +225,7 @@
                     return true;
                 }
                 else{
+                    console.log("Registration code wrong, failed to add employee")
                     return false;
                 }
             }         
