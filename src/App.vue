@@ -294,6 +294,7 @@
               if(change.type === 'added' || change.type === "modified"){
                 const data = change.doc.data()
                 store.users.push({
+                  id: change.doc.id,
                   email: data.email,
                   photo_url: data.photo_url,
 
@@ -373,7 +374,7 @@
         }
         else{
           this.authenticated = false;
-          
+
           if(this.$route.name !== 'login' || this.$route.name !== 'add_employee'){
             this.$router.push({name:'login'}).catch(error =>{
             })
