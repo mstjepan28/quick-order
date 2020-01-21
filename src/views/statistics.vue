@@ -149,15 +149,17 @@
                         store.statistics.hour_orders = data.hour_orders;
                         store.statistics.day_orders = data.day_orders;
                         store.statistics.day_price = data.day_price;
+                        
+                        for(let i = 0; i < 7; i++){
+                            this.total_income += this.statistics.day_price[i];
+                            this.total_count += this.statistics.day_orders[i];
+                        }                        
                     }
                 })
             });
             store.listeners.push(listener);
 
-            for(let i = 0; i < 7; i++){
-                this.total_income += this.statistics.day_price[i];
-                this.total_count += this.statistics.day_orders[i];
-            }
+
         }
     }
 </script>

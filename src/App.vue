@@ -184,17 +184,22 @@
         //podacima sa firebase-a. Posto se mounted pokrece samo pri otvaranju stranice trebali bi refreshati stranicu nakon ucitavanja da bi se mi imali te podatke
         //Kada ih dohvacamo ovako preko funkcije, mozemo ih zatraziti tek nakon smo se prijavili
 
+        //Ako je change == 'added' podaci sa dokumenta se samo pohranjuju u polje
+        //  ako je change == 'modified', prolazimo kroz vec sve podatke koje smo dohvatili dok ne nademo one sa istim id-e
+        //  na taj indeks u polju pohranjujemo modificirane podatke
+        //  tj. stare podatke zamjenjujemo novima
+
         //data_fetched koristimo da nebi došlo do povlačenja podataka više od jednom
         if(!store.data_fetched){
           let listener = null;
 
           //Dohvacanje proizvoda
-          listener = db.collection("products").orderBy("title").onSnapshot(snapshot => {
+          listener = db.collection("products").orderBy("times_ordered", "desc").onSnapshot(snapshot => {
               //console.log('products')//<-------------------------------
             snapshot.docChanges().forEach(change => {
-                if(change.type === "added" || change.type === "modified"){
+                if(change.type === "added"){
                   const data = change.doc.data()
-                  this.cards.unshift({
+                  this.cards.push({
                     id: change.doc.id,
                     
                     title: data.title,
@@ -202,6 +207,7 @@
                     url: data.url,
                     times_ordered: data.times_ordered,
                     counter: 0,
+                    hide: data.hide,
 
                     category: data.category,
                     type: data.type,
@@ -219,6 +225,52 @@
                     zinc: data.zinc,           
                   })
                 }
+                if(change.type === "modified"){
+                  const data = change.doc.data()
+                  let temp = {
+                    id: change.doc.id,
+                    
+                    title: data.title,
+                    price: data.price,
+                    url: data.url,
+                    times_ordered: data.times_ordered,
+                    counter: 0,
+                    hide: data.hide,
+
+                    category: data.category,
+                    type: data.type,
+
+                    ingredients: data.ingredients,
+                    description: data.description, 
+
+                    energy_value: data.energy_value,
+                    carbohydrates: data.carbohydrates,
+                    protein: data.protein,
+                    fat: data.fat,
+                    vitamin_a: data.vitamin_a,
+                    vitamin_c: data.vitamin_c,
+                    calcium: data.calcium,
+                    zinc: data.zinc,           
+                  }
+
+                  for(let i; i < this.cards.length; i++){
+                    if(this.cards[i].id == temp.id){
+                      this.cards[i] = temp;
+                      break;
+                    }
+                  }
+
+                }
+                if(change.type === "removed"){
+                  console.log('deleted')
+                  for(let i; i < this.cards.length; i++){
+                    if(this.cards[i].id == change.doc.id){
+                      this.cards[i] = null;
+                      break;
+                    }
+                  }                  
+                }
+
             });
           });
           store.listeners.push(listener);
@@ -291,7 +343,7 @@
           listener = db.collection("users").onSnapshot(snapshot =>{
               //console.log('user')//<-------------------------------
             snapshot.docChanges().forEach(change => {
-              if(change.type === 'added' || change.type === "modified"){
+              if(change.type === 'added'){
                 const data = change.doc.data()
                 store.users.push({
                   id: change.doc.id,
@@ -314,6 +366,45 @@
                 })
 
               }
+              if(change.type === "modified"){
+                const data = change.doc.data()
+                let temp = {
+                  id: change.doc.id,
+                  email: data.email,
+                  photo_url: data.photo_url,
+
+                  full_name: data.full_name,
+                  date_of_birth: data.date_of_birth,
+                  phone: data.phone,
+                  adress: data.adress,
+                  city: data.city,
+                  postal_code: data.postal_code,
+
+                  position: data.position,
+                  contract: data.contract,
+                  wage: data.wage,
+
+                  added: data.added,
+                  last_login: data.last_login,
+                }
+
+                for(let i; i < this.users.length; i++){
+                  if(this.users[i].id == temp.id){
+                    this.users[i] = temp;
+                    break;
+                  }
+                }
+
+              }
+              if(change.type === "removed"){
+                for(let i; i < this.users.length; i++){
+                  if(this.users[i].id == change.doc.id){
+                    this.users[i] = null;
+                    break;
+                  }
+                }                  
+              }
+
             })
           });
           store.listeners.push(listener);
@@ -339,7 +430,8 @@
             store.listeners[i]();
           }
         }
-      }
+      },
+
     },
     mounted(){
       //Dohvacanje korisnika

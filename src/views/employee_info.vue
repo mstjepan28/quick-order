@@ -39,9 +39,50 @@
 
             </div>
         </div>
+        <!--Delete--------------------------------------------------->
+        <div class="modal fade" id="delete_confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document" >
+                
+                <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
+                
+                <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
+                    Product deleted!
+                    <hr/>
+                    <!--Nakon dodavanja se vracamo na prosu stranicu-->
+                    <div v-on:click="$router.go(-1)" data-dismiss="modal">Ok</div>
+                </div>
+                
+                </div>
+
+            </div>
+        </div>
+        <div class="modal fade" id="delete_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document" >
+                
+                <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
+                
+                <div class="modal-header" style="text-align: center; margin: auto; border-style:none; padding-bottom: 0;">
+                    <h2 class="modal-title" id="exampleModalLongTitle" style="display: inline-block">Save confirmation</h2>
+                </div>
+
+                <div class="modal-body" style="font-size: 30px;">
+                    <hr/>
+                    Delete this user?
+                    <hr/>
+                </div>
+
+                <div class="modal-footer" style="text-align: center; width: 100%; border-style:none; padding-top:0">
+                    <div v-on:click="delete_user" style="display: inline-block; font-size: 40px; width: 50%; color: green" data-dismiss="modal" data-toggle="modal" data-target="#delete_confirmation"><i class="fas fa-check"></i></div>
+                    <div style="display: inline-block; font-size: 40px; width: 50%; color: red"  data-dismiss="modal"><i class="fas fa-times"></i></div>  
+                 </div>
+                
+                </div>
+
+            </div>
+        </div>
 
         <div v-if="enable_edit" class="container">
-            <div class="row top" style="height: 425px;">
+            <div class="row top" style="height: 460px;">
                 <div class="col">
                     <croppa v-model="imageData"
                         :width="200"
@@ -53,9 +94,11 @@
                         :show-remove-button="false"
                         remove-button-color="rgba(245, 166, 35, 0.7)"
                         >
-                    </croppa> 
+                    </croppa>
+                    
                     <h3 class="stroke underline info">Full name:</h3><input disable type=text class="input_box" v-model=employee_info.full_name>
-                    <div v-if="store.position == 'Manager'" class="edit_button stroke mt-3" v-on:click="enable_edit = false">Disable editing</div>
+                    <div v-if="store.position == 'Manager'" class="edit_button stroke mt-1" v-on:click="enable_edit = false">Disable editing</div>
+                    <button v-if="store.position == 'Manager'" class="col edit_button stroke mt-1" style="background: rgba(187, 0, 0, 0.9);" data-toggle="modal" data-target="#delete_user">Delete</button>
                 </div>
             </div>
 
@@ -213,7 +256,16 @@
                 }
                 
                 this.store.users = this.store.users.filter(user => user.id != this.employee_info.id);
-            },    
+            },
+            delete_user(){
+                let current = this
+                db.collection("users").doc(this.food_info.id).delete().then(function(){
+                    current.store.cards = current.store.cards.filter(card => card.id != current.food_info.id);
+                    console.log("Document successfully deleted!");
+                }).catch(function(error) {
+                    console.error("Error removing document: ", error);
+                });
+            }  
         },
         mounted(){
             this.employee_info = store.users.filter(user => user.id == this.id)[0];
@@ -331,7 +383,7 @@
 
         text-align: center;     
         font-size: 20px;
-
+        color: white;
 
         border-radius: 9px;
         border: 2px rgba(245, 166, 35, 0.7) solid;

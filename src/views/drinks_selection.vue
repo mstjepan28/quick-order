@@ -38,7 +38,7 @@
         },
         computed:{
             filtered_cards(){
-                return store.cards.filter(card => card.category == this.drink_options[this.i]);
+                return store.cards.filter(card => card.category == this.drink_options[this.i] && this.store.show_product(card));
             }
         },
         name: 'drinks_selection',

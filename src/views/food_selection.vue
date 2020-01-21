@@ -40,7 +40,7 @@
         },
         computed:{
             filtered_cards(){
-                return store.cards.filter(card => card.category == this.food_options[this.i]);
+                return store.cards.filter(card => card.category == this.food_options[this.i] && store.show_product(card));
             }
         },
         name: 'food_selection',

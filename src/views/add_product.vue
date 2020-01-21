@@ -8,7 +8,7 @@
                     <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
                         Info saved
                         <hr/>
-                        <div data-dismiss="modal">Ok</div>
+                        <div v-on:click="$router.go(-1)" data-dismiss="modal">Ok</div>
                     </div>
                 </div>
 
@@ -205,6 +205,7 @@
                                     price: product_data.price,
                                     url: downloadURL,
                                     times_ordered: 0,
+                                    hide: false,
 
                                     category: product_data.category,
                                     type: product_data.type,

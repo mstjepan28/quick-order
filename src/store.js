@@ -53,5 +53,14 @@ export default {
       return today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(); 
       //https://tecadmin.net/get-current-date-time-javascript/
     },
+    show_product(product){
+      if(this.position == 'Manager'){
+        return true;
+      }
+      else{
+        if(product.hide) return false;
+        else return true;
+      }
+    }
 
 }

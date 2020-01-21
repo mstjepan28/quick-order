@@ -16,27 +16,6 @@
     </div>
 </template>
 
-<script>
-    import FoodCard from '@/components/card.vue'
-    import store from '@/store.js'
-
-    export default {
-        data(){
-            return{
-                store
-            }
-        },
-        computed:{
-            filtered_cards(){
-                return this.store.cards.filter(card => card.type == this.show);
-            }
-        },
-        components: {
-            FoodCard
-        }      
-    }
-</script>
-
 <style scoped>
     .top{
         background-size: 100% 100%;

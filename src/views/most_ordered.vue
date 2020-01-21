@@ -35,13 +35,7 @@
         },
         computed:{
             filtered_cards(){
-                function compare(a, b){
-                    return b.times_ordered - a.times_ordered;
-                }
-
-                let f_cards = this.store.cards.filter(card => card.type == this.show);
-
-                return f_cards.sort(compare);
+                return this.store.cards.filter(card => card.type == this.show && this.store.show_product(card));
             }
         },
         components: {

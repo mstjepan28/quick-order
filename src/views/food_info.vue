@@ -1,6 +1,6 @@
 <template>
     <div v-if="this.food_info" class="food_info">
-        <!--Call-the-Waiter--------------------------------------------------->
+        <!--Save information--------------------------------------------------->
         <div class="modal fade" id="update_confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document" >
                 
@@ -34,6 +34,47 @@
 
                 <div class="modal-footer" style="text-align: center; width: 100%; border-style:none; padding-top:0">
                     <div v-on:click="update_product" style="display: inline-block; font-size: 40px; width: 50%; color: green" data-dismiss="modal" data-toggle="modal" data-target="#update_confirmation"><i class="fas fa-check"></i></div>
+                    <div style="display: inline-block; font-size: 40px; width: 50%; color: red"  data-dismiss="modal"><i class="fas fa-times"></i></div>  
+                 </div>
+                
+                </div>
+
+            </div>
+        </div>
+        <!--Delete--------------------------------------------------->
+        <div class="modal fade" id="delete_confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document" >
+                
+                <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
+                
+                <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
+                    Product deleted!
+                    <hr/>
+                    <!--Nakon dodavanja se vracamo na prosu stranicu-->
+                    <div v-on:click="$router.go(-1)" data-dismiss="modal">Ok</div>
+                </div>
+                
+                </div>
+
+            </div>
+        </div>
+        <div class="modal fade" id="delete_product" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document" >
+                
+                <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
+                
+                <div class="modal-header" style="text-align: center; margin: auto; border-style:none; padding-bottom: 0;">
+                    <h2 class="modal-title" id="exampleModalLongTitle" style="display: inline-block">Save confirmation</h2>
+                </div>
+
+                <div class="modal-body" style="font-size: 30px;">
+                    <hr/>
+                    Delete this product?
+                    <hr/>
+                </div>
+
+                <div class="modal-footer" style="text-align: center; width: 100%; border-style:none; padding-top:0">
+                    <div v-on:click="delete_product" style="display: inline-block; font-size: 40px; width: 50%; color: green" data-dismiss="modal" data-toggle="modal" data-target="#delete_confirmation"><i class="fas fa-check"></i></div>
                     <div style="display: inline-block; font-size: 40px; width: 50%; color: red"  data-dismiss="modal"><i class="fas fa-times"></i></div>  
                  </div>
                 
@@ -152,6 +193,14 @@
                     </div>
 
                     <div class="main">
+                        <div class="row mb-3"> 
+                            <button class="col edit_button stroke" style="background: rgba(187, 0, 0, 0.5);" data-toggle="modal" data-target="#delete_product">Delete</button>
+
+                            <div v-if="!food_info.hide" class="col edit_button stroke" style="background: rgba(187, 0, 0, 0.5);" v-on:click="product_visibility">Hide</div>
+                            <div v-else class="col edit_button stroke" style="background: rgba(0, 187, 25, 0.5);" v-on:click="product_visibility">Show Product</div>                            
+                        </div>
+
+
                         <div class="info_box stroke" style="text-align: center">
                             <select v-model="food_info.type" style="margin-right: 20px">
                                 <option disabled value="">Type</option>
@@ -257,6 +306,14 @@
                 else 
                     this.enable_edit = true;
             },
+            product_visibility(){
+                if(this.food_info.hide){
+                    this.food_info.hide = false;
+                }
+                else{
+                    this.food_info.hide = true;
+                }
+            },
             increase(counter){
                 if(counter < 20){
                     counter += 1;
@@ -293,7 +350,7 @@
 
                                         category: product_data.category,
                                         type: product_data.type,
-
+                                        hide: this.food_info.hide,
                                         ingredients: product_data.ingredients,
                                         description: product_data.description,
 
@@ -321,7 +378,7 @@
                     db.collection("products").doc(product_data.id).update({
                         title: product_data.title,                  
                         price: product_data.price,
-
+                        hide: this.food_info.hide,
                         category: product_data.category,
                         type: product_data.type,
 
@@ -341,12 +398,16 @@
                         console.error("Error adding document: ", error);
                     });                    
                 }
-
-                //Polje cards filtriraj na nacin da iz njega izbacis objekt koji ima isti Id kao food_info
-                //Ovo radimo jer ce se s baze pri update-u podataka ponovno povuci jelo s tim Id-om
-                //Sto bi dalje uzrokovalo duplim elementima u nasem izborniku
-                this.store.cards = this.store.cards.filter(card => card.id != this.food_info.id);
             },
+            delete_product(){
+                let current = this
+                db.collection("products").doc(this.food_info.id).delete().then(function(){
+                    current.store.cards = current.store.cards.filter(card => card.id != current.food_info.id);
+                    console.log("Document successfully deleted!");
+                }).catch(function(error) {
+                    console.error("Error removing document: ", error);
+                });
+            }
         },
         mounted(){
             this.food_info = store.cards.filter(card => card.id == this.id)[0];
@@ -524,7 +585,9 @@
 
         text-align: center;     
         font-size: 20px;
+        color: white;
 
+        cursor: pointer;
 
         border-radius: 9px;
         border: 2px rgba(245, 166, 35, 0.7) solid;
