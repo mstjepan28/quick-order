@@ -232,7 +232,7 @@
         },
         mounted(){
             if(!this.store.misc.id){
-                store.misc_listener = db.collection("misc").onSnapshot(snapshot =>{
+                store.listeners[6] = db.collection("misc").onSnapshot(snapshot =>{
                     snapshot.docChanges().forEach(change => {
                     if(change.type === 'added'){
                         const data = change.doc.data()

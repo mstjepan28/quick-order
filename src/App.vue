@@ -187,7 +187,7 @@
         //data_fetched koristimo da nebi došlo do povlačenja podataka više od jednom
         if(!store.data_fetched){
           //Dohvacanje proizvoda
-          store.product_listener = db.collection("products").orderBy("title").onSnapshot(snapshot => {
+          store.listeners[0] = db.collection("products").orderBy("title").onSnapshot(snapshot => {
             snapshot.docChanges().forEach(change => {
                 if(change.type === "added" || change.type === "modified"){
                   const data = change.doc.data()
@@ -219,7 +219,7 @@
             });
           });
           //Dohvacanje narudzbi
-          store.orders_listener = db.collection("orders").orderBy("time").onSnapshot(snapshot => {
+          store.listeners[1] = db.collection("orders").orderBy("time").onSnapshot(snapshot => {
               snapshot.docChanges().forEach(change => {
                   if(change.type === "added"){
                       const data = change.doc.data()
@@ -242,7 +242,7 @@
               });
           });
           //Dohvacanje poziva korisnika za konobara
-          store.waiter_calls_listener = db.collection("waiter_calls").orderBy("time").onSnapshot(snapshot => {
+          store.listeners[2] = db.collection("waiter_calls").orderBy("time").onSnapshot(snapshot => {
               snapshot.docChanges().forEach(change => {
                   if (change.type === "added"){
                       const data = change.doc.data()
@@ -259,7 +259,7 @@
               });
           });
           //Dohvacanje poziva kuhara i barmena za konobara
-          store.staff_calls_listener = db.collection("staff_calls").orderBy("time").onSnapshot(snapshot => {
+          store.listeners[3] = db.collection("staff_calls").orderBy("time").onSnapshot(snapshot => {
             snapshot.docChanges().forEach(change => {
                 if (change.type === "added"){
                     const data = change.doc.data()
@@ -276,7 +276,7 @@
               });
           });
           //Dohvacanje statistike     
-          store.statistics_listener = db.collection("statistics").onSnapshot(snapshot =>{
+          store.listeners[4] = db.collection("statistics").onSnapshot(snapshot =>{
             snapshot.docChanges().forEach(change => {
               if(change.type === 'added'){
                 const data = change.doc.data()
@@ -289,7 +289,7 @@
             })
           });
           //Dohvacanje korisnika
-          store.users_listener = db.collection("users").onSnapshot(snapshot =>{        
+          store.listeners[5] = db.collection("users").onSnapshot(snapshot =>{        
             snapshot.docChanges().forEach(change => {
               if(change.type === 'added' || change.type === "modified"){
                 const data = change.doc.data()
@@ -320,7 +320,7 @@
             })
           });
           //Dohvacanje ostalih podataka, tj. registraciskog koda
-          store.misc_listener = db.collection("misc").onSnapshot(snapshot =>{
+          store.listeners[6] = db.collection("misc").onSnapshot(snapshot =>{
             snapshot.docChanges().forEach(change => {
               if(change.type === 'added'){
                 const data = change.doc.data()
@@ -333,6 +333,12 @@
         }
       },
       detach_listeners(){
+        for(let i=0; i < store.listeners; i++){
+          if(store.listeners[i] != undefined){
+            listeners[i]();
+          }
+        }
+/*
         if(store.product_listener)
           store.product_listener();
         if(store.orders_listener)
@@ -347,6 +353,7 @@
           store.users_listener();
         if(store.misc_listener)
           store.misc_listener();
+*/ 
       }
     },
     mounted(){

@@ -36,14 +36,7 @@ export default {
     users: [],
 
     //Listeners
-    product_listener: null,
-    orders_listener: null,
-    waiter_calls_listener: null,
-    staff_calls_listener: null,
-    statistics_listener: null,
-    users_listener: null,
-    misc_listener: null,
-
+    listeners: [],
 
     //Funkcije------------------------------------------------------
     current_date(){
@@ -52,11 +45,13 @@ export default {
         let mm = String(today.getMonth() + 1).padStart(2, '0');
         let yyyy = today.getFullYear();
        
-        return yyyy + '/' + mm + '/' + dd; //https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
+        return yyyy + '/' + mm + '/' + dd; 
+        //https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
       },
     current_time(){
       let today = new Date();
-      return today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(); //https://tecadmin.net/get-current-date-time-javascript/
+      return today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(); 
+      //https://tecadmin.net/get-current-date-time-javascript/
     },
 
 }
