@@ -118,6 +118,7 @@
                     <hr class="m-4">
 
                     <h4 class="underline info"><h4 class="gold">E-Mail:</h4> {{employee_info.email}}</h4>
+                    <h4 class="underline info"><h4 class="gold">Last login:</h4> {{employee_info.last_login}}</h4>
                     
                     <hr class="m-4">
                     
@@ -179,9 +180,6 @@
                                         position: employee_data.position,
                                         contract: employee_data.contract,
                                         wage: employee_data.wage,
-
-                                        active: true,
-                                        deactivated: null,   
                                     })
                                     .catch(function(error) {
                                         console.error("Error adding document: ", error);
@@ -208,9 +206,6 @@
                         position: employee_data.position,
                         contract: employee_data.contract,
                         wage: employee_data.wage,
-
-                        active: true,
-                        deactivated: null,   
                     })
                     .catch(function(error) {
                         console.error("Error adding document: ", error);
@@ -243,10 +238,7 @@
                         wage: data.wage,
 
                         added: data.added,
-                        last_login: data.last_login,
-                        currently_active: data.currently_active,
-                        active: data.active,
-                        deactivated: data.deactivated,                        
+                        last_login: data.last_login,       
                     }
 
                 })

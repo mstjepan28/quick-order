@@ -122,7 +122,7 @@
         <div class="top">
             <h3>Order for {{order_info.table}}</h3><br>
 
-            <div v-if="store.position == 'Manager'" class="manager_info">
+            <div v-if="store.position == 'Manager' || store.position == 'Table'" class="manager_info">
                 <h5>Price:</h5> {{order_info.price}} <h5>$</h5><br>
                 <h5>Date:</h5> {{order_info.date}} <h5>at</h5> {{order_info.time}}<br>
             </div>

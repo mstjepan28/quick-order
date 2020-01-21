@@ -311,9 +311,6 @@
 
                   added: data.added,
                   last_login: data.last_login,
-                  currently_active: data.currently_active,
-                  active: data.active,
-                  deactivated: data.deactivated,
                 })
 
               }
@@ -354,8 +351,10 @@
           .catch(error => {
             firebase.auth().signOut();
             return;
-          })          
-
+          })
+          db.collection('users').doc(user.uid).update({
+            last_login: store.current_date() + " at " + store.current_time()
+          })
           this.authenticated = true;
           this.userId = user.uid;
           this.userEmail = user.email; 

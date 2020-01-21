@@ -181,10 +181,7 @@
                                             wage: employee_data.wage,
 
                                             added: store.current_date() + " " + store.current_time(),
-                                            last_login: null,
-                                            currently_active: false,
-                                            active: true,
-                                            deactivated: null,                   
+                                            last_login: null,                 
                                         })
                                         .then(function(docRef) {
                                             console.log("Document written with ID: ", employee_data.id);
