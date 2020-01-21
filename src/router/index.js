@@ -25,26 +25,22 @@ const routes = [
     path: '/food',
     name: 'food',
     component: () => import('../views/food.vue'),
-    children:[
-      {
-        path: '/food_selection/:i',
-        name: 'food_selection',
-        component: () => import('../views/food_selection.vue')
-      }
-    ]
+  },
+  {
+    path: '/food_selection/:i',
+    name: 'food_selection',
+    component: () => import('../views/food_selection.vue')
   },
   /*-----------------------------------------------------*/
   {
     path: '/drinks',
     name: 'drinks',
-    component: () => import('../views/drinks.vue'),
-    children:[
-      {
-        path: '/drinks_selection/:i',
-        name: 'drinks_selection',
-        component: () => import('../views/drinks_selection.vue')
-      },
-    ]
+    component: () => import('../views/drinks.vue')
+  },
+  {
+    path: '/drinks_selection/:i',
+    name: 'drinks_selection',
+    component: () => import('../views/drinks_selection.vue')
   },
   /*-----------------------------------------------------*/
   {
@@ -123,12 +119,7 @@ const routes = [
     path: '/add_product',
     name: 'add_product',
     component: () => import('../views/add_product.vue')
-  },
-  {
-    path: '/order_status',
-    name: 'order_status',
-    component: () => import('../views/order_status.vue')
-  },
+  }
 ]
 
 const router = new VueRouter({

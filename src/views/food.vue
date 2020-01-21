@@ -1,12 +1,10 @@
 <template>
   <div class="food">
-
     <div class="top">
       <div class="krug"><h3 class="top_title">Food</h3></div>
     </div>
 
     <div class="main">
-        <h3 class="stroke underline">Non-Alcoholic</h3>
         <router-link to="food_selection/0"><div class="product_option stroke" style="background-image: url('/voce.jpg')">Appetizer</div></router-link>
         <router-link to="food_selection/1"><div class="product_option stroke" style="background-image: url('/order_background.jpg')">Main course</div></router-link>
         <router-link to="food_selection/2"><div class="product_option stroke" style="background-image: url('/restoran.jpg')">Dessert</div></router-link>

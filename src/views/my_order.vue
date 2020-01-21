@@ -42,8 +42,7 @@
         </div>
 
         <div class="top">
-            <div class="krug stroke"></div>
-            <h3 class="top_title">My order</h3>
+            <div class="krug stroke"><h3 class="top_title">My order</h3></div>
         </div>
 
         <div class="main">

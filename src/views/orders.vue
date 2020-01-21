@@ -19,6 +19,10 @@
             <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in store.order_cards" />
         </div>
 
+        <div v-else class="main">
+            <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
+        </div>
+
     </div>
 </template> 
 
@@ -50,10 +54,17 @@
             filtered_cards(){
                 //Vrati one kartice ciji order state odgovara onom kojeg smo odabrali izmedu ['Available', 'Being prepared', 'Finished']
                 //Za barmena se vracaju samo pica dok se za kuhara vraca samo hrana
-                if(this.store.position == 'Chef')
+                if(this.store.position == 'Chef'){
                     return this.store.order_cards.filter(card => card.food.order_state == this.order_state[this.i]);
-                else if(this.store.position == 'Barman')
+                } 
+                else if(this.store.position == 'Barman'){
                     return this.store.order_cards.filter(card => card.drinks.order_state == this.order_state[this.i]);
+                }
+                else{
+                    return this.store.order_cards.filter(order => !order.paid && order.table == this.store.table);
+                }
+                    
+
             },
         },
         components: {

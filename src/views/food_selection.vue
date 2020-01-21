@@ -1,12 +1,18 @@
 <template>
-    <div class="food_selection mt-5">
-        <div class="title stroke">
-            <div v-on:click="previous"><i class="fas fa-arrow-left"></i></div>
-            {{this.food_options[this.i]}}
-            <div v-on:click="next"><i class="fas fa-arrow-right"></i></div>
+    <div>
+        <div class="top">
+            <div class="krug"><h3 class="top_title">Food</h3></div>
         </div>
 
-        <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
+        <div class="main">
+            <div class="title stroke">
+                <div v-on:click="previous"><i class="fas fa-arrow-left"></i></div>
+                {{this.food_options[this.i]}}
+                <div v-on:click="next"><i class="fas fa-arrow-right"></i></div>
+            </div>
+
+            <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
+        </div>
     </div>
 </template>
 
@@ -45,6 +51,26 @@
 </script>
 
 <style scoped>
+    .food{
+        width: 100%;
+
+        text-align: center;
+        display: inline-block;
+    }
+    .top{
+        height: 250px;
+
+        background-image: url("/food2.jpg");
+        background-size: cover;
+    }
+    .krug{
+        background-image: url("/food_selection.jpg");
+        background-size:100% 100%;
+        background-repeat: no-repeat;
+    }
+    .main{
+        text-align: center;
+    }
     .title > div{
         display: inline-block;
     }

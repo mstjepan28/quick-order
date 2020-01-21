@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!--<div style="height: 150px; background: gray; widht: 100%;" v-on:click="funkcija"></div>--><!--Za testiranje nekih funkcija-->
 <!--Kuhar-Barmen------------------------------------------------------------------------------------->
     <router-link v-if="this.position == 'Chef' || this.position == 'Barman'" v-bind:to="'/orders/' + 0">
       <div class="opcija slika" style="background-image: url('/orders.jpg'); background-size:100% 100%; background-repeat: no-repeat;">
@@ -76,7 +75,7 @@
       </div>
     </router-link>
 
-    <router-link v-if="this.position == 'Table'" to="/order_status">
+    <router-link v-if="this.position == 'Table'" to="/orders/1">
       <div class="opcija slika" style="background-image: url('/order_status.jpg')">
         <div class="krug">Order status</div>
       </div>

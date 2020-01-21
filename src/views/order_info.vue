@@ -308,7 +308,32 @@
         },
         mounted(){
             //U order_info spremamo kartice iz order_cards(povukli smo ih iz baze u orders.vue)
-            this.order_info = store.order_cards.filter(card => card.id == this.id)[0];
+            if(!this.order_info){
+                let listener = db.collection("orders").onSnapshot(snapshot => {
+                    snapshot.docChanges().forEach(change => {
+                        if(change.type === "added" || change.type === "modified"){
+                            const data = change.doc.data();
+                            //Ako je id dokumenta jednak onom kojeg tražimo pohrani taj dokument
+                            if(change.doc.id == this.id){
+                                this.order_info = {
+                                    id: change.doc.id,
+                                    table: data.table,
+                                    price: data.price,
+                                    paid: data.paid,
+                                    date: data.date,
+                                    time: data.time,
+                                    note: data.note,
+                                    feedback: data.feedback,
+                                    food: data.food,
+                                    drinks: data.drinks
+                                }                                  
+                            }
+                        }
+                    });
+                });
+                store.listeners.push(listener);
+            }
+            
         },
         name: 'order_info',
         components: {

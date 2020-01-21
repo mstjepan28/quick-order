@@ -1,11 +1,16 @@
 <template>
-    <div class="drinks_selection">
-        <div class="title stroke">
-            <div v-on:click="previous"><i class="fas fa-arrow-left"></i></div>
-            {{this.drink_options[this.i]}}
-            <div v-on:click="next"><i class="fas fa-arrow-right"></i></div>
+    <div>
+        <div class="top">
+            <div class="krug"><h3 class="top_title">Drinks</h3></div>        
         </div>
-        <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
+        <div class="main">
+            <div class="title stroke">
+                <div v-on:click="previous"><i class="fas fa-arrow-left"></i></div>
+                {{this.drink_options[this.i]}}
+                <div v-on:click="next"><i class="fas fa-arrow-right"></i></div>
+            </div>
+            <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
+        </div>
     </div>
 </template>
 
@@ -44,6 +49,20 @@
 </script>
 
 <style scoped>
+    .top{
+        height: 250px;
+
+        background-image: url("/drinks2.jpg");
+        background-size: cover;    
+    }
+    .krug{
+        background-image: url("/drinks4.jpg" );
+        background-size: cover;
+        
+    }
+    .main{
+        text-align: center;
+    }
     .title > div{
         display: inline-block;
     }

@@ -138,6 +138,22 @@
             }
         },
         mounted(){
+            //Dohvacanje statistike     
+            listener = db.collection("statistics").onSnapshot(snapshot =>{
+                console.log('statistics')//<-------------------------------
+                snapshot.docChanges().forEach(change => {
+                    if(change.type === 'added' || change.type === "modified"){
+                        const data = change.doc.data()
+                        store.statistics.id = change.doc.id;
+                        store.statistics.hour_price = data.hour_price;
+                        store.statistics.hour_orders = data.hour_orders;
+                        store.statistics.day_orders = data.day_orders;
+                        store.statistics.day_price = data.day_price;
+                    }
+                })
+            });
+            store.listeners.push(listener);
+
             for(let i = 0; i < 7; i++){
                 this.total_income += this.statistics.day_price[i];
                 this.total_count += this.statistics.day_orders[i];

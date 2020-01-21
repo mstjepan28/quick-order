@@ -114,7 +114,7 @@
           </li>
 
           <li v-if="this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link to="/order_status" class="nav-link"> Order status </router-link>
+            <router-link to="/orders" class="nav-link"> Order status </router-link>
           </li>
 
         <!--Misc------------------------------------------------------------------------------------->
@@ -186,8 +186,11 @@
 
         //data_fetched koristimo da nebi došlo do povlačenja podataka više od jednom
         if(!store.data_fetched){
+          let listener = null;
+
           //Dohvacanje proizvoda
-          store.listeners[0] = db.collection("products").orderBy("title").onSnapshot(snapshot => {
+          listener = db.collection("products").orderBy("title").onSnapshot(snapshot => {
+              //console.log('products')//<-------------------------------
             snapshot.docChanges().forEach(change => {
                 if(change.type === "added" || change.type === "modified"){
                   const data = change.doc.data()
@@ -218,48 +221,55 @@
                 }
             });
           });
-          //Dohvacanje narudzbi
-          store.listeners[1] = db.collection("orders").orderBy("time").onSnapshot(snapshot => {
-              snapshot.docChanges().forEach(change => {
-                  if(change.type === "added"){
-                      const data = change.doc.data()
-                      if(data.food != null){
-                          store.order_cards.push({
-                              id: change.doc.id,
-                              table: data.table,
-                              price: data.price,
-                              paid: data.paid,
-                              date: data.date,
-                              time: data.time,
-                              note: data.note,
-                              feedback: data.feedback,
-                              food: data.food,
-                              drinks: data.drinks
-                          })                                      
-                      }
+          store.listeners.push(listener);
 
-                  }
-              });
-          });
-          //Dohvacanje poziva korisnika za konobara
-          store.listeners[2] = db.collection("waiter_calls").orderBy("time").onSnapshot(snapshot => {
-              snapshot.docChanges().forEach(change => {
-                  if (change.type === "added"){
-                      const data = change.doc.data()
-                      store.call_cards.push({
+          //Dohvacanje narudzbi
+          listener = db.collection("orders").orderBy("time").onSnapshot(snapshot => {
+              //console.log('orders')//<-------------------------------
+            snapshot.docChanges().forEach(change => {
+              if(change.type === "added"){
+                  const data = change.doc.data()
+                  if(data.food != null){
+                      store.order_cards.push({
                           id: change.doc.id,
                           table: data.table,
-                          request: data.request, 
+                          price: data.price,
+                          paid: data.paid,
                           date: data.date,
                           time: data.time,
-                          call_state: data.call_state,           
-                      })
-
+                          note: data.note,
+                          feedback: data.feedback,
+                          food: data.food,
+                          drinks: data.drinks
+                      })                                      
                   }
-              });
+              }
+            });
           });
+          store.listeners.push(listener);
+
+          //Dohvacanje poziva korisnika za konobara
+          listener = db.collection("waiter_calls").orderBy("time").onSnapshot(snapshot => {
+              //console.log('waiter_calls')//<-------------------------------
+            snapshot.docChanges().forEach(change => {
+              if(change.type === "added"){
+                  const data = change.doc.data()
+                  store.call_cards.push({
+                      id: change.doc.id,
+                      table: data.table,
+                      request: data.request, 
+                      date: data.date,
+                      time: data.time,
+                      call_state: data.call_state,           
+                  })
+              }
+            });
+          });
+          store.listeners.push(listener);
+
           //Dohvacanje poziva kuhara i barmena za konobara
-          store.listeners[3] = db.collection("staff_calls").orderBy("time").onSnapshot(snapshot => {
+          listener = db.collection("staff_calls").orderBy("time").onSnapshot(snapshot => {
+              //console.log('staff_calls')//<-------------------------------
             snapshot.docChanges().forEach(change => {
                 if (change.type === "added"){
                     const data = change.doc.data()
@@ -275,21 +285,11 @@
                 }
               });
           });
-          //Dohvacanje statistike     
-          store.listeners[4] = db.collection("statistics").onSnapshot(snapshot =>{
-            snapshot.docChanges().forEach(change => {
-              if(change.type === 'added'){
-                const data = change.doc.data()
-                store.statistics.id = change.doc.id;
-                store.statistics.hour_price = data.hour_price;
-                store.statistics.hour_orders = data.hour_orders;
-                store.statistics.day_orders = data.day_orders;
-                store.statistics.day_price = data.day_price;
-              }
-            })
-          });
+          store.listeners.push(listener);
+
           //Dohvacanje korisnika
-          store.listeners[5] = db.collection("users").onSnapshot(snapshot =>{        
+          listener = db.collection("users").onSnapshot(snapshot =>{
+              //console.log('user')//<-------------------------------
             snapshot.docChanges().forEach(change => {
               if(change.type === 'added' || change.type === "modified"){
                 const data = change.doc.data()
@@ -319,8 +319,11 @@
               }
             })
           });
+          store.listeners.push(listener);
+
           //Dohvacanje ostalih podataka, tj. registraciskog koda
-          store.listeners[6] = db.collection("misc").onSnapshot(snapshot =>{
+          listener = db.collection("misc").onSnapshot(snapshot =>{
+              //console.log('misc')//<-------------------------------
             snapshot.docChanges().forEach(change => {
               if(change.type === 'added'){
                 const data = change.doc.data()
@@ -329,31 +332,16 @@
               }
             })
           });
+          store.listeners.push(listener);
           store.data_fetched = true;
         }
       },
       detach_listeners(){
-        for(let i=0; i < store.listeners; i++){
+        for(let i=0; i < store.listeners.length; i++){
           if(store.listeners[i] != undefined){
-            listeners[i]();
+            store.listeners[i]();
           }
         }
-/*
-        if(store.product_listener)
-          store.product_listener();
-        if(store.orders_listener)
-          store.orders_listener();
-        if(store.waiter_calls_listener)
-          store.waiter_calls_listener();
-        if(store.staff_calls_listener)
-          store.staff_calls_listener();
-        if(store.statistics_listener)
-          store.statistics_listener();
-        if(store.users_listener)
-          store.users_listener();
-        if(store.misc_listener)
-          store.misc_listener();
-*/ 
       }
     },
     mounted(){
@@ -381,14 +369,14 @@
         }
         else{
           this.authenticated = false;
-
           if(this.$route.name !== 'login' || this.$route.name !== 'add_employee'){
             this.$router.push({name:'login'}).catch(error =>{
             })
           }
-      
         }
-      });      
+
+      });
+
     }
   }
 </script>
