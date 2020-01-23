@@ -114,7 +114,7 @@
           </li>
 
           <li v-if="this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link to="/orders" class="nav-link"> Order status </router-link>
+            <router-link to="/orders/0" class="nav-link"> Order status </router-link>
           </li>
 
         <!--Misc------------------------------------------------------------------------------------->
@@ -281,21 +281,40 @@
             snapshot.docChanges().forEach(change => {
               if(change.type === "added"){
                   const data = change.doc.data()
-                  if(data.food != null){
-                      store.order_cards.push({
-                          id: change.doc.id,
-                          table: data.table,
-                          price: data.price,
-                          paid: data.paid,
-                          date: data.date,
-                          time: data.time,
-                          note: data.note,
-                          feedback: data.feedback,
-                          food: data.food,
-                          drinks: data.drinks
-                      })                                      
-                  }
+                  store.order_cards.push({
+                      id: change.doc.id,
+                      table: data.table,
+                      price: data.price,
+                      paid: data.paid,
+                      date: data.date,
+                      time: data.time,
+                      note: data.note,
+                      feedback: data.feedback,
+                      food: data.food,
+                      drinks: data.drinks
+                  })   
               }
+              if(change.type === 'modified'){
+                let temp = {
+                    id: change.doc.id,
+                    table: data.table,
+                    price: data.price,
+                    paid: data.paid,
+                    date: data.date,
+                    time: data.time,
+                    note: data.note,
+                    feedback: data.feedback,
+                    food: data.food,
+                    drinks: data.drinks
+                };
+                for(let i; i < this.order.length; i++){
+                  if(this.order[i].id == temp.id){
+                    this.order[i] = temp;
+                    break;
+                  }
+                }
+              }
+
             });
           });
           store.listeners.push(listener);
