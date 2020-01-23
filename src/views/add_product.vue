@@ -1,4 +1,4 @@
-<template>
+<template> 
     <div class="food_info">
         <!--Save info--------------------------------------------------->
         <div class="modal fade" id="save_confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

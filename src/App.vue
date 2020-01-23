@@ -276,7 +276,7 @@
           store.listeners.push(listener);
 
           //Dohvacanje narudzbi
-          listener = db.collection("orders").orderBy("time").onSnapshot(snapshot => {
+          listener = db.collection("orders").orderBy("time", "desc").onSnapshot(snapshot => {
               //console.log('orders')//<-------------------------------
             snapshot.docChanges().forEach(change => {
               if(change.type === "added"){
@@ -301,7 +301,7 @@
           store.listeners.push(listener);
 
           //Dohvacanje poziva korisnika za konobara
-          listener = db.collection("waiter_calls").orderBy("time").onSnapshot(snapshot => {
+          listener = db.collection("waiter_calls").orderBy("time", "desc").onSnapshot(snapshot => {
               //console.log('waiter_calls')//<-------------------------------
             snapshot.docChanges().forEach(change => {
               if(change.type === "added"){
@@ -320,7 +320,7 @@
           store.listeners.push(listener);
 
           //Dohvacanje poziva kuhara i barmena za konobara
-          listener = db.collection("staff_calls").orderBy("time").onSnapshot(snapshot => {
+          listener = db.collection("staff_calls").orderBy("time", "desc").onSnapshot(snapshot => {
               //console.log('staff_calls')//<-------------------------------
             snapshot.docChanges().forEach(change => {
                 if (change.type === "added"){
@@ -460,6 +460,10 @@
         }
         else{
           this.authenticated = false;
+          this.userId = 'your_id';
+          this.userEmail = null;
+          this.position = null;
+
           if(this.$route.name !== 'login' || this.$route.name !== 'add_employee'){
             this.$router.push({name:'login'}).catch(error =>{
             })

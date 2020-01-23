@@ -4,9 +4,9 @@
             <router-link v-bind:to="'/employee_info/' + info.id" class="col-6 prod_img"  :style="{ backgroundImage: `url(${info.photo_url})`}" ></router-link>
             
             <div class="col-6 details">
-                <h6 style="margin: 8px 0 0 0">{{info.full_name}}</h6>
+                <h6 style="margin: 8px 0 0 0">Name: {{info.full_name}}</h6>
                 <hr/>
-                <h6>{{info.position}}</h6>
+                <h6>Position: {{info.position}}</h6>
             </div>
             
         </div>
@@ -31,7 +31,9 @@
 
         overflow: hidden;
     }
-
+    .col-6{
+        height: 70px;
+    }
     .prod_img{
         width: 75px;
         height: auto;
@@ -45,7 +47,7 @@
         text-align: left;
         font-size: 7px;
     }
-    hr {
+    hr{
         display: block;
         height: 1px;
         border: 0;

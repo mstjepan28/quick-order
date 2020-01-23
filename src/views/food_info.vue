@@ -83,33 +83,22 @@
             </div>
         </div>
         <!------------------------------------------>
-        <div v-if="this.store.position != 'Manager' || !this.enable_edit">
-            <div class="top">
-                <div class="container" style="background-image: url('/food_and_drinks.jpg'); background-size: 100% 100%; background-repeat: no-repeat;">                    
-                    <div class="row">
-                        <div class="col">
-                            <div class="col">
-                                <div class="krug stroke" :style="{ backgroundImage: `url(${this.food_info.url})`}"></div>
-                            </div> 
-                        </div>
-
-                        <div class="col stroke" >
-                            <div class="main_info">
-                                <h2>{{food_info.title}}</h2>
-                                <p>Price: {{food_info.price}}$</p>
-                                <p>Times ordered: {{food_info.times_ordered}}</p>
-                                <div v-if="store.position == 'Manager'" class="edit_button stroke" v-on:click="enable_edit = true">Edit</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div v-if="store.position == 'Waiter' || store.position == 'Table'" class="row second_row">
-                        <div class="col stroke" ><i class="fas fa-chevron-up" v-on:click="food_info.counter = increase(food_info.counter)"></i></div>
-                        <div class="col stroke" >{{food_info.counter}}</div>
-                        <div class="col stroke" ><i class="fas fa-chevron-down" v-on:click="food_info.counter = decrease(food_info.counter)"></i></div>
-                    </div>
-                    
+        <div v-if="this.store.position != 'Manager' || !this.enable_edit" class="container">
+            <div class="row top">
+                <div class="col">
+                    <div class="krug stroke" :style="{ backgroundImage: `url(${this.food_info.url})`}"></div>
                 </div>
+                <div class="col main_info">
+                    <h2>{{food_info.title}}</h2>
+                    <p>Price: {{food_info.price}}$</p>
+                    <p>Times ordered: {{food_info.times_ordered}}</p>
+                    <div v-if="store.position == 'Manager'" class="edit_button stroke" v-on:click="enable_edit = true">Edit</div>
+                </div>
+            </div>
+            <div v-if="store.position == 'Waiter' || store.position == 'Table'" class="row second_row">
+                <div class="col stroke" ><i class="fas fa-chevron-up" v-on:click="food_info.counter = increase(food_info.counter)"></i></div>
+                <div class="col stroke" >{{food_info.counter}}</div>
+                <div class="col stroke" ><i class="fas fa-chevron-down" v-on:click="food_info.counter = decrease(food_info.counter)"></i></div>
             </div>
             <!------------------------------------------>
             <div class="main">
@@ -161,125 +150,116 @@
         
             </div>
         </div>
+
         <!------------------------------------------>
-        <div v-else>
-            <div class="top" style="height: 200px;">
-                <div class="container" style="background-image: url('/food.jpg')">
 
-                    <div class="row">
-                        <div class="col">
-                            <croppa v-model="imageData"
-                                :width="145"
-                                :height="145"
-                                placeholder="Upload image"
-                                placeholder-color="white"
-                                :placeholder-font-size="20"
-                                canvas-color="transparent"
-                                :show-remove-button="false"
-                                remove-button-color="rgba(245, 166, 35, 0.7)"
-                                >
-                            </croppa>   
-                        </div>
+        <div v-else class="container">
+            <div class="row top">
+                <div class="col">
+                    <croppa v-model="imageData"
+                        :width="145"
+                        :height="145"
+                        placeholder="Upload image"
+                        placeholder-color="white"
+                        :placeholder-font-size="20"
+                        canvas-color="transparent"
+                        :show-remove-button="false"
+                        remove-button-color="rgba(245, 166, 35, 0.7)"
+                        >
+                    </croppa>                           
+                </div>
+                <div class="col main_info">
+                    <h2><input type=text v-model=food_info.title></h2>
+                    <p>Price: <input type=text v-model=food_info.price style="height:30px;width:55%"> $</p>
 
-                        <div class="col stroke" >
-                            <div class="main_info">
-                                <h2><input type=text v-model=food_info.title></h2>
-                                <p>Price: <input type=text v-model=food_info.price style="height:30px;width:55%"> $</p>
-
-                                <p>Times ordered: {{food_info.times_ordered}}</p>
-                                <div class="edit_button stroke" v-on:click="enable_edit = false">Disable editing</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="main">
-                        <div class="row mb-3"> 
-                            <button class="col edit_button stroke" style="background: rgba(187, 0, 0, 0.5);" data-toggle="modal" data-target="#delete_product">Delete</button>
-
-                            <div v-if="!food_info.hide" class="col edit_button stroke" style="background: rgba(187, 0, 0, 0.5);" v-on:click="product_visibility">Hide</div>
-                            <div v-else class="col edit_button stroke" style="background: rgba(0, 187, 25, 0.5);" v-on:click="product_visibility">Show Product</div>                            
-                        </div>
-
-
-                        <div class="info_box stroke" style="text-align: center">
-                            <select v-model="food_info.type" style="margin-right: 20px">
-                                <option disabled value="">Type</option>
-                                <option>Food</option>
-                                <option>Drinks</option>
-                            </select>
-
-                            <select v-if="food_info.type == 'Food'" v-model="food_info.category">
-                                <option disabled value="">Category</option>
-                                <option>Appetizer</option>
-                                <option>Main course</option>
-                                <option>Dessert</option>
-                            </select>
-                            <select v-else v-model="food_info.category">
-                                <option disabled value="">Category</option>
-                                <option>Soda</option>
-                                <option>Juice</option>
-                                <option>Other</option>
-                                <option>Beer</option>
-                                <option>Wine</option>
-                                <option>Liquors</option>
-                            </select>                                                  
-                        </div><br>
-
-                        <div class="info_box stroke">
-                            <h3 class="underline">Description</h3>
-                            <textarea v-model=food_info.description></textarea>
-                        </div><br>
-
-                        <div class="info_box stroke" >
-                            <h3 class="underline">Ingredients</h3>
-                            <textarea v-model=food_info.ingredients></textarea>
-                        </div><br>
-
-                        <div class="info_box stroke">
-                            <h3 class="underline">Nutrition facts</h3>
-                            <table>
-                                <tr>
-                                    <th>Energy value</th>
-                                    <th><input value=text v-model="food_info.energy_value" style="width:80%;"> kcal</th>
-                                </tr>
-                                <tr>
-                                    <td>Carbohydrates</td>
-                                    <td><input value=text v-model="food_info.carbohydrates" style="width:80%;"> g</td>
-                                </tr>
-                                <tr>
-                                    <td>Protein</td>
-                                    <td><input value=text v-model="food_info.protein" style="width:80%;"> g</td>
-                                </tr>
-                                <tr>
-                                    <td>Fat</td>
-                                    <td><input value=text v-model="food_info.fat" style="width:80%;"> g</td>
-                                </tr>
-                                <tr>
-                                    <td>Vitamin A</td>
-                                    <td><input value=text v-model="food_info.vitamin_a" style="width:80%;"> mg</td>
-                                </tr>
-                                <tr>
-                                    <td>Vitamin C</td>
-                                    <td><input value=text v-model="food_info.vitamin_c" style="width:80%;"> mg</td>
-                                </tr>
-                                <tr>
-                                    <td>Calcium</td>
-                                    <td><input value=text v-model="food_info.calcium" style="width:80%;"> mg</td>
-                                </tr>
-                                <tr>
-                                    <td>Zinc</td>
-                                    <td><input value=text v-model="food_info.zinc" style="width:80%;"> mg</td>
-                                </tr>
-                            </table>
-                        </div><br>
-            
-                    </div>
+                    <p>Times ordered: {{food_info.times_ordered}}</p>
+                    <div class="edit_button stroke" v-on:click="enable_edit = false">Disable editing</div>                    
                 </div>
             </div>
-                
             <!------------------------------------------>
-        
+            <div class="main">
+                <div class="row mb-3"> 
+                    <button class="col edit_button stroke" style="background: rgba(187, 0, 0, 0.5);" data-toggle="modal" data-target="#delete_product">Delete</button>
+
+                    <div v-if="!food_info.hide" class="col edit_button stroke" style="background: rgba(187, 0, 0, 0.5);" v-on:click="product_visibility">Hide</div>
+                    <div v-else class="col edit_button stroke" style="background: rgba(0, 187, 25, 0.5);" v-on:click="product_visibility">Show Product</div>                            
+                </div>
+
+                <div class="info_box stroke" style="text-align: center">
+                    <select v-model="food_info.type" style="margin-right: 20px">
+                        <option disabled value="">Type</option>
+                        <option>Food</option>
+                        <option>Drinks</option>
+                    </select>
+
+                    <select v-if="food_info.type == 'Food'" v-model="food_info.category">
+                        <option disabled value="">Category</option>
+                        <option>Appetizer</option>
+                        <option>Main course</option>
+                        <option>Dessert</option>
+                    </select>
+                    <select v-else v-model="food_info.category">
+                        <option disabled value="">Category</option>
+                        <option>Soda</option>
+                        <option>Juice</option>
+                        <option>Other</option>
+                        <option>Beer</option>
+                        <option>Wine</option>
+                        <option>Liquors</option>
+                    </select>                                                  
+                </div><br>
+
+                <div class="info_box stroke">
+                    <h3 class="underline">Description</h3>
+                    <textarea v-model=food_info.description></textarea>
+                </div><br>
+
+                <div class="info_box stroke" >
+                    <h3 class="underline">Ingredients</h3>
+                    <textarea v-model=food_info.ingredients></textarea>
+                </div><br>
+
+                <div class="info_box stroke">
+                    <h3 class="underline">Nutrition facts</h3>
+                    <table>
+                        <tr>
+                            <th>Energy value</th>
+                            <th><input value=text v-model="food_info.energy_value" style="width:80%;"> kcal</th>
+                        </tr>
+                        <tr>
+                            <td>Carbohydrates</td>
+                            <td><input value=text v-model="food_info.carbohydrates" style="width:80%;"> g</td>
+                        </tr>
+                        <tr>
+                            <td>Protein</td>
+                            <td><input value=text v-model="food_info.protein" style="width:80%;"> g</td>
+                        </tr>
+                        <tr>
+                            <td>Fat</td>
+                            <td><input value=text v-model="food_info.fat" style="width:80%;"> g</td>
+                        </tr>
+                        <tr>
+                            <td>Vitamin A</td>
+                            <td><input value=text v-model="food_info.vitamin_a" style="width:80%;"> mg</td>
+                        </tr>
+                        <tr>
+                            <td>Vitamin C</td>
+                            <td><input value=text v-model="food_info.vitamin_c" style="width:80%;"> mg</td>
+                        </tr>
+                        <tr>
+                            <td>Calcium</td>
+                            <td><input value=text v-model="food_info.calcium" style="width:80%;"> mg</td>
+                        </tr>
+                        <tr>
+                            <td>Zinc</td>
+                            <td><input value=text v-model="food_info.zinc" style="width:80%;"> mg</td>
+                        </tr>
+                    </table>
+                </div><br>
+                            
+            </div>
         </div>
+
         <div v-if="enable_edit" class="bottom_buttons">
             <button type="button" class="order order_only stroke" data-toggle="modal" data-target="#update_product">Save changes</button>
         </div>         
@@ -450,15 +430,13 @@
 
 <style scoped>
     .top{
-        height: 250px;
-        margin-top: 60px;
-    }
-    .container{
-        background-size:cover;
-        width:100%;
-        height:200px;
+        height: 200px;
+
         border-radius: 5px;
         border: 2px rgba(245, 166, 35, 0.7) solid;
+
+        background-size: cover;
+        background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('/food.jpg');
     }
     .col{
         height:200px;

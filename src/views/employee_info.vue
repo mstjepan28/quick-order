@@ -46,7 +46,7 @@
                 <div class="modal-content stroke" style="background: #343434; border: 2px rgba(245, 166, 35, 0.7) solid; text-align: center; border-radius: 40px;">
                 
                 <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
-                    Product deleted!
+                    User deleted!
                     <hr/>
                     <!--Nakon dodavanja se vracamo na prosu stranicu-->
                     <div v-on:click="$router.go(-1)" data-dismiss="modal">Ok</div>
@@ -105,7 +105,7 @@
             <div class="row">
                 <div class="col">
                     
-                    <h3 class="stroke underline info">Date of birth:</h3><input disabled type=date class="input_box" v-model=employee_info.date_of_birth>
+                    <h3 class="stroke underline info">Date of birth:</h3><input disabled type=date class="input_disabled input_box" v-model=employee_info.date_of_birth>
                     <h3 class="stroke underline info">Phone:</h3><input type=tel class="input_box" placeholder="123-4567-890" v-model=employee_info.phone>
                     <h3 class="stroke underline info">Adress:</h3><input type=text class="input_box" v-model=employee_info.adress>
                     <h3 class="stroke underline info">City:</h3><input type=text class="input_box" v-model=employee_info.city>
@@ -113,8 +113,9 @@
 
                     <hr class="mb-5 mt-5">
 
-                    <h3 class="stroke underline info">E-Mail:</h3><input disabled type=email class="input_box" v-model=employee_info.email>
-                    
+                    <h3 class="stroke underline info">E-Mail:</h3><input disabled type=email class="input_disabled input_box" v-model=employee_info.email>
+                    <h3 class="stroke underline info">Last login:</h3><input disabled type=text class="input_disabled input_box" v-model=employee_info.last_login>
+
                     <hr class="mb-5 mt-5">
                     
                     <div class="stroke" style="text-align: center">
@@ -143,8 +144,8 @@
             <div class="row top">
                 <div class="col">
                     <div class="krug stroke" :style="{ backgroundImage: `url(${this.employee_info.photo_url})`}"></div>
-                        <h2>{{employee_info.full_name}}</h2>
-                        <div v-if="store.position == 'Manager'" class="edit_button stroke" v-on:click="enable_edit = true">Edit</div>
+                    <h2>{{employee_info.full_name}}</h2>
+                    <div v-if="store.position == 'Manager'" class="edit_button stroke" v-on:click="enable_edit = true">Edit</div>
                 </div>
             </div>
 
@@ -259,8 +260,9 @@
             },
             delete_user(){
                 let current = this
-                db.collection("users").doc(this.food_info.id).delete().then(function(){
-                    current.store.cards = current.store.cards.filter(card => card.id != current.food_info.id);
+                
+                db.collection("users").doc(this.employee_info.id).delete().then(function(){
+                    current.store.users = current.store.users.filter(user => user.id != current.employee_info.id);
                     console.log("Document successfully deleted!");
                 }).catch(function(error) {
                     console.error("Error removing document: ", error);
@@ -275,6 +277,7 @@
                 db.collection('users').doc(this.id).get().then(user => {
                     let data = user.data();
                     info.employee_info = {
+                        id:  info.id,
                         email: data.email,
                         photo_url: data.photo_url,
 
@@ -337,6 +340,9 @@
         border: 2px rgba(245, 166, 35, 0.7) solid;
 
         background: #343434;
+    }
+    .input_disabled{
+        background: rgba(187, 0, 0, 0.4);
     }
     select{
         width: 45%;
