@@ -53,7 +53,7 @@
                         remove-button-color="rgba(245, 166, 35, 0.7)"
                     >
                     </croppa>
-                    <h3 class="stroke underline info">Full name:</h3><input type=text class="input_box" v-model=full_name>
+                    <h3 class="stroke underline info">Full name:</h3><input type=text class="input_box" v-model=full_name placeholder="John Smith">
                 </div>
             </div>
 
@@ -61,30 +61,31 @@
                 <div class="col">
                     <div v-if="store.position != 'Manager'">
                         <h3 class="stroke underline info">Registration code:</h3>
-                        <input type=text class="input_box gold" v-model=registration_code_input>
+                        <input type=password class="input_box gold" v-model=registration_code_input>
                     </div>
                     <div v-else class="row">
                         <h3 class="stroke underline info">Registration code:</h3><br>
                         <input type=text class="input_box col-7 gold" v-model=store.misc.registration_code><div v-on:click="update_registration_code" class="update_button col-5 stroke">Update code</div>
                     </div>
                     
-                    <h3 class="stroke underline info">Date of birth:</h3><input type="date" data-date="" data-date-format="DD MMMM YYYY" value="2015-08-09" v-model=date_of_birth>
+                    <h3 class="stroke underline info">Date of birth:</h3><input type="date" data-date="" v-model=date_of_birth>
                     <h3 class="stroke underline info">Phone:</h3><input type=tel class="input_box" placeholder="123-4567-890" v-model=phone>
-                    <h3 class="stroke underline info">Adress:</h3><input type=text class="input_box" v-model=adress>
-                    <h3 class="stroke underline info">City:</h3><input type=text class="input_box" v-model=city>
-                    <h3 class="stroke underline info">Postal code:</h3><input type=number class="input_box" v-model=postal_code>
+                    <h3 class="stroke underline info">Adress:</h3><input type=text class="input_box" v-model=adress placeholder="2080  Coffman Alley">
+                    <h3 class="stroke underline info">City:</h3><input type=text class="input_box" v-model=city placeholder="New York">
+                    <h3 class="stroke underline info">Postal code:</h3><input type=number class="input_box" v-model=postal_code placeholder="10000">
 
                     <hr class="mb-5 mt-5">
 
-                    <h3 class="stroke underline info">E-Mail:</h3><input type=email class="input_box" v-model=email>
-                    <h3 class="stroke underline info">Password:</h3><input type=text class="input_box" v-model=password>
+                    <h3 class="stroke underline info">E-Mail:</h3><input type=email class="input_box" v-model=email placeholder="johnsmith@gmail.com">
+                    <h3 class="stroke underline info">Password:</h3><input type=password class="input_box" v-model=password placeholder="Your password">
+                    <h3 class="stroke underline info">Confirm password:</h3><input type=password class="input_box" v-model=confirm_password placeholder="Repate your password">
 
                     <div v-if="store.position == 'Manager'">
                         <hr class="mb-5 mt-5"> 
                         
                         <div class="stroke" style="text-align: center">
                             <select v-model="position" style="margin-right: 20px">
-                                <option disabled>Position</option>
+                                <option disabled value="">Position</option>
                                 <option>Waiter</option>
                                 <option>Barman</option>
                                 <option>Chef</option>
@@ -92,14 +93,14 @@
                             </select>
 
                             <select v-model="contract">
-                                <option disabled>Contract</option>
+                                <option disabled value="">Contract</option>
                                 <option>Permanent employment</option>
                                 <option>Fixed-term</option>
                                 <option>Casual employment</option>
                             </select>                                                
                         </div><br>
 
-                        <h3 class="stroke underline info">Wage:</h3><input type=text class="input_box" v-model=wage>
+                        <h3 class="stroke underline info">Wage:</h3><input type=text class="input_box" v-model=wage placeholder="Wage of the employee">
                         
                                                 
                     </div>
@@ -108,7 +109,10 @@
             </div>    
         </div>
 
-        <div v-if="store.position == 'Manager'" class="bottom_buttons">
+        <div v-if="this.password != this.confirm_password && this.password != null" class="bottom_buttons">
+            <div class="order order_only stroke wrong_passwords">Passwords don't match</div>
+        </div>
+        <div v-else-if="store.position == 'Manager'" class="bottom_buttons">
             <button type=button class="order order_only stroke" data-toggle="modal" data-target="#save_employee">Save changes</button>
         </div>
         <div v-else class="bottom_buttons">
@@ -142,6 +146,7 @@
                 contract: '',
                 wage: null,
                 
+                confirm_password: '',
                 registration_code_input: '',
             }
         },
@@ -225,7 +230,11 @@
                     console.log("Registration code wrong, failed to add employee")
                     return false;
                 }
-            }         
+            },
+            check_password(){
+                if(this.password == this.confirm_password && this.password != '') return true;
+                else return false
+            }        
         },
         mounted(){
             if(!this.store.misc.id){
@@ -332,6 +341,9 @@
     }
     .croppa-container:hover {
         opacity: 1;
+    }
+    .wrong_passwords{
+        background:rgba(255, 0, 0, 0.5)
     }
     input[type=date]::-webkit-inner-spin-button, 
     input[type=date]::-webkit-outer-spin-button { 

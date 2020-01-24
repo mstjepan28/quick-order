@@ -109,6 +109,8 @@
         display: inline-block;
         margin: 10px;
 
+        cursor: pointer;
+
         font-size: 15px;
 
         border-radius: 20px;

@@ -467,6 +467,7 @@
         font-weight: normal;
 
         background: #343434;
+        border: 1px rgba(245, 166, 35, 0.7) solid;
               
     }
     /*--------------------*/

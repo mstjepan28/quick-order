@@ -139,8 +139,7 @@
         },
         mounted(){
             //Dohvacanje statistike     
-            listener = db.collection("statistics").onSnapshot(snapshot =>{
-                console.log('statistics')//<-------------------------------
+            let listener = db.collection("statistics").onSnapshot(snapshot =>{
                 snapshot.docChanges().forEach(change => {
                     if(change.type === 'added' || change.type === "modified"){
                         const data = change.doc.data()

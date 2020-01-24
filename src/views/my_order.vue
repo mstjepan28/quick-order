@@ -98,6 +98,8 @@
                 note: '',
                 table: '', 
                 store,
+
+                stat: null
             }
         },
         computed:{
@@ -177,8 +179,10 @@
                     }
                     //Ako je id jednak null to znaci da collection ne postoji, to jest da nismo dobili nikakve podatke te tada stvaramo taj collection
                     //Statistics collection moramo popuniti sa nulama jer inace nebi zbrajali nove vrijednosti na brojcanu vrijednost
-                    
-                    if(store.statistics.id ){   
+                    db.collection("statistics").get().then(doc =>{
+                        this.stat = doc.data().hour_price;
+                    })
+                    if(this.stat){   
                         let index = new Date();
                         store.statistics.hour_orders[index.getHours()]++;
                         store.statistics.hour_price[index.getHours()] += this.price;

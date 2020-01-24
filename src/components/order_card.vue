@@ -1,13 +1,11 @@
 <template>
-    <div class="order_card stroke">
-        <router-link v-bind:to="'/order_info/' + info.id">
-            {{info.table}}
-            <hr/>
-            Order
-            <hr/>
-            {{info.time + " " + info.date}}
-        </router-link>
-    </div>
+    <router-link v-bind:to="'/order_info/' + info.id" class="order_card stroke">
+        {{info.table}}
+        <hr/>
+        Order
+        <hr/>
+        {{info.time + " " + info.date}}
+    </router-link>
 </template>
 
 <script>

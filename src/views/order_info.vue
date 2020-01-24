@@ -200,22 +200,21 @@
         </div>
 
         <!--Prihvacanje i zavrsavanje narudzbe-->
-        <div v-if="store.position == 'Chef' && order_info" class="bottom_buttons">
+        <div v-if="store.position == 'Chef'" class="bottom_buttons">
             <!--Ako je selected_by u narudzbi jednak onom trenutnog korisnika(pohranjen u store.js) dopusti da se narudzba oznaci kao zavrsena-->
             <button v-if="order_info.food.order_state == 'Available'" type="button" class="accept_button stroke" data-toggle="modal" data-target="#accept_the_order">Accept this order</button>           
             <button v-if="order_info.food.order_state == 'Being prepared' && store.userEmail == order_info.food.selected_by" type="button" class="finish_button stroke" data-toggle="modal" data-target="#finish_the_order">Mark as finished</button>
         </div>
 
-        <div v-if="store.position == 'Barman' && order_info" class="bottom_buttons">
+        <div v-if="store.position == 'Barman'" class="bottom_buttons">
             <button v-if="order_info.drinks.order_state == 'Available'" type="button" class="accept_button stroke" data-toggle="modal" data-target="#accept_the_order">Accept this order</button>
             <button v-if="order_info.drinks.order_state == 'Being prepared' && store.userEmail == order_info.drinks.selected_by" type="button" class="finish_button stroke" data-toggle="modal" data-target="#finish_the_order">Mark as finished</button>
         </div>
 
-        <div v-if="(store.position == 'Manager' || store.position == 'Waiter') && (order_info) && (order_info.paid == false)" class="bottom_buttons">
+        <div v-if="(store.position == 'Manager' || store.position == 'Waiter') && (order_info.paid == false)" class="bottom_buttons">
             <button type="button" class="accept_button stroke" data-toggle="modal" data-target="#mark_as_paid">Mark as paid</button>
         </div>
 
-        <!--<div style="height: 150px; background: gray; widht: 100%;" v-on:click="change_uid">Izbrisi user Id iz store-a</div>-->
     </div>
 </template> 
 
@@ -236,11 +235,6 @@
             }
         },
         methods:{
-            change_uid(){
-                this.store.userEmail = ' ';
-                console.log(order_info.selected_by)
-                
-            },
             accept_order(){
                 //Update-amo lokalni objekt za narudzbu hrane/pica te ga spajamo sa onim na bazi 
                 if(this.store.position == 'Chef'){
