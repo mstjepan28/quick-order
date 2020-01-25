@@ -53,36 +53,17 @@
           document.getElementsByClassName("fas fa-eye-slash")[0].className = "fas fa-eye";
         } 
         
-      },
-      getParameterByName(name, url) {
-          if(!url) 
-            url = window.location.href;
-
-          name = name.replace(/[\[\]]/g, '\\$&');
-
-          var regex = new RegExp('[?&]' + name + '(=([^&]*)|&|#|$)'),
-          results = regex.exec(url);
-
-          if(!results) 
-            return null;
-          if(!results[2]) 
-            return '';
-          
-          return decodeURIComponent(results[2].replace(/\+/g, ' '));
       }
-      
     },
     mounted(){
-        let url = window.location.href;
-        this.qrUser=this.getParameterByName('email' , url);
-        this.qrPass=this.getParameterByName('password' ,  url);
-        this.store.table=this.getParameterByName('table' ,  url);
-        
+        this.qrUser = this.$route.query.username;
+        this.qrPass = this.$route.query.password;
+        this.store.table += this.$route.query.table;
+
         if(this.qrUser!=null && this.qrPass!=null){    
           firebase.auth().signInWithEmailAndPassword(this.qrUser, this.qrPass).catch(function(error) {
             document.getElementsByClassName("failed_login")[0].innerHTML = "Failed to log in!";
           });
-          url=null;
         }
     }
   }

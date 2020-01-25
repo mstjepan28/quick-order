@@ -16,7 +16,16 @@
         
         <!--Ako je ulogiran menadzer prikazi sve narudzbe-->
         <div v-else-if="store.position == 'Manager' || store.position == 'Waiter'" class="main">
-            <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in store.order_cards" />
+            <div v-if="paid" class="row options">
+                <div class="col stroke" v-on:click="paid = false">Unpaid</div>
+                <div class="col selected" v-on:click="paid = true">Paid</div>
+            </div>
+            <div v-else class="row options">
+                <div class="col selected" v-on:click="paid = false">Unpaid</div>
+                <div class="col stroke" v-on:click="paid = true">Paid</div>
+            </div>
+
+            <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
         </div>
 
         <div v-else class="main">
@@ -37,6 +46,7 @@
                 //i dobivamo kao string iz routera te ga moramo pretvoriti u int za daljne funkcije
                 i: parseInt(this.$route.params.i, 10),
                 order_state: ['Available', 'Being prepared', 'Finished'],
+                paid: false,
                 store
             }
         },
@@ -63,6 +73,9 @@
                     return this.store.order_cards.filter(card =>{
                         if(card.drinks) return card.drinks.order_state == this.order_state[this.i]
                     });
+                }
+                else if(this.store.position == 'Manager' || this.store.position == 'Waiter'){
+                    return this.store.order_cards.filter(order => order.paid == this.paid);
                 }
                 else{
                     return this.store.order_cards.filter(order => !order.paid && order.table == this.store.table);

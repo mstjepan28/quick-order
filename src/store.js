@@ -5,7 +5,7 @@ export default {
     userId: 'your_id',
     userEmail: null,
     position: null,
-    table: 'Table#1',
+    table: 'Table#',
 
     food_options: ['Appetizer', 'Main course', 'Dessert'],
     drink_options: ['Soda', 'Juice', 'Other', 'Beer', 'Wine', 'Liquors'],

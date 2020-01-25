@@ -254,7 +254,6 @@
                   }
                   for(let i = 0; i < this.cards.length; i++){
                     if(this.cards[i].id == temp.id){
-                      console.log('modified')
                       this.cards[i] = temp;
                       break;
                     }
@@ -295,6 +294,7 @@
                   })   
               }
               if(change.type === 'modified'){
+                const data = change.doc.data()
                 let temp = {
                     id: change.doc.id,
                     table: data.table,
@@ -307,9 +307,9 @@
                     food: data.food,
                     drinks: data.drinks
                 };
-                for(let i = 0; i < this.order.length; i++){
-                  if(this.order[i].id == temp.id){
-                    this.order[i] = temp;
+                for(let i = 0; i < this.order_cards.length; i++){
+                  if(this.order_cards[i].id == temp.id){
+                    this.order_cards[i] = temp;
                     break;
                   }
                 }
@@ -320,7 +320,7 @@
           store.listeners.push(listener);
 
           //Dohvacanje poziva korisnika za konobara
-          listener = db.collection("waiter_calls").orderBy("time", "desc").onSnapshot(snapshot => {
+          listener = db.collection("waiter_calls").orderBy("time", "desc").limit(30).onSnapshot(snapshot => {
               //console.log('waiter_calls')//<-------------------------------
             snapshot.docChanges().forEach(change => {
               if(change.type === "added"){
@@ -339,28 +339,44 @@
           store.listeners.push(listener);
 
           //Dohvacanje poziva kuhara i barmena za konobara
-          listener = db.collection("staff_calls").orderBy("time", "desc").onSnapshot(snapshot => {
-              //console.log('staff_calls')//<-------------------------------
+          listener = db.collection("staff_calls").orderBy("time", "desc").limit(30).onSnapshot(snapshot => {
             snapshot.docChanges().forEach(change => {
-                if (change.type === "added"){
-                    const data = change.doc.data()
-                    store.call_cards_staff.push({ 
-                      id: change.doc.id,
-                      order_id: data.order_id,
-                      table: data.table,
-                      sent_by: data.sent_by,
-                      call_state: data.call_state,
-                      time: data.time,
-                      date: data.date        
-                    })
+              if (change.type === "added"){
+                  const data = change.doc.data()
+                  store.call_cards_staff.push({ 
+                    id: change.doc.id,
+                    order_id: data.order_id,
+                    table: data.table,
+                    sent_by: data.sent_by,
+                    call_state: data.call_state,
+                    time: data.time,
+                    date: data.date        
+                  })
+              }
+              if(change.type === 'modified'){
+                const data = change.doc.data()
+                let temp = {
+                    id: change.doc.id,
+                    order_id: data.order_id,
+                    table: data.table,
+                    sent_by: data.sent_by,
+                    call_state: data.call_state,
+                    time: data.time,
+                    date: data.date     
+                };
+                for(let i = 0; i < this.order.length; i++){
+                  if(this.order[i].id == temp.id){
+                    this.order[i] = temp;
+                    break;
+                  }
                 }
-              });
+              }
+            });
           });
           store.listeners.push(listener);
 
           //Dohvacanje korisnika
           listener = db.collection("users").onSnapshot(snapshot =>{
-              //console.log('user')//<-------------------------------
             snapshot.docChanges().forEach(change => {
               if(change.type === 'added'){
                 const data = change.doc.data()
@@ -430,7 +446,6 @@
 
           //Dohvacanje ostalih podataka, tj. registraciskog koda
           listener = db.collection("misc").onSnapshot(snapshot =>{
-              //console.log('misc')//<-------------------------------
             snapshot.docChanges().forEach(change => {
               if(change.type === 'added'){
                 const data = change.doc.data()

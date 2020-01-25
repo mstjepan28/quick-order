@@ -1,5 +1,5 @@
 <template>
-    <router-link v-bind:to="'/order_info/' + info.id" class="order_card stroke">
+    <router-link v-bind:to="'/order_info/' + info.id" class="order_card stroke" id="paid">
         {{info.table}}
         <hr/>
         Order
@@ -15,7 +15,7 @@
         props: ['info'],
         data(){
             return store;
-        }, 
+        },
     }
 
 </script>

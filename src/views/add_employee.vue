@@ -109,13 +109,10 @@
             </div>    
         </div>
 
-        <div v-if="this.password != this.confirm_password && this.password != null" class="bottom_buttons">
+        <div v-if="!check_password && this.password != null && store.position != 'Manager'" class="bottom_buttons">
             <div class="order order_only stroke wrong_passwords">Passwords don't match</div>
         </div>
-        <div v-else-if="store.position == 'Manager'" class="bottom_buttons">
-            <button type=button class="order order_only stroke" data-toggle="modal" data-target="#save_employee">Save changes</button>
-        </div>
-        <div v-else class="bottom_buttons">
+        <div v-else-if="store.position != 'Manager'" class="bottom_buttons">
             <button type=button class="order order_only stroke" data-toggle="modal" data-target="#save_employee">Sign up</button>
         </div>                 
     </div>
@@ -149,6 +146,12 @@
                 confirm_password: '',
                 registration_code_input: '',
             }
+        },
+        computed:{
+            check_password(){
+                if(this.password == this.confirm_password && this.password != '') return true;
+                else return false
+            },              
         },
         methods:{
             add_employee(){
@@ -231,10 +234,7 @@
                     return false;
                 }
             },
-            check_password(){
-                if(this.password == this.confirm_password && this.password != '') return true;
-                else return false
-            }        
+      
         },
         mounted(){
             if(!this.store.misc.id){
@@ -320,7 +320,7 @@
         border-radius: 5px;
         border: 2px rgba(245, 166, 35, 0.7) solid;
 
-        background: #343434;
+        background: rgba(255, 0, 0, 0.5)
     }
     .gold{
         color:rgb(245, 166, 35);
