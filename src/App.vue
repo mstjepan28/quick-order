@@ -252,9 +252,9 @@
                     calcium: data.calcium,
                     zinc: data.zinc,           
                   }
-
-                  for(let i; i < this.cards.length; i++){
+                  for(let i = 0; i < this.cards.length; i++){
                     if(this.cards[i].id == temp.id){
+                      console.log('modified')
                       this.cards[i] = temp;
                       break;
                     }
@@ -263,7 +263,7 @@
                 }
                 if(change.type === "removed"){
                   console.log('deleted')
-                  for(let i; i < this.cards.length; i++){
+                  for(let i = 0; i < this.cards.length; i++){
                     if(this.cards[i].id == change.doc.id){
                       this.cards[i] = null;
                       break;
@@ -307,7 +307,7 @@
                     food: data.food,
                     drinks: data.drinks
                 };
-                for(let i; i < this.order.length; i++){
+                for(let i = 0; i < this.order.length; i++){
                   if(this.order[i].id == temp.id){
                     this.order[i] = temp;
                     break;
@@ -407,7 +407,7 @@
                   last_login: data.last_login,
                 }
 
-                for(let i; i < this.users.length; i++){
+                for(let i = 0; i < this.users.length; i++){
                   if(this.users[i].id == temp.id){
                     this.users[i] = temp;
                     break;
@@ -416,7 +416,7 @@
 
               }
               if(change.type === "removed"){
-                for(let i; i < this.users.length; i++){
+                for(let i = 0; i < this.users.length; i++){
                   if(this.users[i].id == change.doc.id){
                     this.users[i] = null;
                     break;

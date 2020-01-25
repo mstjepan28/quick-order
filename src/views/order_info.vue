@@ -139,7 +139,7 @@
         <!--Menadzer------------------------------------------------------>
         <div v-if="store.position == 'Manager' || store.position == 'Waiter'" class="main">
             <div v-if="order_info.paid">
-                <h3 class="underline stroke">The order has been paid for</h3>
+                <h3 class="underline stroke">The order has been paid</h3>
             </div>
             <div v-else>
                 <h3 class="underline stroke">The order has not been paid</h3>
