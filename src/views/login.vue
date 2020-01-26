@@ -56,13 +56,14 @@
       }
     },
     mounted(){
+        //Ako se ulogiramo preko qr koda, iz route.query uzimamo parametre potrebne za automatski login
         this.qrUser = this.$route.query.username;
         this.qrPass = this.$route.query.password;
         this.store.table += this.$route.query.table;
 
         if(this.qrUser!=null && this.qrPass!=null){    
           firebase.auth().signInWithEmailAndPassword(this.qrUser, this.qrPass).catch(function(error) {
-            document.getElementsByClassName("failed_login")[0].innerHTML = "Failed to log in!";
+            document.getElementsByClassName("failed_login")[0].innerHTML = error;
           });
         }
     }

@@ -9,6 +9,7 @@
                 {{this.drink_options[this.i]}}
                 <div v-on:click="next"><i class="fas fa-arrow-right"></i></div>
             </div>
+
             <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
         </div>
     </div>
@@ -21,11 +22,13 @@
     export default {
         data(){
             return{
+                //Kao router parameters dobivamo 'i' koji nam sluzi kao kursor na indeks u 'drink_options' polje,
+                // tj govori nam proizvode koje kategorije da prikazuje
                 i: parseInt(this.$route.params.i, 10),
-                drink_options: store.drink_options,
+                drink_options: ['Soda', 'Juice', 'Other', 'Beer', 'Wine', 'Liquors'],
                 store
             }
-        },
+        }, 
         methods:{
             next(){
                 this.i += 1;
@@ -38,6 +41,8 @@
         },
         computed:{
             filtered_cards(){
+                //Prikazi one proizvode koji imaju 'hide' atribut postavljen kao false(osim za managera) i ciji atribut 'category' odgovara onome
+                // na koje pokazuje kurson 'i' u polju 'drink_options'
                 return store.cards.filter(card => card.category == this.drink_options[this.i] && this.store.show_product(card));
             }
         },

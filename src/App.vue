@@ -184,10 +184,14 @@
         //podacima sa firebase-a. Posto se mounted pokrece samo pri otvaranju stranice trebali bi refreshati stranicu nakon ucitavanja da bi se mi imali te podatke
         //Kada ih dohvacamo ovako preko funkcije, mozemo ih zatraziti tek nakon smo se prijavili
 
+        //Svaki listener iz funkcija za dohvacanje podataka sa firebase-a spremamo u varijablu 'listener' te pushamo u polje u store-u
+        //Ko logout-a prolazimo kroz to polje i detach-amo sve listenere
+
         //Ako je change == 'added' podaci sa dokumenta se samo pohranjuju u polje
-        //  ako je change == 'modified', prolazimo kroz vec sve podatke koje smo dohvatili dok ne nademo one sa istim id-e
+        //  ako je change == 'modified', prolazimo kroz sve podatke koje smo dohvatili dok ne nademo one sa istim id-e
         //  na taj indeks u polju pohranjujemo modificirane podatke
         //  tj. stare podatke zamjenjujemo novima
+        //Ako je change == 'removed', nademo taj element u polju i samo ga izbacimo
 
         //data_fetched koristimo da nebi došlo do povlačenja podataka više od jednom
         if(!store.data_fetched){
@@ -471,6 +475,7 @@
       //Dohvacanje korisnika
       firebase.auth().onAuthStateChanged(user => {
         if(user){
+          //Ako position postoji, pohrani ga, u suprotnom, tj ako je korisnik upravo obavio sign up, samo ga izlogiraj
           db.collection('users').doc(user.uid).get().then(doc =>{
             store.position = doc.data().position;
           })
@@ -478,9 +483,12 @@
             firebase.auth().signOut();
             return;
           })
+
+          //Pohrani zadnjo vrijele logiranja korisnika
           db.collection('users').doc(user.uid).update({
             last_login: store.current_date() + " at " + store.current_time()
           })
+
           this.authenticated = true;
           this.userId = user.uid;
           this.userEmail = user.email; 

@@ -24,7 +24,7 @@
         data(){
             return{
                 i: parseInt(this.$route.params.i, 10),
-                food_options: store.food_options,
+                food_options: ['Appetizer', 'Main course', 'Dessert'],
                 store
             }
         },

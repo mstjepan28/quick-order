@@ -380,9 +380,7 @@
                 }
             },
             delete_product(){
-                let current = this
                 db.collection("products").doc(this.food_info.id).delete().then(function(){
-                    current.store.cards = current.store.cards.filter(card => card.id != current.food_info.id);
                     console.log("Document successfully deleted!");
                 }).catch(function(error) {
                     console.error("Error removing document: ", error);

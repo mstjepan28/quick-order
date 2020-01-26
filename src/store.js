@@ -6,9 +6,7 @@ export default {
     userEmail: null,
     position: null,
     table: 'Table#',
-
-    food_options: ['Appetizer', 'Main course', 'Dessert'],
-    drink_options: ['Soda', 'Juice', 'Other', 'Beer', 'Wine', 'Liquors'],
+    
 
     data_fetched: false,
 

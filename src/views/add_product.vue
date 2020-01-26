@@ -186,14 +186,12 @@
                     
             },
             add_product(){
-                //Spremamo this u varijablu da tom kontekstu mozemo pristupati u daljnjem radu
+                //funkcionira po istom principu kao i unutar add_employee 
                 var product_data = this;
                 this.imageData.generateBlob(imageData =>{ 
-                    //dodati alert ako nema slika a pokusavamo uploadati
-                    let imageName = this.title + ".png";   // jpeg za bolju optimizaciju
+                    let imageName = this.title + ".png";  
                     var uploadTask = storage.ref(imageName).put(imageData);
 
-                    // Listen for state changes, errors, and completion of the upload.
                     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null,
                         function(error){
                             console.log(erros)
@@ -235,8 +233,6 @@
                       
                     
                 });
-                //Nakon dodavanja se vracamo na prosu stranicu
-                //this.$router.go(-1);
             },     
         }
         

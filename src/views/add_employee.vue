@@ -101,14 +101,14 @@
                         </div><br>
 
                         <h3 class="stroke underline info">Wage:</h3><input type=text class="input_box" v-model=wage placeholder="Wage of the employee">
-                        
-                                                
+                                                        
                     </div>
                     
                 </div>
             </div>    
         </div>
 
+        <!--Ako se sifre ne podudaraju, umjesto sign up gumba ispisi poruku o nepodudaranju-->
         <div v-if="!check_password && this.password != null && store.position != 'Manager'" class="bottom_buttons">
             <div class="order order_only stroke wrong_passwords">Passwords don't match</div>
         </div>
@@ -148,6 +148,7 @@
             }
         },
         computed:{
+            //Funkcija se nalazi unutar computed da ju nemoramo eksplicitno pozivati
             check_password(){
                 if(this.password == this.confirm_password && this.password != '') return true;
                 else return false
@@ -156,16 +157,23 @@
         methods:{
             add_employee(){
                 if(this.check_registration_code()){
+                    //this. spremamo u varijablu koju dalje koristimo jer se kontekst this-a mijenja unutar firebase funkcija
                     var employee_data = this;
+
                     firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(cred => {
+                        //Stvaramo novog korisnika na firebase.auth sa unesenim email i password 
                         employee_data.id = cred.user.uid;
 
-                        employee_data.photo_url.generateBlob(photo_url => {  
-                            //dodati alert ako nema slika a pokusavamo uploadati
-                            let imageName = this.email + ".png";   // jpeg za bolju optimizaciju
+                        employee_data.photo_url.generateBlob(photo_url =>{
+                            //Ime slike koju upload-amo postavljamo kao email zaposlenika + .png jer nemogu biti dva zaposlenika sa istim e-mailom  
+                            // Ako slika sa takvim imenom već postoji, ona se samo prebrise
+                            
+                            let imageName = this.email + ".png";
                             var uploadTask = storage.ref(imageName).put(photo_url);
 
-                            // Listen for state changes, errors, and completion of the upload.
+                            //U funkciju prosljedujemo argumente pomocu kojih slusam za completion i error u izvrsavanju
+                            //Kada event listener kaze da je funkcija izvrsena, izvrsava se funkcija koja je proslijedena kao argument
+                            //  tocnije, novi user se sprema u 'users' collection
                             uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, null,
                                 function(error){
                                     console.log(error)
@@ -206,11 +214,11 @@
                         });   
                     });
                 }
-                else{
-                    
-                }
             },
             update_registration_code(){
+                //Ako je unesen kod, tj ako to input nije prazan updateaj collection na firebase-u
+                //Ako kod vec ne postoji stvori novi, ako postoji ili ne provjeravamo tako da vidimo ako se postoji id, jer ako
+                //  ne postoji dokument s registration kodom nece se nista povuci/ nikakav id
                 if(this.store.misc.registration_code != ''){
                     if(this.store.misc.id){
                         db.collection('misc').doc(this.store.misc.id).update({
@@ -226,17 +234,21 @@
 
             },
             check_registration_code(){
+                //Ako je uneseni kod jednak onom pohranjenom vrati true, ako se ne podudaraju vrati false
                 if(this.store.misc.registration_code === this.registration_code_input){
                     return true;
                 }
                 else{
-                    console.log("Registration code wrong, failed to add employee")
                     return false;
                 }
             },
       
         },
         mounted(){
+            //Kod sign up-a korisnika koji nije ulogiran mora imati unjeti registration kod
+            //Taj kod se povuče sa firebase-a da bi se mogao usporediti sa onim kojega unese korisnik
+            //Ako taj kod vec postoji, tj ako se collection 'misc' vec povukla sa firebase-a nista se ne dogada
+            //Taj kod imamo ako smo prijavljeni kao menadzer
             if(!this.store.misc.id){
                 store.listeners[6] = db.collection("misc").onSnapshot(snapshot =>{
                     snapshot.docChanges().forEach(change => {

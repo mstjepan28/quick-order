@@ -197,6 +197,9 @@
         },
         methods:{
             update_employee(){
+                //Ne provjeravamo popunjenost podataka jer su već svi podaci pohranjeni
+                //Provjeravamo samo ako je postoji unesena slika, ako postoji updateamo dokument zajedno sa slikom
+                // ako ne postoji tada updatamo dokument bez slike jer inace dolazi do greske(kada se poziva generateBlob bez podataka)
                 let employee_data = this.employee_info;
 
                 if(this.imageData.img){
@@ -259,10 +262,7 @@
                 this.store.users = this.store.users.filter(user => user.id != this.employee_info.id);
             },
             delete_user(){
-                let current = this
-                
                 db.collection("users").doc(this.employee_info.id).delete().then(function(){
-                    current.store.users = current.store.users.filter(user => user.id != current.employee_info.id);
                     console.log("Document successfully deleted!");
                 }).catch(function(error) {
                     console.error("Error removing document: ", error);
@@ -270,8 +270,12 @@
             }  
         },
         mounted(){
+            //Iz polju 'users' dohvati korisnika ciji id smo proslijedili kao router parameter, vrati ce nam se polje sa
+            // samo jednim elementom pa zbog toga dodajemo '[0]' da se pohrani samo taj element
+            //Ako je polje prazno iz nekog razloga(npr. refresh stranice) dohvacamo dokument s podacima tog korisnika sa firebase-a direktno
+            // koristimo .get() jer zelimo samo jedan dokument, ostali dokumenti iz tog collectiona ce se dodati sa get_data() funkcijom u 'App.vue'
             this.employee_info = store.users.filter(user => user.id == this.id)[0];
-
+            
             if(this.employee_info == undefined){
                 let info = this;
                 db.collection('users').doc(this.id).get().then(user => {

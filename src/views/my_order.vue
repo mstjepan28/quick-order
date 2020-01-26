@@ -205,8 +205,6 @@
                             day_price: [0,0,0,0,0,0,0]
                         });
                     }
-
-                    //products = [];
                     this.note = '';
                     
                 }
