@@ -53,7 +53,7 @@
                         remove-button-color="rgba(245, 166, 35, 0.7)"
                     >
                     </croppa>
-                    <h3 class="stroke underline info">Full name:</h3><input type=text class="input_box" v-model=full_name placeholder="John Smith">
+                    <h3 class="stroke underline info">Full name:</h3><input type=text class="input_box" v-model=full_name value="John Smith">
                 </div>
             </div>
 
@@ -69,10 +69,10 @@
                     </div>
                     
                     <h3 class="stroke underline info">Date of birth:</h3><input type="date" data-date="" v-model=date_of_birth>
-                    <h3 class="stroke underline info">Phone:</h3><input type=tel class="input_box" placeholder="123-4567-890" v-model=phone>
-                    <h3 class="stroke underline info">Adress:</h3><input type=text class="input_box" v-model=adress placeholder="2080  Coffman Alley">
-                    <h3 class="stroke underline info">City:</h3><input type=text class="input_box" v-model=city placeholder="New York">
-                    <h3 class="stroke underline info">Postal code:</h3><input type=number class="input_box" v-model=postal_code placeholder="10000">
+                    <h3 class="stroke underline info">Phone:</h3><input type=tel class="input_box" value="123-4567-890" v-model=phone>
+                    <h3 class="stroke underline info">Adress:</h3><input type=text class="input_box" v-model=adress value="2080  Coffman Alley">
+                    <h3 class="stroke underline info">City:</h3><input type=text class="input_box" v-model=city value="New York">
+                    <h3 class="stroke underline info">Postal code:</h3><input type=number class="input_box" v-model=postal_code value=10000>
 
                     <hr class="mb-5 mt-5">
 
@@ -250,7 +250,7 @@
             //Ako taj kod vec postoji, tj ako se collection 'misc' vec povukla sa firebase-a nista se ne dogada
             //Taj kod imamo ako smo prijavljeni kao menadzer
             if(!this.store.misc.id){
-                store.listeners[6] = db.collection("misc").onSnapshot(snapshot =>{
+                let listener = db.collection("misc").onSnapshot(snapshot =>{
                     snapshot.docChanges().forEach(change => {
                     if(change.type === 'added'){
                         const data = change.doc.data()
@@ -260,6 +260,7 @@
                     }
                     })
                 });
+                store.listeners.push(listener);
             }
 
         }

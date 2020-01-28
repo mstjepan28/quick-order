@@ -98,8 +98,6 @@
                 note: '',
                 table: '', 
                 store,
-
-                stat: null
             }
         },
         computed:{
@@ -117,15 +115,17 @@
         methods:{
             send_order(){
                 if(store.order.products.length >= 1){
+
                     if(store.position == 'Waiter')
                         store.table = this.table;
+
                     let products = store.order.products;
                     //Narudzbe smo podijelili u dva obijekta, ako ne postoji barem jedan proizvod tipa food/drink ne dodajemo nista na bazu
                     //U suprotno, taj objekt spremamo na bazu zajedno sa narudzbom
                     //
                     //U zasebne objekte spremamo da bi se narudzba mogla pravilno prikazati kuharu i barmenu, tj. da vide samo svoj dio narudzbe za obavljanje
                     //Unutar food/drinks takoder pohranjujemo podatke o narudzbi kao sto je vrijeme zavrsetka narudzbe
-                   
+
                     let order_food = [];
                     let order_drinks = [];
                     for(let i = 0; i < products.length; i++){
@@ -166,6 +166,8 @@
                         food: food,
                         drinks: drinks
                     });
+                    this.note = '';
+
                     //Update 'times_ordered' svakog proizvoda koji se nalazi u store.order.products
                     //Isprazni 'My Order' tako da se vrijednost 'counter'svakog proizvoda postavi na 0 i na kraju prebrisi 'procucts' polje
                     for(let i = 0; i < products.length; i++){
@@ -177,39 +179,72 @@
                             times_ordered: current_card.times_ordered
                         });                          
                     }
-                    //Ako je id jednak null to znaci da collection ne postoji, to jest da nismo dobili nikakve podatke te tada stvaramo taj collection
-                    //Statistics collection moramo popuniti sa nulama jer inace nebi zbrajali nove vrijednosti na brojcanu vrijednost
-                    db.collection("statistics").get().then(doc =>{
-                        this.stat = doc.data().hour_price;
-                    })
-                    if(this.stat){   
-                        let index = new Date();
-                        store.statistics.hour_orders[index.getHours()]++;
-                        store.statistics.hour_price[index.getHours()] += this.price;
 
-                        store.statistics.day_orders[index.getDay()]++;
-                        store.statistics.day_price[index.getDay()] += this.price;
-
-                        db.collection('statistics').doc(store.statistics.id).update({
-                            hour_price: store.statistics.hour_price,
-                            hour_orders: store.statistics.hour_orders,
-                            day_orders: store.statistics.day_orders,
-                            day_price: store.statistics.day_price
-                        })                        
-                    }
-                    else{
-                        db.collection("statistics").add({
-                            hour_price: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                            hour_orders: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                            day_orders: [0,0,0,0,0,0,0],
-                            day_price: [0,0,0,0,0,0,0]
-                        });
-                    }
-                    this.note = '';
-                    
+                    this.update_statistics()
                 }
+            },
+            update_statistics(){
+                /*
+                    Dohvacamo podatke o statistiki da ih bi mogli updateati
+                    Ako taj dokument ne postoji dolati do greske
+                    ako dode do greske, stvaramo novi dokument sa id-em 'statistics' u koji pohranjujemo sve podatke
+                    te podatke takoder pohranjujemo u store
+                    Kada dobijemo podatke lokano, updateamo ih ovisno o vremenu, danu te cijeni narudzber
+                */
+                let info = this
+                db.collection("statistics").doc('statistics').get().then(doc =>{
+                    const data = doc.data();
+                    store.statistics.hour_price = data.hour_price;
+                    store.statistics.hour_orders = data.hour_orders;
+                    store.statistics.day_orders = data.day_orders;
+                    store.statistics.day_price = data.day_price;
 
-            },           
+                    //-------------------------------------
+
+                    let index = new Date();
+                    store.statistics.hour_orders[index.getHours()]++;
+                    store.statistics.hour_price[index.getHours()] += info.price;
+
+                    store.statistics.day_orders[index.getDay()]++;
+                    store.statistics.day_price[index.getDay()] += info.price;
+
+                    db.collection('statistics').doc('statistics').update({
+                        hour_price: store.statistics.hour_price,
+                        hour_orders: store.statistics.hour_orders,
+                        day_orders: store.statistics.day_orders,
+                        day_price: store.statistics.day_price
+                    })                                              
+                })
+                .catch(error =>{
+                    db.collection("statistics").doc('statistics').set({
+                        hour_price: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                        hour_orders: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                        day_orders: [0,0,0,0,0,0,0],
+                        day_price: [0,0,0,0,0,0,0]
+                    });
+                    store.statistics.hour_price = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                    store.statistics.hour_orders = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                    store.statistics.day_orders = [0,0,0,0,0,0,0];
+                    store.statistics.day_price = [0,0,0,0,0,0,0];
+
+                    //-------------------------------------
+
+                    let index = new Date();
+                    store.statistics.hour_orders[index.getHours()]++;
+
+                    store.statistics.hour_price[index.getHours()] += info.price;
+
+                    store.statistics.day_orders[index.getDay()]++;
+                    store.statistics.day_price[index.getDay()] += info.price;
+
+                    db.collection('statistics').doc('statistics').update({
+                        hour_price: store.statistics.hour_price,
+                        hour_orders: store.statistics.hour_orders,
+                        day_orders: store.statistics.day_orders,
+                        day_price: store.statistics.day_price
+                    })   
+                })
+            },         
         },
         name: 'my_order',
         components: {

@@ -75,7 +75,7 @@
             <router-link to="/statistics" class="nav-link"> Statistics </router-link>
           </li>
 
-          <li v-if="this.position == 'Manager'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <li v-if="this.position == 'Manager' || this.position == 'Waiter'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/orders/1" class="nav-link"> Orders history </router-link>
           </li>
 
@@ -93,10 +93,6 @@
           </li>
 
         <!--Musterija-Konobar------------------------------------------------------------------------------------->          
-          <li v-if="this.position == 'Waiter'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <router-link to="/calls" class="nav-link"> Calls </router-link>
-          </li>
-
           <li v-if="this.position == 'Waiter' || this.position == 'Table'" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
             <router-link to="/food" class="nav-link"> Food </router-link>
           </li>

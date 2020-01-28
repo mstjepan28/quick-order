@@ -1,5 +1,5 @@
 <template>
-    <div v-if="order_info">
+    <div v-if="order_info && is_paid">
         <!--Accept/Finish-Orders------------------------------------------>
         <div class="modal fade" id="finished_confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document" >
@@ -232,6 +232,18 @@
                 order_info: false,
                 feedback: '',
                 store
+            }
+        },
+        computed:{
+            //Ako je order placen i trenutni korisnik je musterija, vrati se unazad jednu stranicu
+            //Else true -> ako bi bilo false nebi se prikazao html stranice
+            is_paid(){
+                if(this.store.position == 'Table' && this.order_info.paid){
+                    return this.$router.go(-1);
+                }
+                else{
+                    return true;
+                }
             }
         },
         methods:{
