@@ -8,7 +8,7 @@
                     <div class="modal-body" style="font-size: 30px; padding-bottom: 0">
                         Information saved
                         <hr/>
-                        <div data-dismiss="modal">Ok</div>
+                        <div v-on:click="add_employee" data-dismiss="modal">Ok</div>
                     </div>
                 </div>
 
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="modal-footer" style="text-align: center; width: 100%; border-style:none; padding-top:0">
-                    <div v-on:click="add_employee" style="display: inline-block; font-size: 40px; width: 50%; color: green" data-dismiss="modal" data-toggle="modal" data-target="#save_confirmation"><i class="fas fa-check"></i></div>
+                    <div style="display: inline-block; font-size: 40px; width: 50%; color: green" data-dismiss="modal" data-toggle="modal" data-target="#save_confirmation"><i class="fas fa-check"></i></div>
                     <div style="display: inline-block; font-size: 40px; width: 50%; color: red"  data-dismiss="modal"><i class="fas fa-times"></i></div>  
                  </div>
                 
@@ -90,6 +90,7 @@
                                 <option>Barman</option>
                                 <option>Chef</option>
                                 <option>Manager</option>
+                                <option>Table</option>
                             </select>
 
                             <select v-model="contract">

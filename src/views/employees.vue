@@ -48,7 +48,7 @@
                 // pa ih prema tome filtiramo on onih korisnika koji su u potpunosti ulogirani
                 // wage atribut popunjava manager pod 'employee_info'
                 if(this.show_main == 'employees')
-                    return this.users.filter(user => user.position == this.show[this.i] && !(user.wage == undefined || user.wage == null));
+                    return this.users.filter(user => user.position == this.show[this.i] && (user.wage != undefined || user.wage != null || user.position == 'Table'));
                 else
                     return this.users.filter(user => user.wage == undefined || user.wage == null);
             }

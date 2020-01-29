@@ -261,13 +261,13 @@
 
                 }
                 if(change.type === "removed"){
-                  console.log('deleted')
+                  let temp = [];
                   for(let i = 0; i < this.cards.length; i++){
-                    if(this.cards[i].id == change.doc.id){
-                      this.cards[i] = null;
-                      break;
+                    if(this.cards[i].id != change.doc.id){
+                      temp.push(this.cards[i]);
                     }
-                  }                  
+                  }
+                  this.cards = temp;                  
                 }
 
             });
@@ -432,12 +432,13 @@
 
               }
               if(change.type === "removed"){
+                let temp = [];
                 for(let i = 0; i < this.users.length; i++){
-                  if(this.users[i].id == change.doc.id){
-                    this.users[i] = null;
-                    break;
+                  if(this.users[i].id != change.doc.id){
+                    temp.push(this.users[i]);
                   }
-                }                  
+                }
+                this.users = temp;                  
               }
 
             })
