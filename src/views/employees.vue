@@ -37,7 +37,7 @@
         data(){
             return{
                 i: 0,
-                show: ['Waiter', 'Chef', 'Barman', 'Manager'],
+                show: ['Waiter', 'Chef', 'Barman', 'Manager', 'Table'],
                 show_main: 'employees',
                 users: store.users
             }

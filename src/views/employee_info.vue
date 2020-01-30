@@ -98,7 +98,7 @@
                     
                     <h3 class="stroke underline info">Full name:</h3><input disable type=text class="input_box" v-model=employee_info.full_name>
                     <div v-if="store.position == 'Manager'" class="edit_button stroke mt-1" v-on:click="enable_edit = false">Disable editing</div>
-                    <button v-if="store.position == 'Manager'" class="col edit_button stroke mt-1" style="background: rgba(187, 0, 0, 0.9);" data-toggle="modal" data-target="#delete_user">Delete</button>
+                    <!--<button v-if="store.position == 'Manager'" class="col edit_button stroke mt-1" style="background: rgba(187, 0, 0, 0.9);" data-toggle="modal" data-target="#delete_user">Delete</button>-->
                 </div>
             </div>
 
@@ -125,6 +125,7 @@
                             <option>Barman</option>
                             <option>Chef</option>
                             <option>Manager</option>
+                             <option>Table</option>
                         </select>
 
                         <select v-model="employee_info.contract">
