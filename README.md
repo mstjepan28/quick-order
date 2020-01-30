@@ -14,5 +14,4 @@ Poboljšanja: - Mušterija sama naručuje ako želi (ne mora čekati konobara da
 		-Mušterija može na klik gumba pozvati konobara ako ga nema u blizini
 
 
-
 Bitno je spomenuti da je korisnicima aplikacije pojednostavljeno i ubrzano korištenje aplikacije i u smislu da nema potrebe da se mušterija registrira, a zatim logira u aplikaciju da bi mogla naručiti hranu, nego svaki stol u restoranu sadrži QR kod kojeg mušterija jednostavno skenira i njezina narudžba je identificirana pod određeni broj stola. Svjesni smo da ovaj način ima sigurnosnih propusta i aplikaciju ćemo nadograditi sa sigurnosnog aspekta u idućim verzijama. Korištene tehnologije: Vue.js, Javascript, Firebase, HTML , CSS.
