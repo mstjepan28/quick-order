@@ -24,9 +24,5 @@ Poboljšanja: - Mušterija sama naručuje ako želi (ne mora čekati konobara da
 
 Bitno je spomenuti da je korisnicima aplikacije pojednostavljeno i ubrzano korištenje aplikacije i u smislu da nema potrebe da se mušterija registrira, a zatim logira u aplikaciju da bi mogla naručiti hranu, nego svaki stol u restoranu sadrži QR kod kojeg mušterija jednostavno skenira i njezina narudžba je identificirana pod određeni broj stola. Svjesni smo da ovaj način ima sigurnosnih propusta i aplikaciju ćemo nadograditi sa sigurnosnog aspekta u idućim verzijama. Korištene tehnologije: Vue.js, Javascript, Firebase, HTML , CSS.
 
-
-E-Mail             Password:
-konobar@gmail.com  1234567890
-kuhar@gmail.com    1234567890
-barmen@gmail.com   1234567890
-menadzer@gmail.com 1234567890
+Login info: 
+E-Mail/Password | konobar@gmail.com 1234567890 | kuhar@gmail.com 1234567890 barmen@gmail.com 1234567890 | menadzer@gmail.com 1234567890
