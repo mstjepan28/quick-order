@@ -56,7 +56,7 @@
                 <h3 class="underline stroke">Selected items:</h3>
                 <FoodCard v-bind:key="card.id" v-bind:info="card" v-for="card in ordered" />
                 
-                <div v-if="store.order.products.length == 0" class="no_items">
+                <div v-if="store.order.length == 0" class="no_items">
                     No items selected
                 </div>
             </div>
@@ -67,13 +67,13 @@
             </form>
         </div>
         
-        <div v-if="store.position == 'Waiter' && store.order.products.length >=1">
+        <div v-if="store.position == 'Waiter' && store.order.length >=1">
             <div class="bottom_buttons" >
                 <button type="button" class="order order_only stroke" data-toggle="modal" data-target="#place_order">Place order</button>
             </div>            
         </div>
         <div v-else-if="store.position == 'Table'" class="bottom_buttons">
-            <div v-if="store.order.products.length >=1">
+            <div v-if="store.order.length >=1">
                 <button type="button" class="order stroke" data-toggle="modal" data-target="#place_order">Place order</button>
                 <button type="button" class="call stroke"  data-toggle="modal" data-target="#call_the_Waiter">Call Waiter</button>                
             </div>
@@ -102,25 +102,25 @@
         },
         computed:{
             ordered(){
-                store.order.products = store.cards.filter(card => card.counter > 0);
+                store.order = store.cards.filter(card => card.counter > 0);
                 
                 this.price = 0;
-                for(let i in store.order.products){
-                    this.price += ( parseInt(store.order.products[i].counter) * parseInt(store.order.products[i].price));
+                for(let i in store.order){
+                    this.price += ( parseInt(store.order[i].counter) * parseInt(store.order[i].price));
                 }
 
-                return store.order.products;
+                return store.order;
             },
         },
         methods:{
             send_order(){
-                if(store.order.products.length >= 1){
+                if(store.order.length >= 1){
 
                     if(store.position == 'Waiter')
                         store.table = this.table;
 
-                    let products = store.order.products;
-                    //Narudzbe smo podijelili u dva obijekta, ako ne postoji barem jedan proizvod tipa food/drink ne dodajemo nista na bazu
+                    let products = store.order;
+                    //Narudzbe smo podijelili u dva objekta, ako ne postoji barem jedan proizvod tipa food/drink ne dodajemo nista na bazu
                     //U suprotno, taj objekt spremamo na bazu zajedno sa narudzbom
                     //
                     //U zasebne objekte spremamo da bi se narudzba mogla pravilno prikazati kuharu i barmenu, tj. da vide samo svoj dio narudzbe za obavljanje
@@ -168,11 +168,11 @@
                     });
                     this.note = '';
 
-                    //Update 'times_ordered' svakog proizvoda koji se nalazi u store.order.products
+                    //Update 'times_ordered' svakog proizvoda koji se nalazi u store.order
                     //Isprazni 'My Order' tako da se vrijednost 'counter'svakog proizvoda postavi na 0 i na kraju prebrisi 'procucts' polje
                     for(let i = 0; i < products.length; i++){
-                        let current_card = store.cards.filter(card => card.id == store.order.products[i].id)[0];
-                        current_card.times_ordered = store.order.products[i].counter + store.order.products[i].times_ordered;
+                        let current_card = store.cards.filter(card => card.id == store.order[i].id)[0];
+                        current_card.times_ordered = store.order[i].counter + store.order[i].times_ordered;
                         current_card.counter = 0;
 
                         db.collection("products").doc(current_card.id).update({
@@ -297,7 +297,7 @@
         height: 100px;
 
         text-align: center;
-        line-height: 100px;
+        line-height: 50px;
 
         font-size: 40px;
         color: rgb(87, 87, 87);

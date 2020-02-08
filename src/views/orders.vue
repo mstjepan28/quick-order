@@ -14,7 +14,7 @@
             <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
         </div>
         
-        <!--Ako je ulogiran menadzer prikazi sve narudzbe-->
+        <!--Ako je ulogiran menadzer ili konobar prikazi sve narudzbe-->
         <div v-else-if="store.position == 'Manager' || store.position == 'Waiter'" class="main">
             <div v-if="paid" class="row options">
                 <div class="col stroke" v-on:click="paid = false">Unpaid</div>
@@ -29,7 +29,12 @@
         </div>
 
         <div v-else class="main">
-            <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
+            <div v-if="filtered_cards.length<1" class="no_items">
+                No order in process
+            </div>
+            <div v-else>
+                <OrderCard v-bind:key="card.id" v-bind:info="card" v-for="card in filtered_cards" />
+            </div>
         </div>
 
     </div>
@@ -110,4 +115,16 @@
     .title > div{
         display: inline-block;
     }
+
+    .no_items{
+        width: 100%;
+        height: 100px;
+
+        text-align: center;
+        line-height: 50px;
+
+        font-size: 40px;
+        color: rgb(87, 87, 87);
+    }
+
 </style>

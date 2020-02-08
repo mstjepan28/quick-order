@@ -59,7 +59,12 @@
         //Ako se ulogiramo preko qr koda, iz route.query uzimamo parametre potrebne za automatski login
         this.qrUser = this.$route.query.username;
         this.qrPass = this.$route.query.password;
-        this.store.table += this.$route.query.table;
+        if  (!this.$route.query.table){
+           this.store.table = 'Table X'
+        }
+        else{
+          this.store.table += this.$route.query.table;
+        }
 
         if(this.qrUser!=null && this.qrPass!=null){    
           firebase.auth().signInWithEmailAndPassword(this.qrUser, this.qrPass).catch(function(error) {
